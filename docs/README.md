@@ -1,4 +1,4 @@
-<img src="https://github.com/ambistudio/vasern/raw/master/vasern-logo.png" alt="VaseRN Logo" width="200">
+<img src="https://cdn.rawgit.com/ambistudio/vasern/master/vasern-logo.svg" alt="VaseRN Logo" width="200">
 
 ---
 
