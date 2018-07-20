@@ -1,4 +1,4 @@
-<img src="./vasern-logo.png" width="200">
+<img src="https://github.com/ambistudio/vasern/raw/master/vasern-logo.svg" alt="VaseRN Logo" width="200">
 
 # Vasern
-Vasern is a mobile database for React Native, an alternative for SQLite, Realm AsyncStorage, aims to be developer friendly, with high performance.
+Vasern is a mobile database for React Native, an alternative of SQLite, Realm AsyncStorage, aims to be developer friendly, with high performance.

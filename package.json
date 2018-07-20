@@ -1,0 +1,30 @@
+{
+  "name": "vasern",
+  "version": "0.0.1",
+  "description": "Mobile database for React Native, an alternative of SQLite, AsyncStorage, Realm",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ambistudio/vasern.git"
+  },
+  "keywords": [
+    "reactnative",
+    "native",
+    "database",
+    "react",
+    "native",
+    "database",
+    "sqlite",
+    "realm",
+    "simple"
+  ],
+  "author": "Hieu \"Jack\" Nguyen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ambistudio/vasern/issues"
+  },
+  "homepage": "https://github.com/ambistudio/vasern#readme"
+}
