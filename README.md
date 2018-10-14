@@ -9,7 +9,7 @@ Important note: Vasern is currently **available on iOS** under **alpha version**
 
 - [Installation](#installation)
 - [Getting started](#getting-started)
-- [Example](#example)
+- [Examples](#examples)
 - [Contribute, Help and Feedback](#contribute-help-and-feedback)
 
 A more details documentation available at https://vasern.com/docs
@@ -39,7 +39,7 @@ A more details documentation available at https://vasern.com/docs
 
 ## Getting started
 
-Vasern's design and structures are inspired by various open source databases (mentionable are Realm and PouchDB for code structures), 
+Vasern's design and structures are inspired by various open source databases (mentionable is PouchDB for code structures), 
 which aims for optimizing for ease of development, performance and friendly to developers.
 
 ### Supported Data Types
