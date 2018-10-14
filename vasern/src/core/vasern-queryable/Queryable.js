@@ -18,6 +18,10 @@ export class Queryable {
         'group', 'order', '_queryable'
     ]
 
+    constructor(data) {
+        this._data = data;
+    }
+
     completed = false;
     available = false;
     _data = [];
@@ -30,13 +34,7 @@ export class Queryable {
     // Create a new Queryable object from
     // a list of data
     _queryable(data) {
-
-        var newQueryable = new Queryable();
-        Object.defineProperty(newQueryable, '_data',{
-            value: data,
-            writable: false
-        })
-        return newQueryable;
+        return new Queryable(data);
     }
 
     // Remove a record from _data

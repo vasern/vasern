@@ -8,7 +8,7 @@
 // @flow 
 
 import { NativeModules } from 'react-native';
-import { Parser, EventSubscriber } from '..';
+import { Parser, EventSubscriber, Queryable } from '..';
 import { Reporter } from '../vasern-utils';
 import ConfigProps from '../../config';
 import _ from 'lodash';
