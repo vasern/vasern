@@ -1,0 +1,1 @@
+export { EventSubscriber } from './EventSubscriber';

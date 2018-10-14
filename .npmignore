@@ -1,0 +1,12 @@
+examples
+
+# plugins currently unavailable
+vasern/src/plugins/auth
+vasern/src/plugins/server-sync
+
+# docs using docusaurus, currently unavailable
+docs
+website
+Dockerfile
+docker-compose.yml
+.dockerignore
