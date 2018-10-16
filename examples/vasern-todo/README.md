@@ -1,8 +1,9 @@
 # Sample - Vasern Todo
 
-This sample is built using React Native and Vasern as data storage.
-It implement a simple todo list app which demonstrate how to use
-vasern to get, insert, update, delete data.
+![](https://media.giphy.com/media/3MdQ2n83c565RuHRlI/giphy.gif)
+
+This sample implements a simple todo list app using React Native and Vasern as data storage.
+It demonstrate basic CRUD operations of Vasern (get, insert, update, delete data).
 
 ## Installation
 

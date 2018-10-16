@@ -61,9 +61,9 @@ export class ObjectID<Props> {
     static RandStr(length: number): string {
         var randS = "";
 
-        while(length > 0) {
+        while(length < CHARS.length) {
             randS += CHARS.charAt(Math.floor(Math.random() * CHARS.length));
-            length--;
+            length++;
         }
         return randS;
     }
