@@ -10,7 +10,9 @@ Vasern design's goal is to enable easy installation and help you quickly set up 
 
 ---
 
-Make sure you have [created React Native app](https://facebook.github.io/react-native/docs/getting-started.html). Navigate to React Native directory, and be ready to run commands on Termial (MacOS) or Command Promp (Window).
+(Vasern did not support platform Android for now.)
+
+Make sure you have [created React Native app](https://facebook.github.io/react-native/docs/getting-started.html). Navigate to React Native directory, and be ready to run commands on Terminal (MacOS) or Command Promp (Window).
 
 #### 1. Install using NPM:
 
