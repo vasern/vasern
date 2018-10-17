@@ -25,7 +25,7 @@
   "homepage": "https://github.com/ambistudio/vasern#readme",
   "rnpm": {
     "ios": {
-      "project": "ios/Vasern.xcodeproj"
+      "project": "vasern/ios/Vasern.xcodeproj"
     }
   }
 }
