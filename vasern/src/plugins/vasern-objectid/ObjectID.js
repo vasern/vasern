@@ -60,10 +60,11 @@ export class ObjectID<Props> {
     // Generate a random string with `length` size
     static RandStr(length: number): string {
         var randS = "";
+        var i = 0;
 
-        while(length < CHARS.length) {
+        while(i < length) {
             randS += CHARS.charAt(Math.floor(Math.random() * CHARS.length));
-            length++;
+            i++;
         }
         return randS;
     }

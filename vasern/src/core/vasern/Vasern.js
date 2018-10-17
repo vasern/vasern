@@ -7,6 +7,7 @@
 
 // import { NativeModules } from 'react-native';
 import { Queryable, EventSubscriber } from '..';
+import { Document } from './Document';
 // import { AuthModel } from "../../plugins/auth";
 
 // const VasernManager = NativeModules.VasernManager;
@@ -23,27 +24,9 @@ export class Vasern {
     // Each Document created will be pushed into "Vasern.docs", also assigned as
     // a property of Vasern under its "Document.name"
     constructor({ schemas }) {
-
-        // TODO: constructor with vasern server
-        // host, authEnabled, authModel = AuthModel 
-        // if (authEnabled) {
-        //     schemas.unshift(authModel);
-        // }
-
-        // if (host) {
-        //     VasernManager.RequestUID().then(({ data }) => {
-        //         console.log(data);
-        //     })
-        // }
-
         schemas.forEach(schema => {
 
-            // initiate document using schema extended from Document 
-            // or schema object
-            var docObject = 
-                typeof(schema) == "function" ? 
-                new schema() :
-                new Document(schema);
+            var docObject = new Document(schema);
 
             docObject.load();
             this.docs.push(docObject)

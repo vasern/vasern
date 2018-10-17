@@ -10,7 +10,7 @@
 import { NativeModules } from 'react-native';
 import { Parser, EventSubscriber, Queryable } from '..';
 import { Reporter } from '../vasern-utils';
-import ConfigProps from '../../config';
+import DefaultConfigs from '../../config';
 import _ from 'lodash';
 
 import ObjectID, { OBJECTID_LEN } from '../../plugins/vasern-objectid';
@@ -21,9 +21,9 @@ const VasernManager = NativeModules.VasernManager;
 
 export class Document {
 
-    _data = []; // data objects
-    props = {};
-    oid;
+    _data: Array<Object>; // data objects
+    props: Object;
+    oid: ObjectID;
 
     // Flag data is available
     available = false;
@@ -32,25 +32,28 @@ export class Document {
     loaded = false;
 
     constructor(args) {
-        let { 
-            storeOptions, 
-            version, 
-            props,
-            name
-            // host,
-            // ePath,
-        } = Object.assign(ConfigProps, args);
 
-        // Document properties
+        // Initiate Document using a schema class
+        if (typeof(args) == "function") {
 
+            // TODO: validate schema (i.e require "name" and "props")
+            this.inject(args);
+
+        } else {
+
+            this.name = args.name;
+            this.props = args.props;
+            this.version = args.version;
+        }
+
+        if (!this.version) {
+            this.version = DefaultConfigs.version;
+        }
+
+        this.storeOptions = DefaultConfigs.storeOptions;
+
+        // Event triggers
         this.eventManager = new EventSubscriber();
-        this.storeOptions = storeOptions;
-        this.version = version;
-
-        // Add name and props when
-        // initiate document using schema object
-        if (name) { this.name = name; }
-        if (props) { this.props = props; }
 
         // this.request = new ServerRequest(host, ePath);
         this.oid = new ObjectID();
@@ -181,7 +184,7 @@ export class Document {
                 Reporter.warn(propKeys, Object.keys(this.props))
                 return null;
             }
-            debugger;
+            
             var content = this.oid.new();
 
             propKeys.forEach(k => {
@@ -271,15 +274,15 @@ export class Document {
         try {
             rawData = await VasernManager.Request(this.docName()) //, this.storeOptions);
         } catch (e) {  console.log(e) };
-        
-        this.populate(rawData)
+
+        this.populate(rawData);
         
     }
 
     // Send current data to backend to save/persist
     async save() {
         let logRecords = Parser.convertToLog(this.props, this._commitedItems)
-        
+
         try {
             let success = await VasernManager.Insert(this.docName(), logRecords, this.storeOptions);
 
@@ -489,7 +492,7 @@ export class Document {
     //==============================//
    
     /**
-     * Import a plugin class into Document
+     * Import a plugin class into Document class
      * Plugin requires a static "methods" property
      * which contains an array of function name that will be assign into Document prototype
      * @param {class function or object} plugin 
@@ -502,5 +505,26 @@ export class Document {
         } else {
           console.warn(`Unable to import "${plugin.name}". "${plugin.name}.methods" does not exist`)
         }
+    }
+
+    /**
+     * Merge properties and functions from a class to Document object
+     * Use to initate Document with model class
+     * @param {class function or object} model
+     */
+	inject(model) {
+        var tempOb = new model();
+        
+        // Merge properties
+        Object.keys(tempOb).forEach(f => {
+            this[f] = tempOb[f];
+        });
+
+        // Merge functions
+        var functions = Object.getOwnPropertyNames(Object.getPrototypeOf(tempOb));
+        functions.splice(functions.indexOf("constructor"), 1);
+        functions.forEach(f => {
+            this[f] = model.prototype[f];
+        });
     }
 }
