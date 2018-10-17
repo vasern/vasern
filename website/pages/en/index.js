@@ -162,9 +162,9 @@ const Media = () => {
       <div className="block__container">
         { siteConfig.mediaItems.map((item,i) =>
           <div key={`article_${i}`} className="block__item">
-            <a href={item.link} alt={item.title}><h4>{ item.title }</h4></a>
+            <h4>{ item.title }</h4>
             <p className="block__content">{ item.description }</p>
-            <p className="block__footer">- { item.author }</p>
+            <p className="block__footer">{ item.author } - <a href={item.link} alt={item.title}>View on { item.publisher }</a></p>
           </div>
         )}
       </div>
@@ -254,12 +254,17 @@ class Index extends React.Component {
       <div className="homepage">
         <HomeSplash language={language} />
         <div className="mainContainer">
-          <p className="block block__1col message">(Vasern alpha is now available for experimental)</p>
+          <p className="block block__1col message">
+            (Vasern alpha is now available for experimental, 
+            <br/>
+            <a href="https://vasern.slack.com" target="_blank" >join our Slack channel to keep updated)</a>
+          </p>
           <TagLine />
           <Media />
           
           <PromoSection>
             <Button className="btn-primary" href={docUrl('overview.html', language)}>Getting Started</Button>
+            <Button href="https://vasern.slack.com" target="_blank">Join our Slack channel</Button>
           </PromoSection>
           {/*
             <Features />

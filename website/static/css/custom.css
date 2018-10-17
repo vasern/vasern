@@ -1,5 +1,20 @@
 /* your custom css */
 
+@font-face {
+    font-family: 'Circular Std Book';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Circular Std Book') url('https://vasern.com/fonts/CircularStd/CircularStd-Book.woff') format('woff');
+}
+
+body {
+    font-family: 'Circular Std Book', -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: #3d556b
+    
+}
+
+
+
 /* Text */
 p a, p a:visited, .button {
     color: #1976d2
@@ -8,6 +23,7 @@ p a, p a:visited, .button {
 h1 { font-size: 32px }
 h2 { font-size: 28px }
 p { font-size: 18px }
+
 
 .button {
     border-color: #1976d2;
@@ -72,7 +88,8 @@ p { font-size: 18px }
 }
 .homepage h1,
 .homepage small {
-    color: #FFFFF4
+    color: #FFFFF4;
+    line-height: 1.6em;
 }
 
 .homepage .button {
@@ -124,6 +141,7 @@ p { font-size: 18px }
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 .block__article h2 {
@@ -133,6 +151,8 @@ p { font-size: 18px }
 .block__article .block__item {
 
     width: 40%;
+    min-width: 350px;
+    margin: 2em 0;
     background: #fff;
     padding: 1em 1.5em;
     border-radius: 5px;
@@ -140,9 +160,9 @@ p { font-size: 18px }
     flex-direction: column;
 
     /* Shadow */
-    -webkit-box-shadow: 0px 10px 25px 0px rgba(0, 90, 167, 0.1);
-    -moz-box-shadow: 0px 10px 25px 0px rgba(0, 90, 167, 0.1);
-    box-shadow: 0px 10px 25px 0px rgba(0, 90, 167, 0.1);
+    -webkit-box-shadow: inset 0 0 0 1px #dae4ed, 0 5px 15px -5px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: inset 0 0 0 1px #dae4ed, 0 5px 15px -5px rgba(0, 0, 0, 0.1);
+    box-shadow: inset 0 0 0 1px #dae4ed, 0 5px 15px -5px rgba(0, 0, 0, 0.1);
 }
 
 .block__article .block__item p {
@@ -151,18 +171,12 @@ p { font-size: 18px }
     opacity: 0.7;
 }
 
-.block__article .block__item a {
-    /* font-size: 18px;
-    font-weight: 500;
-    margin: 0; */
-    margin-bottom: 1em;
-    padding: 1em 0;
-    /* flex: 2; */
-    border-bottom: 1px solid rgba(0,0,0,0.2);
-}
-
 .block__article .block__item h4 {
     margin: 0;
+    font-weight: 400;
+    margin-bottom: 1em;
+    padding: 1em 0;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
 .block__article .block__item .block__content {
@@ -174,7 +188,63 @@ p { font-size: 18px }
     flex: 1;
 }
 
-@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+/* Doc */
+.docMainContainer {
+    border-radius: 8px;
+    box-shadow: inset 0 0 0 1px #dae4ed, 0 5px 15px -5px rgba(0, 0, 0, 0.1);
+    padding: 4em;
+    background: #fff;
+}
+
+/* Override core/DocsLayout.js */
+.pageLighter {
+    background: #fafbfc;
+}
+
+.docMainContainer h1, 
+.docMainContainer h2, 
+.docMainContainer h3, 
+.docMainContainer h4,
+.homepage h2 {
+    color: #193652;
+    letter-spacing: 0.6px;
+}
+
+/* Left Nav */
+.toc .toggleNav .navGroup .navGroupCategoryTitle {
+    color: #193652;
+}
+.toc .toggleNav ul li.navListItemActive a {
+    color: #3c556c;
+}
+
+.toc .toggleNav ul li a {
+    color: #4e677d;
+}
+
+/* Right Nav */
+.onPageNav ul li {
+    font-size: 14px;
+}
+
+@media only screen and (max-device-width: 736px) {
+    .block {
+        padding: 2em;
+    }
+
+    .projectTitle {
+        margin-top: 0;
+    }
+
+    /* .fixedHeaderContainer,
+    .navigationSlider .slidingNav ul,
+    .slidingNav {
+        width: 100vw;
+    } */
+
+    .block__article .block__item {
+        min-width: calc(100vw - 50px);
+    }
 }
 
 @media only screen and (min-width: 1024px) {
@@ -182,6 +252,20 @@ p { font-size: 18px }
         max-width: 1200px !important;
         margin-left: auto;
         margin-right: auto;
+    }
+
+    /* Doc */
+    .separateOnPageNav.sideNavVisible .navPusher .docMainContainer {
+        flex-basis: 860px;
+    }
+    .docMainWrapper > * {
+        margin: 2em .5em;
+    }
+
+    /* Right nav */
+    .onPageNav > .toc-headings {
+        border-left: unset;
+        margin-top: 2em;
     }
 }
 

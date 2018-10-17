@@ -2,11 +2,6 @@
 vasern/src/plugins/auth
 vasern/src/plugins/server-sync
 
-# docs using docusaurus, currently unavailable
-website/build
-website/blog
-website/core
-website/node_modules
 
 Dockerfile
 docker-compose.yml

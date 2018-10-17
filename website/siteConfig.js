@@ -62,18 +62,17 @@ const siteConfig = {
   },
 
   /* Custom fonts for website */
-  /*
   fonts: {
     myFont: [
-      "Times New Roman",
-      "Serif"
+      "Circular Std Book",
+      "Helvetical","Segoe UI", "Helvetica", "Arial",
+      "sans-serif"
     ],
     myOtherFont: [
       "-apple-system",
       "system-ui"
     ]
   },
-  */
 
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
   copyright: `Copyright © ${new Date().getFullYear()} Ambi Studio`,
@@ -84,7 +83,7 @@ const siteConfig = {
   },
 
   // Add custom scripts here that would be placed in <script> tags.
-  // scripts: ['https://buttons.github.io/buttons.js'],
+  // scripts: [],
 
   // On page navigation for the current documentation page.
   onPageNav: 'separate',
@@ -105,13 +104,16 @@ const siteConfig = {
     title: "New React Native tool coming your way — Vasern joins the party",
     description: "The best tools are built by users who are determined to improve their workflow! The story behind the creation of Vasern, a brand new data storage for React Native.",
     link: "https://jaxenter.com/new-react-native-tool-vasern-150729.html",
-    author: "Eirini-Eleni - Jaxenter"
+    author: "Eirini-Eleni - Jaxenter",
+    publisher: "Jaxenter"
   }, {
     title: "I built Vasern — a data storage for React Native",
     description: "An open source sync database solution. The goals of Vasern focus on performance, friendly to developers and make it available for everyone.",
     link: "https://medium.com/@hieunc229/i-built-vasern-a-data-storage-for-react-native-39f904369550",
-    author: "Hieu Nguyen - Medium"
-  }]
+    author: "Hieu Nguyen",
+    publisher: "Medium"
+  }],
+  cname: "vasern.com"
 };
 
 module.exports = siteConfig;
