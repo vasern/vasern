@@ -1,0 +1,126 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Getting Started · Vasern</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="# &lt;img src=&quot;https://unpkg.com/vasern@0.2.4/vasern-logo.svg&quot; alt=&quot;Vasern Logo&quot; width=&quot;200&quot;&gt; "/><meta name="docsearch:version" content="next"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Getting Started · Vasern"/><meta property="og:type" content="website"/><meta property="og:url" content="https://vasern.com/index.html"/><meta property="og:description" content="# &lt;img src=&quot;https://unpkg.com/vasern@0.2.4/vasern-logo.svg&quot; alt=&quot;Vasern Logo&quot; width=&quot;200&quot;&gt; "/><meta property="og:image" content="https://vasern.com/img/vasern-og-banner.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://vasern.com/img/vasern-twitter-banner.png"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/solarized-dark.min.css"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-127606864-1', 'auto');
+              ga('send', 'pageview');
+            </script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/vasern.svg" alt="Vasern"/><h2 class="headerTitleWithLogo">Vasern</h2></a><a href="/versions"><h3>next</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class=""><a href="/docs/next/overview" target="_self">Docs</a></li><li class=""><a href="/docs/next/todo-example" target="_self">Examples</a></li><li class=""><a href="https://github.com/ambistudio/vasern" target="_self">Github</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container mainContainer docMainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Getting Started</h1></header><article><div><span><h1><a class="anchor" aria-hidden="true" id="img-src-https-unpkgcom-vasern-024-vasern-logosvg-alt-vasern-logo-width-200"></a><a href="#img-src-https-unpkgcom-vasern-024-vasern-logosvg-alt-vasern-logo-width-200" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><img src="https://unpkg.com/vasern@0.2.4/vasern-logo.svg" alt="Vasern Logo" width="200"></h1>
+<p><img src="https://badge.fury.io/js/vasern.svg" alt=""></p>
+<p>Vasern is a data storage for React Native, focus on performance, and consistency (previous npm package located at <a href="https://www.npmjs.com/package/vase-dev">vase-dev</a>).
+With a goal is to develop an open source, developer friendly end-to-end database sync solution. Subscribe to <a href="https://github.com/ambistudio/vasern-server">vasern-server</a> to follow vasern's server releases.</p>
+<p>Important note: Vasern is currently <strong>available on iOS</strong> under <strong>alpha version</strong>, which expects breaking changes and improvements.</p>
+<h2><a class="anchor" aria-hidden="true" id="table-of-contents"></a><a href="#table-of-contents" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of contents</h2>
+<ul>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#getting-started">Getting started</a>
+<ul>
+<li><a href="#writing-schema">Writing schema</a></li>
+<li><a href="#crud-operations">CRUD operations</a></li>
+<li><a href="#supported-data-types">Supported data types</a></li>
+</ul></li>
+<li><a href="#examples">Examples</a></li>
+<li><a href="#contribute-help-and-feedback">Contribute, Help and Feedback</a></li>
+</ul>
+<p>A more details documentation available at <a href="https://vasern.com/docs">https://vasern.com/docs</a></p>
+<h2><a class="anchor" aria-hidden="true" id="installation"></a><a href="#installation" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
+<ol>
+<li><p>Install using NPM:</p>
+<pre><code class="hljs css language-ssh">$ npm <span class="hljs-keyword">install</span> <span class="hljs-comment">--save vasern</span>
+</code></pre></li>
+<li><p>Link Vasern library to your project:</p>
+<ul>
+<li><p><strong>Using rnpm - for iOS, run command</strong>:</p>
+<pre><code class="hljs css language-ssh"><span class="hljs-variable">$ </span>rnpm link vasern
+</code></pre></li>
+<li><p><strong>Manually - for iOS</strong>:</p>
+<ol>
+<li><p>Browse to &quot;<strong>node_packages/vasern/vasern/ios</strong>&quot;, and drag &quot;<strong>Vasern.xcodeproj</strong>&quot; to &quot;<strong>Libraries</strong>&quot; directory on your project in XCode.</p></li>
+<li><p>Add &quot;<strong>libVasern.a</strong>&quot; to &quot;<strong>Build Phase</strong>&quot; &gt; &quot;<strong>Link Binary with Libraries</strong>&quot;</p></li>
+</ol></li>
+</ul></li>
+</ol>
+<ol start="3">
+<li>Close Metro Bundle, rebuild and restart project.</li>
+</ol>
+<h2><a class="anchor" aria-hidden="true" id="getting-started"></a><a href="#getting-started" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Getting started</h2>
+<p>Vasern's design and structures are inspired by various open source databases (mentionable is PouchDB for code structures), which aims for ease of development, performance and friendly to developers.</p>
+<h3><a class="anchor" aria-hidden="true" id="supported-data-types"></a><a href="#supported-data-types" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supported Data Types</h3>
+<ul>
+<li>Basic data types: string, int, double, datetime</li>
+<li>reference &quot;#&quot;, optional &quot;?&quot;, list &quot;[]&quot;</li>
+</ul>
+<h3><a class="anchor" aria-hidden="true" id="writing-schema"></a><a href="#writing-schema" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Writing schema</h3>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">import</span> Document, { Vasern } <span class="hljs-keyword">from</span> <span class="hljs-string">'vasern'</span>;
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserModel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Document</span> </span>{
+    name = <span class="hljs-string">"Users"</span>;
+    props = {
+        <span class="hljs-attr">fname</span>: <span class="hljs-string">"string"</span>,
+        <span class="hljs-attr">lname</span>: <span class="hljs-string">"string"</span>,
+        <span class="hljs-attr">email</span>: <span class="hljs-string">"string"</span>
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TodoModel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Document</span> </span>{
+    name = <span class="hljs-string">"Todos"</span>;
+    props = {
+        <span class="hljs-attr">name</span>: <span class="hljs-string">"string"</span>,
+        <span class="hljs-attr">completed</span>: <span class="hljs-string">"boolean"</span>,
+        <span class="hljs-attr">parent</span>: <span class="hljs-string">"#Todos"</span>,
+        <span class="hljs-attr">note</span>: <span class="hljs-string">"?string"</span>,
+        <span class="hljs-attr">notify</span>: <span class="hljs-string">"?datetime"</span>,
+        <span class="hljs-attr">assignTo</span>: <span class="hljs-string">"#Users"</span>
+    }
+}
+
+<span class="hljs-keyword">const</span> VasernDB = <span class="hljs-keyword">new</span> Vasern({ <span class="hljs-attr">schemas</span>: [TodoModel, UserModel] });
+<span class="hljs-keyword">const</span> { Users, Todos } = VasernDB;
+</code></pre>
+<h3><a class="anchor" aria-hidden="true" id="crud-operations"></a><a href="#crud-operations" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CRUD operations</h3>
+<ul>
+<li><p>Insert</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">let</span> stewie = Users.insert({
+    <span class="hljs-attr">fname</span>: <span class="hljs-string">"Stewie"</span>,
+    <span class="hljs-attr">lname</span>: <span class="hljs-string">"Griffin"</span>,
+    <span class="hljs-attr">email</span>: <span class="hljs-string">"stewie@mail.com"</span>
+})[<span class="hljs-number">0</span>]
+
+<span class="hljs-keyword">let</span> tomorrow = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>();
+tomorrow.setDate(theNextDay.getDate() + <span class="hljs-number">1</span>);
+
+<span class="hljs-keyword">let</span> tasks = Todos.insert([{
+    <span class="hljs-attr">name</span>: <span class="hljs-string">"Meet Louis"</span>,
+    <span class="hljs-attr">completed</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">assignTo</span>: stewie
+}, {
+    <span class="hljs-attr">name</span>: <span class="hljs-string">"Argue with Brain"</span>,
+    <span class="hljs-attr">completed</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">assignTo</span>: stewie,
+    <span class="hljs-attr">note</span>: <span class="hljs-string">"Brain forgot to return the money"</span>,
+    <span class="hljs-attr">notify</span>: tomorrow
+}])
+
+</code></pre></li>
+<li><p>Get</p>
+<pre><code class="hljs css language-javascript"><span class="hljs-keyword">let</span> stewieObject = Users.get({ <span class="hljs-attr">fname</span>: <span class="hljs-string">"Stewie"</span> });
+</code></pre></li>
+<li><p>Update</p>
+<pre><code class="hljs css language-javascript">Users.update(stewie, { <span class="hljs-attr">email</span>: <span class="hljs-string">""</span> })
+</code></pre></li>
+<li><p>Delete</p>
+<pre><code class="hljs css language-javascript">Users.remove(stewie);
+</code></pre></li>
+</ul>
+<p><em>(to be updated)</em></p>
+<h2><a class="anchor" aria-hidden="true" id="examples"></a><a href="#examples" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
+<p>Examples available at &quot;./examples&quot;, includes:</p>
+<ul>
+<li><a href="./examples/vasern-todo">Vasern Todo</a></li>
+</ul>
+<p><em>(to be updated)</em></p>
+<h2><a class="anchor" aria-hidden="true" id="contribute-help-and-feedback"></a><a href="#contribute-help-and-feedback" aria-hidden="true" class="hash-link"><svg class="hash-link-icon" aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contribute, Help and Feedback</h2>
+<p>Your contribution and feedback are highly welcome and appreciated.</p>
+<p>Please <a href="https://github.com/ambistudio/vasern/issues">file an issue</a> if you need help, found a bug/an improvement or anything we can help. Best to include (1) Goal, (2) Issue, (3) Example code if needed. The more concise and informative, the better it helps us to understand your concern.</p>
+</span></div></article></div><div class="docs-prevnext"></div></div></div><nav class="onPageNav docOnPageNav"><ul class="toc-headings"><li><a href="#table-of-contents">Table of contents</a></li><li><a href="#installation">Installation</a></li><li><a href="#getting-started">Getting started</a><ul class="toc-headings"><li><a href="#supported-data-types">Supported Data Types</a></li><li><a href="#writing-schema">Writing schema</a></li><li><a href="#crud-operations">CRUD operations</a></li></ul></li><li><a href="#examples">Examples</a></li><li><a href="#contribute-help-and-feedback">Contribute, Help and Feedback</a></li></ul></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/vasern.svg" alt="Vasern" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/overview.html">Overview</a><a href="/docs/en/install-vasern.html">Guides</a></div><div><h5>Community</h5><a href="https://twitter.com/vaserndb" target="_blank">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a class="github-button" data-icon="octicon-star" data-count-href="/ambistudio/vasern/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2018 Ambi Studio</section></footer></div></body></html>

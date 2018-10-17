@@ -1,0 +1,42 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>Overview · Vasern</title><meta name="viewport" content="width=device-width"/><meta name="generator" content="Docusaurus"/><meta name="description" content="Vasern is a data storage for React Native, focus on performance, and consistency. Our goal is to develop an open source, developer friendly, database sync solution."/><meta name="docsearch:version" content="next"/><meta name="docsearch:language" content="en"/><meta property="og:title" content="Overview · Vasern"/><meta property="og:type" content="website"/><meta property="og:url" content="https://vasern.com/index.html"/><meta property="og:description" content="Vasern is a data storage for React Native, focus on performance, and consistency. Our goal is to develop an open source, developer friendly, database sync solution."/><meta property="og:image" content="https://vasern.com/img/vasern-og-banner.png"/><meta name="twitter:card" content="summary"/><meta name="twitter:image" content="https://vasern.com/img/vasern-twitter-banner.png"/><link rel="shortcut icon" href="/img/favicon.png"/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/solarized-dark.min.css"/><script>
+              (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+              (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+              m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+              ga('create', 'UA-127606864-1', 'auto');
+              ga('send', 'pageview');
+            </script><link rel="stylesheet" href="/css/prism.css"/><link rel="stylesheet" href="/css/main.css"/></head><body class="sideNavVisible separateOnPageNav"><div class="fixedHeaderContainer"><div class="headerWrapper wrapper"><header><a href="/"><img class="logo" src="/img/vasern.svg" alt="Vasern"/><h2 class="headerTitleWithLogo">Vasern</h2></a><a href="/versions"><h3>next</h3></a><div class="navigationWrapper navigationSlider"><nav class="slidingNav"><ul class="nav-site nav-site-internal"><li class="siteNavGroupActive siteNavItemActive"><a href="/docs/next/overview" target="_self">Docs</a></li><li class="siteNavGroupActive"><a href="/docs/next/todo-example" target="_self">Examples</a></li><li class=""><a href="https://github.com/ambistudio/vasern" target="_self">Github</a></li></ul></nav></div></header></div></div><div class="navPusher"><div class="docMainWrapper wrapper"><div class="container docsNavContainer" id="docsNav"><nav class="toc"><div class="toggleNav"><section class="navWrapper wrapper"><div class="navBreadcrumb wrapper"><div class="navToggle" id="navToggler"><i></i></div><h2><i>›</i><span>Getting Started</span></h2><div class="tocToggler" id="tocToggler"><i class="icon-toc"></i></div></div><div class="navGroups"><div class="navGroup"><h3 class="navGroupCategoryTitle">Getting Started</h3><ul><li class="navListItem navListItemActive"><a class="navItem" href="/docs/next/overview">Overview</a></li><li class="navListItem"><a class="navItem" href="/docs/next/vasern-and-document">Vasern and Document</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Guides</h3><ul><li class="navListItem"><a class="navItem" href="/docs/next/install-vasern">Installation</a></li><li class="navListItem"><a class="navItem" href="/docs/next/supported-data-types">Supported Data Types</a></li><li class="navListItem"><a class="navItem" href="/docs/next/write-schema-setup-vasern">Write Schema, Setup Vasern</a></li><li class="navListItem"><a class="navItem" href="/docs/next/basic-crud-operation">Basic CRUD operations</a></li><li class="navListItem"><a class="navItem" href="/docs/next/queries">Queries</a></li><li class="navListItem"><a class="navItem" href="/docs/next/support-and-feedback">Support and Feedback</a></li></ul></div><div class="navGroup"><h3 class="navGroupCategoryTitle">Examples</h3><ul><li class="navListItem"><a class="navItem" href="/docs/next/todo-example">Example - Vasern Todo</a></li></ul></div></div></section></div><script>
+            document.addEventListener('DOMContentLoaded', function() {
+              createToggler('#navToggler', '#docsNav', 'docsSliderActive');
+              createToggler('#tocToggler', 'body', 'tocActive');
+
+              const headings = document.querySelector('.toc-headings');
+              headings && headings.addEventListener('click', function(event) {
+                if (event.target.tagName === 'A') {
+                  document.body.classList.remove('tocActive');
+                }
+              }, false);
+
+              function createToggler(togglerSelector, targetSelector, className) {
+                var toggler = document.querySelector(togglerSelector);
+                var target = document.querySelector(targetSelector);
+
+                if (!toggler) {
+                  return;
+                }
+
+                toggler.onclick = function(event) {
+                  event.preventDefault();
+
+                  target.classList.toggle(className);
+                };
+              }
+            });
+        </script></nav></div><div class="container mainContainer docMainContainer"><div class="wrapper"><div class="post"><header class="postHeader"><h1 class="postHeaderTitle">Overview</h1></header><article><div><span><p>Vasern is a data storage for React Native, focus on performance, and consistency. Our goal is to develop an open source, developer friendly, database sync solution.</p>
+<p>This documentation will walk you through Vasern <a href="/docs/next/install-vasern">installation</a>,
+<a href="/docs/next/write-schema-setup-vasern">work with schema</a>,
+<a href="/docs/next/basic-crud-operation">basic operations</a>, and provide with <a href="/docs/next/todo-example">examples</a>.</p>
+<p>Please <a href="/docs/next/support-and-feedback">let us know</a> if you found a typo, incorrect or unclear information in this document.</p>
+<p><strong><em>Note: Vasern alpha is now available for experimental, subscribe to <a href="https://github.com/ambistudio/vasern">Vasern on Github</a> for any update</em></strong></p>
+</span></div></article></div><div class="docs-prevnext"><a class="docs-next button" href="/docs/next/vasern-and-document"><span>Next</span><span class="arrow-next"> →</span></a></div></div></div><nav class="onPageNav docOnPageNav"></nav></div><footer class="nav-footer" id="footer"><section class="sitemap"><a href="/" class="nav-home"><img src="/img/vasern.svg" alt="Vasern" width="66" height="58"/></a><div><h5>Docs</h5><a href="/docs/en/overview.html">Overview</a><a href="/docs/en/install-vasern.html">Guides</a></div><div><h5>Community</h5><a href="https://twitter.com/vaserndb" target="_blank">Twitter</a></div><div><h5>More</h5><a href="/blog">Blog</a><a class="github-button" data-icon="octicon-star" data-count-href="/ambistudio/vasern/stargazers" data-show-count="true" data-count-aria-label="# stargazers on GitHub" aria-label="Star this project on GitHub">Star</a></div></section><section class="copyright">Copyright © 2018 Ambi Studio</section></footer></div></body></html>
