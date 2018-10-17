@@ -1,0 +1,19 @@
+{
+  "version-0.0.1-docs": {
+    "Getting Started": [
+      "version-0.0.1-overview",
+      "version-0.0.1-vasern-and-document"
+    ],
+    "Guides": [
+      "version-0.0.1-install-vasern",
+      "version-0.0.1-supported-data-types",
+      "version-0.0.1-write-schema-setup-vasern",
+      "version-0.0.1-basic-crud-operation",
+      "version-0.0.1-queries",
+      "version-0.0.1-support-and-feedback"
+    ],
+    "Examples": [
+      "version-0.0.1-todo-example"
+    ]
+  }
+}
