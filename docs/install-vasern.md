@@ -10,7 +10,7 @@ Vasern design's goal is to enable easy installation and help you quickly set up 
 
 ---
 
-(Vasern did not support platform Android for now.)
+(Currently, Vasern only available on iOS)
 
 Make sure you have [created React Native app](https://facebook.github.io/react-native/docs/getting-started.html). Navigate to React Native directory, and be ready to run commands on Terminal (MacOS) or Command Promp (Window).
 
