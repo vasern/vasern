@@ -9,6 +9,7 @@
 <url> <loc>https://vasern.com/docs/next/intro</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/next/intro" /> </url>
 <url> <loc>https://vasern.com/docs/next/overview</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/next/overview" /> </url>
 <url> <loc>https://vasern.com/docs/next/queries</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/next/queries" /> </url>
+<url> <loc>https://vasern.com/docs/next/README</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/next/README" /> </url>
 <url> <loc>https://vasern.com/docs/next/support-and-feedback</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/next/support-and-feedback" /> </url>
 <url> <loc>https://vasern.com/docs/next/supported-data-types</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/next/supported-data-types" /> </url>
 <url> <loc>https://vasern.com/docs/next/todo-example</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/next/todo-example" /> </url>
