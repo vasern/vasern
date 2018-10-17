@@ -15,11 +15,16 @@ export class Queryable {
     static methods = [
         'filter', 'exclude', 'data', 
         'get', 'find', 'similarTo', 
-        'group', 'order', '_queryable'
+        'group', 'order', '_queryable',
+        'count'
+        
     ]
 
     constructor(data) {
-        this._data = data;
+        Object.defineProperty(this, '_data', {
+            value: data,
+            writable: false
+        });
     }
 
     completed = false;
@@ -122,7 +127,11 @@ export class Queryable {
         return this._queryable(data);
     }
 
-    order(key) {
-        return this._queryable(_.orderBy(this._data, key));
+    order(key, order: "asc" | "des" = "asc") {
+        return this._queryable(_.orderBy(this._data, key, order));
+    }
+
+    count() {
+        return this._data.length;
     }
 }
