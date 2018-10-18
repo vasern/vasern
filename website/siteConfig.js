@@ -109,9 +109,9 @@ const siteConfig = {
   }, {
     title: "I built Vasern — a data storage for React Native",
     description: "An open source sync database solution. The goals of Vasern focus on performance, friendly to developers and make it available for everyone.",
-    link: "https://medium.com/@hieunc229/i-built-vasern-a-data-storage-for-react-native-39f904369550",
+    link: "https://hackernoon.com/i-built-vasern-a-data-storage-for-react-native-50ad91aa8b27",
     author: "Hieu Nguyen",
-    publisher: "Medium"
+    publisher: "Hacker Noon"
   }],
   cname: "vasern.com"
 };
