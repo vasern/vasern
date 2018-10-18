@@ -151,11 +151,11 @@ p { font-size: 18px }
 .block__article .block__item {
 
     width: 40%;
-    min-width: 350px;
+    min-width: 330px;
     margin: 2em 0;
     background: #fff;
     padding: 1em 1.5em;
-    border-radius: 5px;
+    border-radius: 1px;
     display: flex;
     flex-direction: column;
 
@@ -163,6 +163,14 @@ p { font-size: 18px }
     -webkit-box-shadow: inset 0 0 0 1px #dae4ed, 0 5px 15px -5px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: inset 0 0 0 1px #dae4ed, 0 5px 15px -5px rgba(0, 0, 0, 0.1);
     box-shadow: inset 0 0 0 1px #dae4ed, 0 5px 15px -5px rgba(0, 0, 0, 0.1);
+
+    -webkit-transition: background-color 125ms ease,-webkit-transform .2s ease;
+    transition: 75ms ease;
+}
+
+.block__article .block__item:hover {
+    transform: translateY(-5px);
+    background: #fbfff1;
 }
 
 .block__article .block__item p {

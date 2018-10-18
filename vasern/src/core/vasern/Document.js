@@ -15,8 +15,6 @@ import _ from 'lodash';
 
 import ObjectID, { OBJECTID_LEN } from '../../plugins/vasern-objectid';
 
-// import { ServerRequest } from "../../plugins/server-sync";
-
 const VasernManager = NativeModules.VasernManager;
 
 export class Document {

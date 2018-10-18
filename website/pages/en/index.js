@@ -124,6 +124,7 @@ const TagLine = (props) => {
   \`\`\`javascript
   import Vasern from 'vasern';
 
+  // Define Todos application schema
   const VasernDB = new Vasern({ 
     schemas: [{
       name: "Users",
@@ -141,7 +142,15 @@ const TagLine = (props) => {
     }]
   });
 
-  const todoList = VasernDB.Todos.filter({ completed: false }).data();
+  // Add listener whenever Todos has a change (loaded/insert/update/delete)
+  VasernDB.Todos.onChange(() => {
+
+    // Get all todo items with "completed = false"
+    const todoList = VasernDB.Todos.filter({ completed: false });
+    
+    // Update state
+    this.setState({ data: todoList.data() });
+  })
   \`\`\`
   `;
 
