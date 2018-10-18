@@ -73,6 +73,9 @@
       },
       "version-0.2.7-todo-example": {
         "title": "Example - Vasern Todo"
+      },
+      "version-0.2.7-write-schema-setup-vasern": {
+        "title": "Write Schema, Setup Vasern"
       }
     },
     "links": {
