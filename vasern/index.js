@@ -5,7 +5,7 @@
 //  (Please find "LICENSE" file attached for license details)
 //================================================================
 
-import Document, { Vasern } from './src/core';
+import { Document, Vasern } from './src/core';
 
 export default Vasern;
 export { Document };

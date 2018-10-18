@@ -58,6 +58,9 @@ export class Document {
         // this.request = new ServerRequest(host, ePath);
         this.oid = new ObjectID();
 
+        // initate _data
+        this._data = new Array();
+
         this.bindEvents.bind(this)();
     }
 
