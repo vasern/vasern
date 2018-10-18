@@ -192,7 +192,6 @@ p { font-size: 18px }
 .docMainContainer {
     border-radius: 8px;
     box-shadow: inset 0 0 0 1px #dae4ed, 0 5px 15px -5px rgba(0, 0, 0, 0.1);
-    padding: 4em;
     background: #fff;
 }
 
@@ -236,6 +235,16 @@ p { font-size: 18px }
         margin-top: 0;
     }
 
+    .docMainWrapper {
+        padding: 0;
+    }
+    .docMainContainer {
+        padding: 4em 1.6em;
+    }
+    .versionsContainer {
+        padding: 1.6em;
+    }
+
     /* .fixedHeaderContainer,
     .navigationSlider .slidingNav ul,
     .slidingNav {
@@ -247,6 +256,11 @@ p { font-size: 18px }
     }
 }
 
+@media only screen and (min-width: 736px ) {
+    .docMainContainer {
+        padding: 4em;
+    }
+}
 @media only screen and (min-width: 1024px) {
     .wrapper {
         max-width: 1200px !important;
