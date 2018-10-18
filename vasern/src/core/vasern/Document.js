@@ -282,20 +282,38 @@ export class Document {
 
     // Send current data to backend to save/persist
     async save() {
-        let logRecords = Parser.convertToLog(this.props, this._commitedItems)
 
-        try {
-            let success = await VasernManager.Insert(this.docName(), logRecords, this.storeOptions);
+        // Check if records is being written to file
+        // If it is, delay until write process is completed,
+        // then process write request (see 1)
+        if (!this.isWriting) {
+            let logRecords = Parser.convertToLog(this.props, this._commitedItems)
 
-            if (success) {
-                // Trigger subscribed events
-                this._executeCommitedEvents();
+            this.isWriting = true;
+
+            try {
+                let success = await VasernManager.Insert(this.docName(), logRecords, this.storeOptions);
+
+                if (success) {
+                    // Trigger subscribed events
+                    this._executeCommitedEvents();
+                    this.isWriting = false;
+                }
+
+                // TODO: handle unsuccess request (i.e retry, throw exception)
+
+                // Check and process queueing commits
+                if (this._isCommitOnQueue) {
+                    this.save();
+                    this._isCommitOnQueue = false;
+                }
+
+            } catch(e) {
+                console.log(e)
             }
-
-        } catch(e) {
-            console.log(e)
+        } else {
+            _isCommitOnQueue = true;
         }
-        // TODO: handle returned results
     }
 
     async createSnapshot() {
@@ -424,6 +442,10 @@ export class Document {
         "update": [],
         "remove": []
     };
+
+    // Flag writing procsses is executing
+    // (not available to write right away)
+    _isCommitOnQueue = false;
 
     _commitChange = (type, item, save = false) => {
         
