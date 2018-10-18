@@ -1,6 +1,4 @@
-import Document from 'vasern';
-
-export class TodoModel extends Document {
+export class TodoModel {
 
     name = "Todos";
     

@@ -7,5 +7,5 @@
 
 import Document, { Vasern } from './src/core';
 
-export default Document;
-export { Vasern };
+export default Vasern;
+export { Document };

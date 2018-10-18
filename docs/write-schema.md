@@ -31,9 +31,7 @@ var TodoSchema = {
 #### Detailed method
 
 ```javascript
-import Document from 'vasern';
-
-class UserModel extends Document {
+class UserModel {
     name = "Users"
     props = {
         fname: "string",
@@ -71,7 +69,7 @@ new Vasern(props)
 We already created `TodoSchema` and `UserModel` above. Let's create a `Vasern` instance
 
 ```javascript
-import { Vasern } from 'vasern';
+import Vasern from 'vasern';
 
 const VasernDB = new Vasern({
     schemas: [UserModel, TodoSchema],

@@ -1,8 +1,8 @@
-import Vasern from './db';
+import VasernDB from './db';
 
-const { Todos } = Vasern;
+const { Todos } = VasernDB;
 
-export default Vasern;
+export default VasernDB;
 export {
     Todos
 }

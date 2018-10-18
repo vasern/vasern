@@ -122,7 +122,7 @@ const Features = () => (
 const TagLine = (props) => {
   const code = `
   \`\`\`javascript
-  import { Vasern } from 'vasern';
+  import Vasern from 'vasern';
 
   const VasernDB = new Vasern({ 
     schemas: [{

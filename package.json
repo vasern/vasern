@@ -27,5 +27,8 @@
     "ios": {
       "project": "vasern/ios/Vasern.xcodeproj"
     }
+  },
+  "dependencies": {
+    "lodash": "~4.17.11"
   }
 }

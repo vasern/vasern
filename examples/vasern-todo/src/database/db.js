@@ -1,4 +1,4 @@
-import { Vasern } from 'vasern';
+import Vasern from 'vasern';
 
 // Import schemas
 import { TodoModel } from './Todo';
