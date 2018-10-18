@@ -104,7 +104,7 @@ const siteConfig = {
     title: "New React Native tool coming your way — Vasern joins the party",
     description: "The best tools are built by users who are determined to improve their workflow! The story behind the creation of Vasern, a brand new data storage for React Native.",
     link: "https://jaxenter.com/new-react-native-tool-vasern-150729.html",
-    author: "Eirini-Eleni - Jaxenter",
+    author: "Eirini-Eleni",
     publisher: "Jaxenter"
   }, {
     title: "I built Vasern — a data storage for React Native",
