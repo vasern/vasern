@@ -257,14 +257,14 @@ class Index extends React.Component {
           <p className="block block__1col message">
             (Vasern alpha is now available for experimental, 
             <br/>
-            <a href="https://vasern.slack.com" target="_blank" >join our Slack channel to keep updated)</a>
+            <a href="https://join.slack.com/t/vasern/shared_invite/enQtNDU4NTk2MDI5OTcyLTRiYzRjZDI5YTAyMjlhYzg1YTdhNjFjZGNkODI1OTQwYzExZjA3NWRkYTY1MGE2ZjU0YzU3NzE2NzUwZmEwMjM" target="_blank" >join our Slack channel to keep updated)</a>
           </p>
           <TagLine />
           <Media />
           
           <PromoSection>
             <Button className="btn-primary" href={docUrl('overview.html', language)}>Getting Started</Button>
-            <Button href="https://vasern.slack.com" target="_blank">Join our Slack channel</Button>
+            <Button href="https://join.slack.com/t/vasern/shared_invite/enQtNDU4NTk2MDI5OTcyLTRiYzRjZDI5YTAyMjlhYzg1YTdhNjFjZGNkODI1OTQwYzExZjA3NWRkYTY1MGE2ZjU0YzU3NzE2NzUwZmEwMjM" target="_blank">Join our Slack channel</Button>
           </PromoSection>
           {/*
             <Features />
