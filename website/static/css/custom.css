@@ -9,8 +9,8 @@
 
 body {
     font-family: 'Circular Std Book', -apple-system, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
-    color: #3d556b
-    
+    color: #3d556b;
+    overflow-x: hidden;
 }
 
 
