@@ -263,10 +263,10 @@ class Index extends React.Component {
       <div className="homepage">
         <HomeSplash language={language} />
         <div className="mainContainer">
-          <p className="block block__1col message">
-            (Vasern alpha is now available for experimental, 
+          <p className="block block__1col block__message">
+            Vasern is now available in iOS for experimental.
             <br/>
-            <a href="https://join.slack.com/t/vasern/shared_invite/enQtNDU4NTk2MDI5OTcyLTRiYzRjZDI5YTAyMjlhYzg1YTdhNjFjZGNkODI1OTQwYzExZjA3NWRkYTY1MGE2ZjU0YzU3NzE2NzUwZmEwMjM" target="_blank" >join our Slack channel to keep updated)</a>
+            <a href="https://form.jotform.co/82917565387876" target="_blank" >Subscribe to Vasern for updates </a> (with 2 optional survey questions)
           </p>
           <TagLine />
           <Media />

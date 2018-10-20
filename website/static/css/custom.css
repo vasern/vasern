@@ -39,13 +39,6 @@ p { font-size: 18px }
     font-weight: bold
 }
 
-.message {
-    font-style: italic;
-    padding-top: 1em;
-    font-size: 1em;
-    text-align: center;
-}
-
 /* Highlight syntax */
  .hljs {
     background: #fafafa;
@@ -131,6 +124,17 @@ p { font-size: 18px }
     text-align: center
 }
 
+.block.block__message {
+
+    margin: 2em auto;
+    padding-bottom: 2em;
+    font-size: 18px;
+    border-bottom: 1px solid #e0e0e0;
+    font-style: italic;
+    padding-top: 1em;
+    text-align: center;
+}
+
 .block__article {
     background: #EFF7F8;
     padding: 1em 0 4em 0;
@@ -165,7 +169,7 @@ p { font-size: 18px }
     box-shadow: inset 0 0 0 1px #dae4ed, 0 5px 15px -5px rgba(0, 0, 0, 0.1);
 
     -webkit-transition: background-color 125ms ease,-webkit-transform .2s ease;
-    transition: 75ms ease;
+    transition: background-color 125ms ease, transform .2s ease;
 }
 
 .block__article .block__item:hover {
@@ -185,6 +189,7 @@ p { font-size: 18px }
     margin-bottom: 1em;
     padding: 1em 0;
     border-bottom: 1px solid rgba(0,0,0,0.1);
+    font-size: 18px;
 }
 
 .block__article .block__item .block__content {
