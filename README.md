@@ -50,7 +50,7 @@ VasernDB.Todos.onChange(() => {
 
 ## Status
 
-Vasern (alpha) is **available on iOS**, which expects breaking changes and improvements.
+Vasern (alpha) is **available on iOS and Android**, which expects breaking changes and improvements.
 
 [Subscribe to get latest updates about Vasern](https://form.jotform.co/82917565387876) (and 2 optional survey questions to help us learn how Vasern can benefit you the most)
 
