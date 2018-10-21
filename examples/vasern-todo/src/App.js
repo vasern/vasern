@@ -14,12 +14,15 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
-  SafeAreaView
+  SafeAreaView,
+  Platform
 } from 'react-native';
 import Spacer from 'react-native-spacer';
 import styles from './styles';
 
 import { Todos } from './database';
+
+const KeyboardMargin = Platform.OS == "android" ? 25 : 0;
 
 type Props = {};
 export default class App extends Component<Props> {
@@ -174,7 +177,9 @@ export default class App extends Component<Props> {
           <Text style={styles.title}>Todo list</Text>
           
           { !this.state.todos.length ? null :
-              <Button title="Action" onPress={this._toggleAction}/>
+              <TouchableOpacity onPress={this._toggleAction}>
+                <Text style={styles.textBtn_lg}>Action</Text>
+              </TouchableOpacity>
           }
         </View>
         
@@ -190,7 +195,7 @@ export default class App extends Component<Props> {
         />
         
         {/* Add task views */}
-        <Spacer enabled>
+        <Spacer spaceMargin={KeyboardMargin} enabled>
         <View style={styles.bottomPanel}>
 
           {/** Subitem message */}
@@ -209,7 +214,9 @@ export default class App extends Component<Props> {
                 onChangeText={text => this.name = text}
                 onSubmitEditing={this._insertTodo}
               />
-              <Button title="Add" onPress={this._insertTodo}/>
+              <TouchableOpacity style={styles.textBtnWrapper} onPress={this._insertTodo}>
+                <Text style={styles.textBtn}>+</Text>
+              </TouchableOpacity>
             </View>
         </View>
 

@@ -2,7 +2,9 @@ import { StyleSheet } from 'react-native';
 const colors = {
     line: 'rgba(0,0,0,0.15)',
     textLight: 'rgba(0,0,0,0.7)',
-    primary: '#1e88e5'
+    primary: '#1e88e5',
+
+    background: "#fff",
 },
 styles = StyleSheet.create({
     container: {
@@ -78,6 +80,27 @@ styles = StyleSheet.create({
     },
     textNegative: {
         color: 'red'
+    },
+    textBtn_lg: {
+        color: colors.primary,
+        fontSize: 16,
+        padding: 8
+    },
+    textBtnWrapper: {
+        backgroundColor: colors.primary,
+        height: 32,
+        width: 32,
+        borderRadius: 16,
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    },
+    textBtn: {
+        color: colors.background,
+        fontWeight: "bold",
+        fontSize: 20,
+        paddingBottom: 3,
+        paddingRight: 1
     },
 
     //
