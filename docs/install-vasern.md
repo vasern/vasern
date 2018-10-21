@@ -3,14 +3,12 @@ id: install-vasern
 title: Installation
 ---
 
-Vasern design's goal is to enable easy installation and help you quickly set up your database.
-
+Vasern is available on Android and iOS. The following steps will help you install Vasern into your 
+React Native project.
 
 ## Install Vasern
 
 ---
-
-(Currently, Vasern only available on iOS)
 
 Make sure you have [created React Native app](https://facebook.github.io/react-native/docs/getting-started.html). Navigate to React Native directory, and be ready to run commands on Terminal (MacOS) or Command Promp (Window).
 
@@ -22,10 +20,10 @@ $ npm install --save vasern
 
 #### 2. Link Vasern library to your project:
 
-- **Using rnpm - for iOS, run command**:
+- **Automatic linking - for iOS and Android, run command**:
 
     ```ssh
-    $ rnpm link vasern
+    $ react-native link vasern
     ```
 
 - **Manually - for iOS**:
@@ -34,6 +32,44 @@ $ npm install --save vasern
 
     - Add "_libVasern.a_" to "_Build Phase_" > "_Link Binary with Libraries_"
 
+- **Manual linking - for Android**:
+
+    1. Open file ``android/app/build.gradle`` from your android main app directory, add ``vasern`` dependency:
+
+        ```diff
+        dependencies {
+        +   compile project(':vasern')
+
+            implementation fileTree(dir: "libs", include: ["*.jar"])
+            implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
+            implementation "com.facebook.react:react-native:+"  // From node_modules
+        }
+        ```
+    2. Open file ``android/setting.gradle``
+
+        ```diff
+        include ':app'
+
+        + include ':vasern'
+        + project(':vasern').projectDir = new File(rootProject.projectDir, '../node_modules/vasern/android')
+        ```
+
+    3. Open `android/app/src/main/java/com/your-app-name/MainApplication.java`, add the `RNVasernPackage` dependency.
+
+        ```diff
+
+        // Add this line after "import android.app.Application;"
+        + import com.ambistudio.vasern.RNVasernPackage;
+
+        // Add "new RNVasernPackage()" in "getPackages()" method
+        @Override
+        protected List<ReactPackage> getPackages() {
+            return Arrays.<ReactPackage>asList(
+                new MainReactPackage(),
+            +    new RNVasernPackage()
+            );
+        }
+        ```
 
 #### 3. Close Metro Bundle, rebuild and restart project.
 
