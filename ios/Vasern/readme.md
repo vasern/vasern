@@ -1,19 +1,16 @@
-# Vasern Logger
+# Vasern Storage
 
-Vasern Logger is a simple logger, was designed as a storage logger for [Vasern (a data storage for React Native)](https://github.com/ambistudio/vasern). _The name Vasern derived from Vase for React Native_.
-Available for write, override and load log records from/to a record log file.
-It suits small log file size and use .vasern file extension by default.
+Vasern Storage is a storage engine for [Vasern - fast and open source data storage for React Native](https://github.com/ambistudio/vasern) (for iOS). It's used for write, override and load log records from/to a log file (with extension .vasern by default).
 
-Vasern Logger is licensed under the Apache License, Version 2.0 (the "License"). Please find "LICENSE" file attached for license details.
+Vasern Storage is licensed under the Apache License, Version 2.0 (the "License"). Please find "LICENSE" file attached for license details.
 
-## Getting Vasern Logger
+## Getting started
 
-The simplest way to get Vasern Logger is to download from Github (#url needed), then place it into your
-project. And simply include the header file as 
+The simplest way to get Vasern Storage is to [download from Github](https://github.com/ambistudio/vasern/tree/master/ios/Vasern/ios), then place it into your project. And simply includes the header file as:
 
 ```cpp
 // replace with the actual vasern_logger.hpp file location
-#include "vasern_logger.hpp"
+#include "vasern_mmap_logger.h"
 ```
 
 ## How to use Vasern Logger?
@@ -22,21 +19,22 @@ Available methods:
 
 1. Before you start
 
-    In order to access available methods, you need to initate a `Logger` instance first. Simply use
-    `Logger` constructor that takes a string argument as log file location (to use the current directory, pass in "." as the argument)
+    In order to access available methods, you need to initate a `vasern::Storage` instance first. Simply use
+    `vasern::Storage` constructor that takes a string argument as log file location (to use the current directory, pass in "." as the argument)
 
     ```cpp
-    vasern::Logger db("./dblocation");
+    vasern::Storage db("./dblocation");
     ```
 
 2. Insert log records
 
-    Method: `bool Insert(string doc, vector<string> records, bool cleanMode = false)`
+    Method: `bool Insert(const char *docname, NSArray *chunk, bool cleanMode)`
 
     Where:
-    - doc: document name
-    - records: a list of records will be written into the log file
-    - cleanMode: enable write log in `clean mode`. By default, it set to `false`
+    - Arguments:
+        - docname: document name
+        - chunk: an NSArray of NSString of records will be written into the log file
+        - cleanMode: enable write log in `clean mode`. By default, it set to `false`
     - Return `bool` value indicate the write process was either successful or not
 
     Note: enable `clean mode` will override existing log file with records, while disabling `clean mode` (meaning using `append mode`) will write/appending records into the end of the log file. (It is recommended to use `clean mode` once in a while to clean up "dead" records)
@@ -45,42 +43,38 @@ Available methods:
 
     ```cpp
         // Example log records, names from "Family Guys" animated sitcom
-        std::vector<std::string> logRecords = {
-            "Item1, Peter Griffin, Quahog, Rhode Island",
-            "Item2, Lois Griffin, Quahog, Rhode Island",
-            "Item3, Brain Griffin, Quahog, Rhode Island",
-            "Item4, Chris Griffin, Quahog, Rhode Island",
-            "Item5, Meg Griffin, Quahog, Rhode Island",
-            "Item6, Stewie Griff, Quahog, Rhode Island"
-        }
+        NSArray *logRecords = @[
+            @"Item1, Peter Griffin, Quahog, Rhode Island",
+            @"Item2, Lois Griffin, Quahog, Rhode Island",
+            @"Item3, Brain Griffin, Quahog, Rhode Island",
+            @"Item4, Chris Griffin, Quahog, Rhode Island",
+            @"Item5, Meg Griffin, Quahog, Rhode Island",
+            @"Item6, Stewie Griff, Quahog, Rhode Island"
+        ];
 
-        bool success = db.Insert("People", logRecords)
+        bool success = db.Insert("People", logRecords, false)
     ```
 
 3. Load records log
 
-    Method: `vector<string> Load(string doc);`
+    Method: `NSArray* Load(const char* doc);`
 
     Where:
     - doc: document name
-    - Return all records in log file as a `vector<string>`
+    - Return a pointer of all records in log file as a `NSArray`
 
     ```cpp
         // Load all records from "People" log file
         // Should return a list of records as inserted
-        std::vector<std::string> logRecords = db.Load("People")
+        NSArray* logRecords = db.Load("People")
     ```
 
 ## Run test
 
-Vasern Logger use [Catch2](https://github.com/catchorg/Catch2) for unit testing.
-A provided test (located at `./tests/vasern_logger_test.cpp`) contains 3 test cases including insert records, load records and insert records in cleanMode. The log file will located at `./dbTest` (if dir not already existed, it should create one)
-
-Run `make test` to see the result. (Require [CMake](https://cmake.org/cmake-tutorial/). It will compile test file located `/tests`, run test and clean up files. )
+TODO:
+ - Create tests
 
 
-## Contribute
+## Feedback, Help and Contribute
 
-Vasern Logger is originally created by [@hieunc229](https://github.com/hieunc229) (came from high-level programming language experience).
-In case you think anything should and can be improved, feel free to open up an issue / create a pull request.
-Your contribution is welcome and highly appriciated
+Please visit [Feedback and Feedback](https://github.com/ambistudio/vasern#help-and-feedback) or [Contribute to Vasern](https://github.com/ambistudio/vasern#contribute-to-vasern) for more details.
