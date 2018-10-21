@@ -27,6 +27,8 @@ var Parser = {
         } else if (type.indexOf('#') != -1) {
             dataType = 'ref';
             type = type.replace("#", "");
+        } else {
+            dataType = type;
         }
 
         switch (dataType) {
@@ -38,7 +40,7 @@ var Parser = {
             case 'double':
                 return parseFloat(val);
             case 'boolean':
-                return !!val;
+                return val == "1";
             case 'datetime':
                 return new Date(parseInt(val));
             case 'ref':
@@ -276,7 +278,7 @@ var Parser = {
                 value = value.getTime ? value.getTime() : value;
                 break;
             case 'boolean':
-            value = (typeof(value) == "string") ? !!(value == "true") : !!value;
+                value = value ? 1 : 0;
                 break;
             case 'ref':
             value = typeof(value) == "object" ? value.id : value;
