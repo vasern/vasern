@@ -23,11 +23,6 @@
     "url": "https://github.com/ambistudio/vasern/issues"
   },
   "homepage": "https://github.com/ambistudio/vasern#readme",
-  "rnpm": {
-    "ios": {
-      "project": "vasern/ios/Vasern.xcodeproj"
-    }
-  },
   "dependencies": {
     "lodash": "~4.17.11"
   }

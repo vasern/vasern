@@ -1,4 +1,4 @@
-package com.storage;
+package com.ambistudio.storage;
 
 public class Config {
     public static String DOC_EXT = ".vasern";

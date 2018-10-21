@@ -1,5 +1,5 @@
 
-package com.reactlibrary;
+package com.ambistudio.vasern;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -20,14 +20,14 @@ import com.storage.Storage;
 public class RNVasernModule extends ReactContextBaseJavaModule {
 
   private final ReactApplicationContext reactContext;
-  private Storage vasern;
+  private Storage db;
 
   private HashMap<String, ArrayList<String>> store;
 
   public RNVasernModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.reactContext = reactContext;
-    this.vasern = new Storage(reactContext.getFilesDir().getPath());
+    this.db = new Storage(reactContext.getFilesDir().getPath());
   }
 
   @Override
@@ -43,7 +43,7 @@ public class RNVasernModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void Request(String docName, Promise pm) {
     WritableMap result = Arguments.createMap();
-    result.putArray("data", VasernUtils.listToWriableArray(this.vasern.store.get(docName)));
+    result.putArray("data", VasernUtils.listToWriableArray(this.db.store.get(docName)));
     pm.resolve(result);
   }
 
@@ -55,7 +55,7 @@ public class RNVasernModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void Load(String docName, Promise promise) {
 
-    List<String> listStrOutputs = this.vasern.Load(docName);
+    List<String> listStrOutputs = this.db.Load(docName);
     WritableArray data = VasernUtils.listToWriableArray(listStrOutputs);
     WritableMap result = Arguments.createMap();
     result.putArray("data", data);
@@ -74,7 +74,7 @@ public class RNVasernModule extends ReactContextBaseJavaModule {
   public void Insert(String docName, ReadableArray data, ReadableArray options, Promise promise) {
 
     ArrayList inputs = data.toArrayList();
-    boolean success = this.vasern.Insert(docName, inputs);
+    boolean success = this.db.Insert(docName, inputs);
     if (success) {
       WritableMap result = Arguments.createMap();
       result.putInt("status", 200);

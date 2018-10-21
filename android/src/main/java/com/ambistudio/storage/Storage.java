@@ -5,7 +5,7 @@
 //  (See "LICENSE" file attached in the main repository directory for license details)
 //====================================================================================
 
-package com.storage;
+package com.ambistudio.storage;
 
 import java.util.Properties;
 import java.util.List;

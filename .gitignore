@@ -5,7 +5,8 @@ vasern/src/plugins/auth
 vasern/src/plugins/server-sync
 
 # exclude builds and bundles
-vasern/android/build
+android/build
+android/.gradle
 
 
 Dockerfile

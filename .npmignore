@@ -1,12 +1,18 @@
-examples
+node_modules
 
 # plugins currently unavailable
 vasern/src/plugins/auth
 vasern/src/plugins/server-sync
 
-# docs using docusaurus, currently unavailable
-docs
-website
+# exclude builds and bundles
+android/build
+android/.gradle
+
 Dockerfile
 docker-compose.yml
 .dockerignore
+
+# docs using docusaurus, currently unavailable
+examples
+docs
+website
