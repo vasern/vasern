@@ -1,6 +1,7 @@
 # <img src="https://unpkg.com/vasern@0.2.4/vasern-logo.svg" alt="Vasern Logo" width="200">
 
-Vasern is a fast and open source data storage for React Native. [Join us on Slack](https://join.slack.com/t/vasern/shared_invite/enQtNDU4NTk2MDI5OTcyLTRiYzRjZDI5YTAyMjlhYzg1YTdhNjFjZGNkODI1OTQwYzExZjA3NWRkYTY1MGE2ZjU0YzU3NzE2NzUwZmEwMjM).
+Vasern is a fast and open source data storage for React Native. 
+[Subscribe for updates](https://form.jotform.co/82917565387876) (+ 2 optional survey question)
 
 ![](https://badge.fury.io/js/vasern.svg)
 
@@ -49,10 +50,10 @@ VasernDB.Todos.onChange(() => {
 ```
 
 ## Status
-
 Vasern (alpha) is **available on iOS and Android**, which expects breaking changes and improvements.
 
-[Subscribe to get latest updates about Vasern](https://form.jotform.co/82917565387876) (and 2 optional survey questions to help us learn how Vasern can benefit you the most)
+[Join us on Slack](https://join.slack.com/t/vasern/shared_invite/enQtNDU4NTk2MDI5OTcyLTRiYzRjZDI5YTAyMjlhYzg1YTdhNjFjZGNkODI1OTQwYzExZjA3NWRkYTY1MGE2ZjU0YzU3NzE2NzUwZmEwMjM) for any quick update and discusion.
+
 
 ## Documentation
 
