@@ -3,8 +3,7 @@ id: todo-example
 title: Example - Vasern Todo
 ---
 
-This example implements a simple todo list app using [Vasern](https://github.com/ambistudio/vasern) as data storage and React Native.
-It demonstrates basic CRUD operations of Vasern (get, insert, update, delete data).
+This example implements a simple todo list app using [Vasern](https://github.com/ambistudio/vasern) as data storage and React Native. It demonstrates basic CRUD operations of Vasern (get, insert, update, delete data).
 
 ## Features
 
@@ -39,7 +38,7 @@ It demonstrates basic CRUD operations of Vasern (get, insert, update, delete dat
 
 3. Run project.
     - For iOS, Signing certificate then run the app on your simulator using xCode Project locate at "examples/vasern-todo/ios" or using command `react-native run-ios`.
-    - For Android, run command `react-native run-ios`.
+    - For Android, run command `react-native run-android`.
 
 ## Other libraries used in this example
 
