@@ -264,7 +264,7 @@ class Index extends React.Component {
         <HomeSplash language={language} />
         <div className="mainContainer">
           <p className="block block__1col block__message">
-            Vasern is now available in iOS for experimental.
+            Vasern is now available in iOS and Android for experimental.
             <br/>
             <a href="https://form.jotform.co/82917565387876" target="_blank" >Subscribe to Vasern for updates </a> (with 2 optional survey questions)
           </p>
