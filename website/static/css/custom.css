@@ -154,8 +154,8 @@ p { font-size: 18px }
 
 .block__article .block__item {
 
-    width: 40%;
-    min-width: 330px;
+    width: 30%;
+    min-width: 300px;
     margin: 2em 0;
     background: #fff;
     padding: 1em 1.5em;
@@ -170,6 +170,10 @@ p { font-size: 18px }
 
     -webkit-transition: background-color 125ms ease,-webkit-transform .2s ease;
     transition: background-color 125ms ease, transform .2s ease;
+}
+
+.block__nowidth {
+    max-width: unset;
 }
 
 .block__article .block__item:hover {

@@ -112,6 +112,12 @@ const siteConfig = {
     link: "https://hackernoon.com/i-built-vasern-a-data-storage-for-react-native-50ad91aa8b27",
     author: "Hieu Nguyen",
     publisher: "Hacker Noon"
+  }, {
+    title: "Vasern : une base de données pour React native",
+    description: "React Native est un framework pour la création d'applications mobiles native dont la popularité connaît une croissance soutenue depuis ces 5 dernières années, mais dont les options de stockage disponibles sont assez limitées.",
+    publisher: "Programmez",
+    author: "Fredericmazue",
+    link: "https://www.programmez.com/actualites/vasern-une-base-de-donnees-pour-react-native-28136"
   }],
   cname: "vasern.com"
 };

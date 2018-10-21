@@ -166,7 +166,7 @@ const TagLine = (props) => {
 
 const Media = () => {
   return <div className="block__article">
-    <div className="block block__centered">
+    <div className="block block__centered block__nowidth">
       <h2>Vasern on Media</h2>
       <div className="block__container">
         { siteConfig.mediaItems.map((item,i) =>
