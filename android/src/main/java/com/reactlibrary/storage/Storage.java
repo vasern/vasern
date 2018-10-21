@@ -5,7 +5,7 @@
 //  (See "LICENSE" file attached in the main repository directory for license details)
 //====================================================================================
 
-package com.ambistudio.storage;
+package com.reactlibrary.storage;
 
 import java.util.Properties;
 import java.util.List;
@@ -28,8 +28,6 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 import java.io.File;
-
-import com.storage.Config;
 
 public class Storage {
 

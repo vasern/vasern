@@ -1,5 +1,5 @@
 
-package com.ambistudio.vasern;
+package com.reactlibrary;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.io.Console;
 
 import com.facebook.react.bridge.Promise;
-import com.storage.Storage;
+import com.reactlibrary.storage.Storage;
 
 public class RNVasernModule extends ReactContextBaseJavaModule {
 

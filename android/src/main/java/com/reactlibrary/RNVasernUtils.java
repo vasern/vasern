@@ -1,4 +1,4 @@
-package com.ambistudio.vasern;
+package com.reactlibrary;
 
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.Arguments;

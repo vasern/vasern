@@ -1,4 +1,4 @@
-package com.ambistudio.storage;
+package com.reactlibrary.storage;
 
 public class Config {
     public static String DOC_EXT = ".vasern";
