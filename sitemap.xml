@@ -25,14 +25,4 @@
 <url> <loc>https://vasern.com/docs/todo-example</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/todo-example" /> </url>
 <url> <loc>https://vasern.com/docs/vasern-and-document</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/vasern-and-document" /> </url>
 <url> <loc>https://vasern.com/docs/write-schema-setup-vasern</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/write-schema-setup-vasern" /> </url>
-<url> <loc>https://vasern.com/docs/0.0.1/basic-crud-operation</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/0.0.1/basic-crud-operation" /> </url>
-<url> <loc>https://vasern.com/docs/0.0.1/install-vasern</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/0.0.1/install-vasern" /> </url>
-<url> <loc>https://vasern.com/docs/0.0.1/intro</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/0.0.1/intro" /> </url>
-<url> <loc>https://vasern.com/docs/0.0.1/overview</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/0.0.1/overview" /> </url>
-<url> <loc>https://vasern.com/docs/0.0.1/queries</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/0.0.1/queries" /> </url>
-<url> <loc>https://vasern.com/docs/0.0.1/support-and-feedback</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/0.0.1/support-and-feedback" /> </url>
-<url> <loc>https://vasern.com/docs/0.0.1/supported-data-types</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/0.0.1/supported-data-types" /> </url>
-<url> <loc>https://vasern.com/docs/0.0.1/todo-example</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/0.0.1/todo-example" /> </url>
-<url> <loc>https://vasern.com/docs/0.0.1/vasern-and-document</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/0.0.1/vasern-and-document" /> </url>
-<url> <loc>https://vasern.com/docs/0.0.1/write-schema-setup-vasern</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/0.0.1/write-schema-setup-vasern" /> </url>
 </urlset>
