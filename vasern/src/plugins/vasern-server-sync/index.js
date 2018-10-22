@@ -1,1 +1,3 @@
-export { ServerRequest } from './Request';
+import ServerRequest from "./Request";
+
+export default ServerRequest;

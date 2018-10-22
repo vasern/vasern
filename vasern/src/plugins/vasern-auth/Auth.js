@@ -1,49 +1,46 @@
 // @flow
+export default class AuthModel {
+  // login status
+  loggedIn = false;
 
-import { Document } from '../../core/vasern/Document';
+  // user object
+  user = undefined;
 
-export class AuthModel extends Document {
+  // enable sync to server
+  autoSync = false;
 
-    loggedIn = false;
-    user = undefined;
-    autoSync = false;
+  // model name
+  name = "Auth";
 
-    name = "Auth"
+  props = {
+    fname: "?string",
+    lname: "?string",
+    token: "string",
+    username: "string",
+  };
 
-    props = {
-        fname: "?string",
-        lname: "?string",
-        token: "string",
-        username: "string"
+  constructor(props) {
+    if (props.extraProps) {
+      this.props = Object.assign(this.props, props.extraProps);
     }
+  }
 
-    constructor(props) {
-        super(props);
+  /**
+   * Login
+   */
+  async login(username: string, password: string): boolean {}
 
-        if (props.extraProps) {
-            this.props = Object.assign(this.props, props.extraProps);
-        }
-    }
+  /**
+   * Add new user
+   */
+  async createUser(
+    username: string,
+    password: string,
+    extras: object
+  ): boolean {}
 
-
-    /** 
-     * Login
-     */
-    async login(username: string, password: string): boolean {
-
-    }
-
-    /** 
-     * Add new user
-     */
-    async createUser(username: string, password: string, extras: object): boolean {
-
-    }
-
-    /** 
-     * Logout
-     */
-    async logout(): boolean {
-
-    }
+  /**
+   * Logout
+   */
+  async logout(): boolean {}
 }

@@ -1,1 +1,3 @@
-export { Queryable } from './Queryable';
+import Queryable from "./Queryable";
+
+export default Queryable;

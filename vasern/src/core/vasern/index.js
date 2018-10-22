@@ -1,2 +1,4 @@
-export { Document } from './Document';
-export { Vasern } from './Vasern';
+import Document from "./Document";
+import Vasern from "./Vasern";
+
+export { Document, Vasern };

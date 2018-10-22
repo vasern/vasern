@@ -1,1 +1,3 @@
-export { AuthModel } from './Auth';
+import AuthModel from "./Auth";
+
+export default AuthModel;
