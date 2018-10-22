@@ -1,5 +1,5 @@
 ---
-id: version-0.0.1-supported-data-types
+id: version-0.2.7-alpha-supported-data-types
 title: Supported Data Types
 original_id: supported-data-types
 ---

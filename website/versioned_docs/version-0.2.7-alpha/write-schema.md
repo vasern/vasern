@@ -1,7 +1,7 @@
 ---
-id: version-0.2.7-write-schema-setup-vasern
+id: version-0.2.7-alpha-write-schema-setup-vasern
 title: Write Schema, Setup Vasern
-original_id: write-schema
+original_id: write-schema-setup-vasern
 ---
 
 Schemas are required to help `Document`s define its properties data type and validate records.

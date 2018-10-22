@@ -1,5 +1,5 @@
 ---
-id: version-0.0.1-vasern-and-document
+id: version-0.2.7-alpha-vasern-and-document
 title: Vasern and Document
 original_id: vasern-and-document
 ---

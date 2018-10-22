@@ -1,5 +1,5 @@
 ---
-id: version-0.0.1-intro
+id: version-0.2.7-alpha-intro
 title: Getting Started
 original_id: intro
 ---

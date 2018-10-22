@@ -5,14 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const React = require('react');
+const React = require("react");
 
-const CompLibrary = require('../../core/CompLibrary.js');
+const CompLibrary = require("../../core/CompLibrary.js");
+
 const MarkdownBlock = CompLibrary.MarkdownBlock; /* Used to read markdown */
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 
-const Prism = require('prismjs');
+const Prism = require("prismjs");
 
 const siteConfig = require(`${process.cwd()}/siteConfig.js`);
 
@@ -21,19 +22,23 @@ function imgUrl(img) {
 }
 
 function docUrl(doc, language) {
-  return `${siteConfig.baseUrl}docs/${language ? `${language}/` : ''}${doc}`;
+  return `${siteConfig.baseUrl}docs/${language ? `${language}/` : ""}${doc}`;
 }
 
 function pageUrl(page, language) {
-  return siteConfig.baseUrl + (language ? `${language}/` : '') + page;
+  return siteConfig.baseUrl + (language ? `${language}/` : "") + page;
 }
 
 class Button extends React.Component {
   render() {
-    let { className } = this.props;
+    const { className } = this.props;
     return (
-      <div className={`pluginWrapper buttonWrapper`}>
-        <a className={`button ${className}`} href={this.props.href} target={this.props.target}>
+      <div className="pluginWrapper buttonWrapper">
+        <a
+          className={`button ${className}`}
+          href={this.props.href}
+          target={this.props.target}
+        >
           {this.props.children}
         </a>
       </div>
@@ -42,7 +47,7 @@ class Button extends React.Component {
 }
 
 Button.defaultProps = {
-  target: '_self',
+  target: "_self",
 };
 
 const SplashContainer = props => (
@@ -61,8 +66,8 @@ const Logo = props => (
 
 const ProjectTitle = () => (
   <h1 className="projectTitle">
-    {siteConfig.title}
-    <small>{siteConfig.tagline}</small>
+    Fast and Open Source
+    <small>Data storage for React Native</small>
   </h1>
 );
 
@@ -74,17 +79,55 @@ const PromoSection = props => (
   </div>
 );
 
+const QuickCode = () => {
+  const code = `
+  \`\`\`javascript
+  import Vasern from ‘vasern’;
+
+  const VasernDB = new Vasern({
+    schemas: [{ 
+      name: 'Users',
+      props: { name: 'string', age: 'int'}
+    }]
+  });
+  
+  VasernDB.Users.onChange(({ changed }) => {
+   console.log(changed);
+  });
+  
+  const Peter = VasernDB.Users.insert({
+    name: 'Peter Griffin',
+    age: 46
+  });
+  \`\`\`
+  `;
+
+  return (
+    <div className="hljs__dark">
+      <MarkdownBlock>{code}</MarkdownBlock>
+    </div>
+  );
+};
+
 class HomeSplash extends React.Component {
   render() {
-    const language = this.props.language || '';
+    const language = this.props.language || "";
     return (
       <SplashContainer>
-        <div className="inner">
-          <ProjectTitle />
-          <PromoSection>
-            <Button href="#try">Quick Start</Button>
-            <Button className="btn-primary" href={docUrl('overview.html', language)}>Documentation</Button>
-          </PromoSection>
+        <div className="inner block__split">
+          <div className="block__col">
+            <ProjectTitle />
+            <PromoSection>
+              {/* <Button href="#try">Quick Start</Button> */}
+              <Button
+                className="btn-primary"
+                href={docUrl("overview.html", language)}
+              >
+                Getting Started
+              </Button>
+            </PromoSection>
+          </div>
+          <QuickCode />
         </div>
       </SplashContainer>
     );
@@ -93,33 +136,55 @@ class HomeSplash extends React.Component {
 
 const Block = props => (
   <Container
-    padding={['bottom', 'top']}
+    // padding={["bottom", "top"]}
     id={props.id}
-    background={props.background}>
+    background={props.background}
+  >
     <GridBlock align="center" contents={props.children} layout={props.layout} />
   </Container>
 );
 
-const Features = () => (
-  <Block layout="fourColumn">
-    {[
-      {
-        content: 'This is the content of my feature',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'top',
-        title: 'Feature One',
-      },
-      {
-        content: 'The content of my second feature',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'top',
-        title: 'Feature Two',
-      },
-    ]}
-  </Block>
-);
+const Features = () => {
+  const appFeatures = [
+    {
+      // content: "This is the content of my feature",
+      image: imgUrl("002-startup.svg"),
+      imageAlign: "top",
+      title: "Fast",
+    },
+    {
+      // content: "The content of my second feature",
+      image: imgUrl("003-bag.svg"),
+      imageAlign: "top",
+      title: "Lightweight",
+    },
+    {
+      // content: "The content of my second feature",
+      image: imgUrl("004-gear.svg"),
+      imageAlign: "top",
+      title: "Easy setup",
+    },
+    {
+      // content: "The content of my second feature",
+      image: imgUrl("001-group.svg"),
+      imageAlign: "top",
+      title: "Open Source",
+    },
+  ];
 
-const TagLine = (props) => {
+  return (
+    <div className="block__features block__split">
+      {appFeatures.map((item, i) => (
+        <div className="block__item" key={`feature_${i}`}>
+          <img src={item.image} alt={`Feature ${item.title}`} />
+          <p>{item.title}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+const TagLine = props => {
   const code = `
   \`\`\`javascript
   import Vasern from 'vasern';
@@ -154,37 +219,50 @@ const TagLine = (props) => {
   \`\`\`
   `;
 
-  return <div className="block block__1col">
-    <h2 id="try">Delivery quicker with faster performance</h2>
-    <p>Vasern lets you setup database without any hassle. It was built in the native enviroment 
-    to achieve native performance.</p>
-    <MarkdownBlock>
-        {code}
-    </MarkdownBlock>
-  </div>
-}
+  return (
+    <div className="block block__1col">
+      <h2 id="try">Delivery quicker with faster performance</h2>
+      <p>
+        Vasern lets you setup database without any hassle. It was built in the
+        native enviroment to achieve native performance.
+      </p>
+      <MarkdownBlock>{code}</MarkdownBlock>
+    </div>
+  );
+};
 
-const Media = () => {
-  return <div className="block__article">
+const Media = () => (
+  <div className="block__article">
     <div className="block block__centered block__nowidth">
-      <h2>Vasern on Media</h2>
+      {/* <h2>Vasern on Media</h2> */}
       <div className="block__container">
-        { siteConfig.mediaItems.map((item,i) =>
+        {siteConfig.mediaItems.map((item, i) => (
           <div key={`article_${i}`} className="block__item">
-            <h4>{ item.title }</h4>
-            <p className="block__content">{ item.description }</p>
-            <p className="block__footer">{ item.author } - <a href={item.link} alt={item.title}>View on { item.publisher }</a></p>
+            <h4>{item.title}</h4>
+            <p className="block__content">{item.description}</p>
+            <div className="block__footer">
+              { !item.profilePhoto ? null :
+                <img src={imgUrl(item.profilePhoto)} alt={item.author} />
+              }
+              <p>
+                <b>{item.author}</b>
+                <a href={item.link} alt={item.title}>
+                  View on {item.publisher}
+                </a>
+              </p>
+            </div>
           </div>
-        )}
+        ))}
       </div>
     </div>
   </div>
-}
+);
 
 const FeatureCallout = () => (
   <div
     className="productShowcaseSection paddingBottom"
-    style={{textAlign: 'center'}}>
+    style={{ textAlign: "center" }}
+  >
     <h2>Feature Callout</h2>
     <MarkdownBlock>These are features of this project</MarkdownBlock>
   </div>
@@ -194,10 +272,10 @@ const LearnHow = () => (
   <Block background="light">
     {[
       {
-        content: 'Talk about learning how to use this',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'right',
-        title: 'Learn How',
+        content: "Talk about learning how to use this",
+        image: imgUrl("docusaurus.svg"),
+        imageAlign: "right",
+        title: "Learn How",
       },
     ]}
   </Block>
@@ -207,10 +285,10 @@ const TryOut = () => (
   <Block id="try">
     {[
       {
-        content: 'Talk about trying this out',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'left',
-        title: 'Try it Out',
+        content: "Talk about trying this out",
+        image: imgUrl("docusaurus.svg"),
+        imageAlign: "left",
+        title: "Try it Out",
       },
     ]}
   </Block>
@@ -220,10 +298,10 @@ const Description = () => (
   <Block background="dark">
     {[
       {
-        content: 'This is another description of how this project is useful',
-        image: imgUrl('docusaurus.svg'),
-        imageAlign: 'right',
-        title: 'Description',
+        content: "This is another description of how this project is useful",
+        image: imgUrl("docusaurus.svg"),
+        imageAlign: "right",
+        title: "Description",
       },
     ]}
   </Block>
@@ -246,7 +324,7 @@ const Showcase = props => {
       <p>This project is used by all these people</p>
       <div className="logos">{showcase}</div>
       <div className="more-users">
-        <a className="button" href={pageUrl('users.html', props.language)}>
+        <a className="button" href={pageUrl("users.html", props.language)}>
           More {siteConfig.title} Users
         </a>
       </div>
@@ -254,26 +332,44 @@ const Showcase = props => {
   );
 };
 
-class Index extends React.Component {
+const NavMessage = () => (
+  <p className="block block__1col block__message">
+    Available for experimental.
+    <a
+      href="https://form.jotform.co/82917565387876"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {" "}
+      Subscribe to receive updates
+    </a>
+  </p>
+);
 
+class Index extends React.Component {
   render() {
-    const language = this.props.language || '';
+    const language = this.props.language || "";
 
     return (
       <div className="homepage">
+        <NavMessage />
         <HomeSplash language={language} />
+        <Features />
         <div className="mainContainer">
-          <p className="block block__1col block__message">
-            Vasern is now available in iOS and Android for experimental.
-            <br/>
-            <a href="https://form.jotform.co/82917565387876" target="_blank" >Subscribe to Vasern for updates </a> (with 2 optional survey questions)
-          </p>
-          <TagLine />
           <Media />
-          
           <PromoSection>
-            <Button className="btn-primary" href={docUrl('overview.html', language)}>Getting Started</Button>
-            <Button href="https://join.slack.com/t/vasern/shared_invite/enQtNDU4NTk2MDI5OTcyLTRiYzRjZDI5YTAyMjlhYzg1YTdhNjFjZGNkODI1OTQwYzExZjA3NWRkYTY1MGE2ZjU0YzU3NzE2NzUwZmEwMjM" target="_blank">Join our Slack channel</Button>
+            <Button
+              className="btn-primary"
+              href={docUrl("overview.html", language)}
+            >
+              Getting Started
+            </Button>
+            <Button
+              href="https://join.slack.com/t/vasern/shared_invite/enQtNDU4NTk2MDI5OTcyLTRiYzRjZDI5YTAyMjlhYzg1YTdhNjFjZGNkODI1OTQwYzExZjA3NWRkYTY1MGE2ZjU0YzU3NzE2NzUwZmEwMjM"
+              target="_blank"
+            >
+              Join our Slack channel
+            </Button>
           </PromoSection>
           {/*
             <Features />

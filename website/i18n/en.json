@@ -38,43 +38,34 @@
       "write-schema-setup-vasern": {
         "title": "Write Schema, Setup Vasern"
       },
-      "version-0.0.1-basic-crud-operation": {
+      "version-0.2.7-alpha-basic-crud-operation": {
         "title": "Basic CRUD operations"
       },
-      "version-0.0.1-install-vasern": {
+      "version-0.2.7-alpha-install-vasern": {
         "title": "Installation"
       },
-      "version-0.0.1-intro": {
+      "version-0.2.7-alpha-intro": {
         "title": "Getting Started"
       },
-      "version-0.0.1-overview": {
+      "version-0.2.7-alpha-overview": {
         "title": "Overview"
       },
-      "version-0.0.1-queries": {
+      "version-0.2.7-alpha-queries": {
         "title": "Queries"
       },
-      "version-0.0.1-support-and-feedback": {
+      "version-0.2.7-alpha-support-and-feedback": {
         "title": "Support and Feedback"
       },
-      "version-0.0.1-supported-data-types": {
+      "version-0.2.7-alpha-supported-data-types": {
         "title": "Supported Data Types"
       },
-      "version-0.0.1-todo-example": {
+      "version-0.2.7-alpha-todo-example": {
         "title": "Example - Vasern Todo"
       },
-      "version-0.0.1-vasern-and-document": {
+      "version-0.2.7-alpha-vasern-and-document": {
         "title": "Vasern and Document"
       },
-      "version-0.0.1-write-schema-setup-vasern": {
-        "title": "Write Schema, Setup Vasern"
-      },
-      "version-0.2.7-install-vasern": {
-        "title": "Installation"
-      },
-      "version-0.2.7-todo-example": {
-        "title": "Example - Vasern Todo"
-      },
-      "version-0.2.7-write-schema-setup-vasern": {
+      "version-0.2.7-alpha-write-schema-setup-vasern": {
         "title": "Write Schema, Setup Vasern"
       }
     },
