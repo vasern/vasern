@@ -41,10 +41,10 @@ const siteConfig = {
     { doc: "overview", label: "Docs" },
     { doc: "todo-example", label: "Examples" },
     { href: "https://github.com/ambistudio/vasern", label: "Github" },
+    { href: "https://form.jotform.co/82917565387876", label: "Subscribe" },
     // {doc: 'doc4', label: 'API'},
     // {page: 'help', label: 'Help'},
     // {blog: true, label: 'Blog'},
-    ,
   ],
 
   // If you have users set above, you add it here:

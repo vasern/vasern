@@ -97,7 +97,7 @@ const QuickCode = () => {
   
   const Peter = VasernDB.Users.insert({
     name: 'Peter Griffin',
-    age: 46
+    age: 58
   });
   \`\`\`
   `;
@@ -134,6 +134,70 @@ class HomeSplash extends React.Component {
   }
 }
 
+const FeatureBlocks = () => {
+  const features = [
+    {
+      id: "native-performance",
+      title: "Native storage engine for native performance",
+      content: `Address performance issue by getting our hand dirty in C++, Objective-C, Java, 
+        to build Vasern storage engine natively. Enable native performance.
+      `,
+      img: "002-startup.svg",
+    },
+    {
+      id: "zero-dependency",
+      title: "Built with thin layers, near zero dependencies",
+      content: `Dependencies are great, though it created complex layers that affect the performance.
+        Vasern is built with care to reduce as many dependencies as possible. Zero dependency is the goal.
+      `,
+      img: "003-bag.svg",
+      alignRight: true,
+    },
+    {
+      id: "quick-setup",
+      title: "Design for simplicity, setup in seconds",
+      content: `More works are done underneath to provide a simple APIs.
+        Spend less time worrying about databases, more time to build your apps.
+      `,
+      img: "004-gear.svg",
+    },
+    {
+      id: "open-source",
+      title: "Build by developers, for the developer community",
+      content: `Vasern is open source and welcome contributions. The abstraction layers let developers easily
+        create and use their own plugin.
+      `,
+      img: "001-group.svg",
+      alignRight: true,
+    },
+  ];
+  return (
+    <div className="block__feature_details">
+      {features.map(item => (
+        <div
+          className={`block__item${
+            item.alignRight ? " block__item_darker" : ""
+          }`}
+          key={`feature_details_${item.img}`}
+        >
+          <div
+            id={item.id}
+            className={`block__container${
+              item.alignRight ? " block__row__inverse" : ""
+            }`}
+          >
+            <img height="140" src={imgUrl(item.img)} alt={item.title} />
+            <div className="block__content">
+              <h3 title="feature__title">{item.title}</h3>
+              <p>{item.content}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 const Block = props => (
   <Container
     // padding={["bottom", "top"]}
@@ -151,34 +215,42 @@ const Features = () => {
       image: imgUrl("002-startup.svg"),
       imageAlign: "top",
       title: "Fast",
+      link: "native-performance",
     },
     {
       // content: "The content of my second feature",
       image: imgUrl("003-bag.svg"),
       imageAlign: "top",
       title: "Lightweight",
+      link: "zero-dependency",
     },
     {
       // content: "The content of my second feature",
       image: imgUrl("004-gear.svg"),
       imageAlign: "top",
       title: "Easy setup",
+      link: "quick-setup",
     },
     {
       // content: "The content of my second feature",
       image: imgUrl("001-group.svg"),
       imageAlign: "top",
       title: "Open Source",
+      link: "open-source",
     },
   ];
 
   return (
     <div className="block__features block__split">
-      {appFeatures.map((item, i) => (
-        <div className="block__item" key={`feature_${i}`}>
+      {appFeatures.map(item => (
+        <a
+          href={`#${item.link}`}
+          className="block__item"
+          key={`feature_${item.link}`}
+        >
           <img src={item.image} alt={`Feature ${item.title}`} />
           <p>{item.title}</p>
-        </div>
+        </a>
       ))}
     </div>
   );
@@ -357,6 +429,9 @@ class Index extends React.Component {
         <Features />
         <div className="mainContainer">
           <Media />
+        </div>
+        <FeatureBlocks />
+        <div className="mainContainer">
           <PromoSection>
             <Button
               className="btn-primary"
@@ -371,14 +446,6 @@ class Index extends React.Component {
               Join our Slack channel
             </Button>
           </PromoSection>
-          {/*
-            <Features />
-            <FeatureCallout />
-            <LearnHow />
-            <TryOut />
-            <Description />
-            <Showcase language={language} />
-          */}
         </div>
       </div>
     );
