@@ -65,10 +65,16 @@ const Logo = props => (
 );
 
 const ProjectTitle = () => (
-  <h1 className="projectTitle">
-    Fast and Open Source
-    <small>Data storage for React Native</small>
-  </h1>
+  <div>
+    <h1 className="projectTitle">
+      Fast and Open Source
+      <small>Data storage for React Native</small>
+    </h1>
+    <p>
+      Vasern let developers quickly setup database for React Native apps.
+      It's fast, lightweight, and open source.
+    </p>
+  </div>
 );
 
 const PromoSection = props => (
@@ -148,7 +154,8 @@ const FeatureBlocks = () => {
       id: "zero-dependency",
       title: "Built with thin layers, near zero dependencies",
       content: `Dependencies are great, though it created complex layers that affect the performance.
-        Vasern is built with care to reduce as many dependencies as possible. Zero dependency is the goal.
+        Vasern is built with care to reduce as many dependencies as possible. 
+        Zero dependency is the goal. Current size less than 500kb. 
       `,
       img: "003-bag.svg",
       alignRight: true,

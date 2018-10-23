@@ -439,6 +439,10 @@ p { font-size: 18px }
     .projectTitle {
         text-align: left;
     }
+
+    .promoSection .promoRow {
+        padding: 2em;
+    }
     .homeWrapper .promoSection .promoRow .pluginRowBlock {
         justify-content: flex-start;
     }
