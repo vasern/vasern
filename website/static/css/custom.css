@@ -98,7 +98,6 @@ p { font-size: 18px }
     color: #FFF;
     /* font-weight: 300; */
 }
-.homepage small { opacity: 0.6;}
 
 .button { border-radius: 0 }
 .homepage .button {
@@ -263,6 +262,11 @@ p { font-size: 18px }
     text-align: center; 
     padding: 10px;
     min-width: 180px;
+    transition: 0.2s ease;
+    -webkit-transition: 0.2s ease;
+}
+.block__features .block__item:hover {
+    opacity: 0.7;
 }
 .block__features img {
     height: 50px;

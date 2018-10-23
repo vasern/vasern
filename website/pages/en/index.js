@@ -145,8 +145,8 @@ const FeatureBlocks = () => {
     {
       id: "native-performance",
       title: "Native storage engine for native performance",
-      content: `Address performance issue by getting our hand dirty in C++, Objective-C, Java, 
-        to build Vasern storage engine natively. Enable native performance.
+      content: `Address performance issue by building Vasern storage engine natively in C++, Objective-C, Java.
+        Enable native performance.
       `,
       img: "002-startup.svg",
     },
@@ -164,7 +164,7 @@ const FeatureBlocks = () => {
       id: "quick-setup",
       title: "Design for simplicity, setup in seconds",
       content: `More works are done underneath to provide a simple APIs.
-        Spend less time worrying about databases, more time to build your apps.
+        Allow you to spend less time worrying about databases, more time to build your apps.
       `,
       img: "004-gear.svg",
     },
