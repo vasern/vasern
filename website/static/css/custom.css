@@ -17,6 +17,8 @@ h1, .projectTitle { font-weight: lighter }
 h2 { font-size: 28px }
 p { font-size: 18px }
 
+.projectTitleWrapper { color: #FFF }
+.projectTitleWrapper p { opacity: 0.7 ;}
 
 .button {
     border-color: #1976d2;
@@ -342,12 +344,19 @@ p { font-size: 18px }
     font-size: 14px;
 }
 
+
 @media only screen and (max-device-width: 736px) {
     html {
         overflow-x: hidden;
     }
     .block {
         padding: 2em;
+    }
+
+    .projectTitleWrapper {
+        padding: 1em 2em;
+        align-items: center;
+        text-align: center;
     }
 
     .projectTitle {
@@ -405,6 +414,11 @@ p { font-size: 18px }
         align-items: center;
         text-align: center;
     }
+
+    .projectTitleWrapper {
+        max-width: 550px;
+        margin: auto;
+    }
 }
 @media only screen and (min-width: 1024px) {
     .wrapper {
@@ -436,12 +450,8 @@ p { font-size: 18px }
         padding-top: 60px;
     }
 
-    .projectTitle {
-        text-align: left;
-    }
-
     .promoSection .promoRow {
-        padding: 2em;
+        padding: 1.6em 2em;
     }
     .homeWrapper .promoSection .promoRow .pluginRowBlock {
         justify-content: flex-start;

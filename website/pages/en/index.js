@@ -65,7 +65,7 @@ const Logo = props => (
 );
 
 const ProjectTitle = () => (
-  <div>
+  <div className="projectTitleWrapper">
     <h1 className="projectTitle">
       Fast and Open Source
       <small>Data storage for React Native</small>
