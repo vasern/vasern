@@ -12,6 +12,7 @@ before_install:
 install:
 - npm install
 - npm install jest
+- npm install metro-react-native-babel-preset
 script:
 - npm test
 - npm run coveralls
