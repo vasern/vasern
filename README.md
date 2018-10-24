@@ -2,8 +2,8 @@
 
 [![npm](https://img.shields.io/npm/v/vasern.svg)](https://npmjs.com/package/vasern) 
 [![Travis (.org)](https://img.shields.io/travis/vasern/vasern.svg)](https://github.com/vasern/vasern)
-[![GitHub issues](https://img.shields.io/github/issues/vasern/vasern.svg)](https://github.com/vasern/vasern)
-![](https://img.shields.io/badge/Available-iOS%20%2B%20Android-brightgreen.svg)
+[![GitHub issues](https://img.shields.io/github/issues/vasern/vasern.svg)](https://github.com/vasern/vasern/issues)
+![](https://img.shields.io/badge/React%20Native-iOS%20%2B%20Android-brightgreen.svg)
 
 
 Vasern is a fast and open source data storage for React Native. 
