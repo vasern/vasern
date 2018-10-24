@@ -4,7 +4,7 @@
   "description": "Vasern is an open source data storage for React Native, aims to be developer friendly, high performance",
   "main": "vasern/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "lint",
     "flow start": "flow start",
     "flow stop": "flow stop",
     "flow status": "flow status",
