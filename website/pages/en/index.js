@@ -97,7 +97,7 @@ const QuickCode = () => {
     }]
   });
   
-  VasernDB.Users.onChange(({ changed }) => {
+  VasernDB.Users.onChange(({ changed, event }) => {
    console.log(changed);
   });
   
@@ -164,7 +164,7 @@ const FeatureBlocks = () => {
       id: "quick-setup",
       title: "Design for simplicity, setup in seconds",
       content: `More works are done underneath to provide a simple APIs.
-        Allow you to spend less time worrying about databases, more time to build your apps.
+        Allow you to spend less time worry about databases, more time to build your apps.
       `,
       img: "004-gear.svg",
     },

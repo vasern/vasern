@@ -1,8 +1,8 @@
 node_modules
 
 # plugins currently unavailable
-vasern/src/plugins/auth
-vasern/src/plugins/server-sync
+vasern/src/plugins/vasern-auth
+vasern/src/plugins/vasern-server-sync
 
 # exclude builds and bundles
 android/build
