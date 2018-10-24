@@ -11,7 +11,7 @@
 // @flow
 import { MACHINE_ID_LEN, CHARS } from "./config";
 
-export default class ObjectID<Props> {
+export default class ObjectID {
   // same section id generated
   count: number;
 
@@ -84,7 +84,7 @@ export default class ObjectID<Props> {
   }
 }
 
-type Props = {
-  // machine id
-  mid: ?string,
-};
+// type Props = {
+//   // machine id
+//   mid: ?string,
+// };

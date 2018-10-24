@@ -3,3 +3,6 @@
 vasern/src/plugins/vasern-auth/**
 vasern/src/plugins/vasern-server-sync/**
 vasern/src/tests/**
+
+
+coverage/**
