@@ -15,7 +15,7 @@ p a, p a:visited, .button {
 
 h1, .projectTitle { font-weight: lighter }
 h2 { font-size: 28px }
-p { font-size: 18px }
+p { font-size: 16px }
 
 .projectTitleWrapper { color: #FFF }
 .projectTitleWrapper p { opacity: 0.7 ;}
@@ -41,6 +41,9 @@ p { font-size: 18px }
     color: #d8d8d8;
 }
 
+.hljs {
+    border-radius: 0;
+}
 /* Highlight syntax */
  /* .hljs {
     background: #fafafa;
@@ -334,6 +337,9 @@ p { font-size: 18px }
 /* Left Nav */
 .toc .toggleNav .navGroup .navGroupCategoryTitle {
     color: #193652;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-weight: unset;
 }
 .toc .toggleNav ul li.navListItemActive a {
     color: #3c556c;
@@ -341,6 +347,7 @@ p { font-size: 18px }
 
 .toc .toggleNav ul li a {
     color: #4e677d;
+    font-weight: 13px;
 }
 
 /* Right Nav */
@@ -411,7 +418,7 @@ p { font-size: 18px }
 
 @media only screen and (min-width: 736px ) {
     .docMainContainer {
-        padding: 4em;
+        padding: 3em;
     }
 
     .homeContainer .block__split .block__col > * {

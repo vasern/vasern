@@ -44,7 +44,7 @@ This example implements a simple todo list app using [Vasern](https://github.com
 
 ---
 
-- [react-native-spacer](https://github.com/ambistudio/react-native-spacer) - a keyboard avoding wrapper.
+- [react-native-spacer](https://github.com/vasern/react-native-spacer) - a keyboard avoding wrapper.
 
 ## Troubleshooting 
 
