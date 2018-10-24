@@ -41,6 +41,7 @@ export default class Document {
     } else {
       this.props = args.props;
       this.version = args.version;
+      this.name = args.name;
     }
 
     if (!this.version) {

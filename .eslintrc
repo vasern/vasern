@@ -9,7 +9,7 @@
   },
   "plugins": [
     "prettier",
-    "eslint-plugin-flowtype"
+    "flowtype"
   ],
   "parser": "babel-eslint",
   "settings": {
