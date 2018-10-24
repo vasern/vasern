@@ -31,7 +31,7 @@ const siteConfig = {
 
   // Used for publishing and more
   projectName: "vasern",
-  organizationName: "ambistudio",
+  organizationName: "vasern",
   // For top-level user or org sites, the organization is still the same.
   // e.g., for the https://JoelMarcey.github.io site, it would be set like...
   //   organizationName: 'JoelMarcey'
@@ -40,7 +40,7 @@ const siteConfig = {
   headerLinks: [
     { doc: "overview", label: "Docs" },
     { doc: "todo-example", label: "Examples" },
-    { href: "https://github.com/ambistudio/vasern", label: "Github" },
+    { href: "https://github.com/vasern/vasern", label: "Github" },
     { href: "https://form.jotform.co/82917565387876", label: "Subscribe" },
     // {doc: 'doc4', label: 'API'},
     // {page: 'help', label: 'Help'},
@@ -76,7 +76,7 @@ const siteConfig = {
   },
 
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
-  copyright: `Copyright © ${new Date().getFullYear()} Ambi Studio`,
+  copyright: `Copyright © ${new Date().getFullYear()} Vasern`,
 
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks.

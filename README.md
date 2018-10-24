@@ -1,8 +1,8 @@
 <img src="https://unpkg.com/vasern@0.2.4/vasern-logo.svg" alt="Vasern Logo" width="300">
 
 [![npm](https://img.shields.io/npm/v/vasern.svg)](https://npmjs.com/package/vasern) 
-[![Travis (.org)](https://img.shields.io/travis/ambistudio/vasern.svg)](https://github.com/ambistudio/vasern)
-[![GitHub issues](https://img.shields.io/github/issues/ambistudio/vasern.svg)](https://github.com/ambistudio/vasern)
+[![Travis (.org)](https://img.shields.io/travis/vasern/vasern.svg)](https://github.com/vasern/vasern)
+[![GitHub issues](https://img.shields.io/github/issues/vasern/vasern.svg)](https://github.com/vasern/vasern)
 ![](https://img.shields.io/badge/Available-iOS%20%2B%20Android-brightgreen.svg)
 
 
@@ -18,7 +18,7 @@ Vasern is a fast and open source data storage for React Native.
 
 ## What is Vasern?
 
-Vasern is a data storage for React Native that underneath is linked-consistent key-value stores. Its data engine is built natively to achieve native performance. Our goal is to develop an open source, developer friendly end-to-end database solution. Sync server - [vasern-server](https://github.com/ambistudio/vasern-server) is under development.
+Vasern is a data storage for React Native that underneath is linked-consistent key-value stores. Its data engine is built natively to achieve native performance. Our goal is to develop an open source, developer friendly end-to-end database solution. Sync server - [vasern-server](https://github.com/vasern/vasern-server) is under development.
 
 #### A snipped code shows how Vasern works
 
@@ -80,10 +80,10 @@ A detailed user documentation available at https://vasern.com/docs/overview
 ## Help and Feedback
 
 - For quick questions, chat and discussion, [join us on Slack](https://join.slack.com/t/vasern/shared_invite/enQtNDU4NTk2MDI5OTcyLTRiYzRjZDI5YTAyMjlhYzg1YTdhNjFjZGNkODI1OTQwYzExZjA3NWRkYTY1MGE2ZjU0YzU3NzE2NzUwZmEwMjM).
-- For bugs, suggest improvements, or feature requests, feel free to [file an issue](https://github.com/ambistudio/vasern/issues).
+- For bugs, suggest improvements, or feature requests, feel free to [file an issue](https://github.com/vasern/vasern/issues).
 
 The more concise and informative, the better it helps us to understand your concern.
 
 ## Contribute to Vasern
 
-Your contributions are welcome and highly appreciated. At the moment, you can [create an issue](https://github.com/ambistudio/vasern/issues) with (1) Goal and (2) Details of your code.
+Your contributions are welcome and highly appreciated. At the moment, you can [create an issue](https://github.com/vasern/vasern/issues) with (1) Goal and (2) Details of your code.
