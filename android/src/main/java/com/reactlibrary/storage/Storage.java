@@ -7,27 +7,19 @@
 
 package com.reactlibrary.storage;
 
-import java.util.Properties;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.EnumSet;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.file.StandardOpenOption;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.Files;
-import java.nio.charset.Charset;
-
 
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
+import java.io.DataOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+
+import java.nio.charset.Charset;
 
 public class Storage {
 
@@ -38,8 +30,6 @@ public class Storage {
     String metaPath;
     boolean ready;
     List<String> docs;
-
-    Properties props;
 
     public Storage(String roothPath) {
 
@@ -68,16 +58,11 @@ public class Storage {
     public void Init() {
 
         this.metaPath = this.rootPath + Config.DOC_META_PATH;
-        this.docs = this.loadContents(Paths.get(this.metaPath));
-
-        System.out.printf("=== Docs: %d \n", docs.size());
-
+        this.docs = this.loadContents(this.metaPath);
         this.store = new HashMap<String,List<String>>();
 
         for (String docName: this.docs) {
-            this.store.put(docName, this.loadContents(
-                    this.getDocPath(docName)
-            ));
+            this.store.put(docName, loadContents(getDocPath(docName)));
         }
         
         this.ready = true;
@@ -86,7 +71,7 @@ public class Storage {
     public boolean Insert(String docName, List<String> contents) {
 
         if (docName.length() > 0 && contents.size() > 0) {
-            Path filePath = this.getDocPath(docName);
+            String filePath = this.getDocPath(docName);
 
             if (this.writeContents(filePath, contents)) {
                 List<String> itemsList = this.store.get(docName);
@@ -108,15 +93,14 @@ public class Storage {
     }
 
     public List<String> Load(String docName) {
-        return this.loadContents(Paths.get(this.docPath + "/" + docName + Config.DOC_EXT ));
+        return this.loadContents(this.docPath + "/" + docName + Config.DOC_EXT);
     }
 
 
     // Primate
-    private Path getDocPath(String docName)  {
+    private String getDocPath(String docName)  {
         
         File tempFile = new File(this.docPath + "/" + docName + Config.DOC_EXT);
-
         if (!tempFile.exists()) {
             try {
                 tempFile.createNewFile();
@@ -132,38 +116,61 @@ public class Storage {
                 // Check if doc exists in metafile
                 if (this.docs.indexOf(docName) == -1) {
                     this.writeContents(
-                        Paths.get(this.metaPath),
+                        this.metaPath,
                         new ArrayList<String>(Arrays.asList(docName))
                     );
                 }
 
             }  catch (IOException e){
-
                 // TODO: handle file failed to create
             }
         }
-        
-        return Paths.get(tempFile.getPath());
+        return tempFile.getPath();
     }
 
-    private List<String> loadContents(Path filePath) {
-
+    private List<String> loadContents(String filePath) {
         try {
-            return Files.readAllLines(filePath);
+            
+            ArrayList<String> list = new ArrayList<String>();
+
+            RandomAccessFile raf = new RandomAccessFile(filePath, "rw");
+            raf.seek(0);
+            
+            String line;
+            while((line = raf.readLine()) != null) {
+                list.add(line.substring(2));
+            }
+            raf.close();
+            return list;
 
         } catch (FileNotFoundException e) {
             // File not existed yet, or document is empty
+
         } catch (IOException e) {
 
         }
+
         return new ArrayList<String>();
     }
 
-    private boolean writeContents(Path filePath, List<String> contents) {
-        // byte[] charBuffer = aStringToABytes(contents);
+    // Convert a List<String> to byte[], used when writing records to file
+    static byte[] listStringToBytes(List<String> list) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream out = new DataOutputStream(baos);
+        for (String line : list) {
+            out.writeUTF(line);
+            out.writeBytes(System.getProperty("line.separator"));
+        }
+        return baos.toByteArray();
+    }
+
+    private boolean writeContents(String filePath, List<String> contents) {
         
         try {
-            Files.write(filePath, contents, Charset.defaultCharset(), StandardOpenOption.APPEND);
+            RandomAccessFile raf = new RandomAccessFile(filePath, "rw");
+            raf.seek(raf.length());
+            raf.write(Storage.listStringToBytes(contents));
+            raf.close();
         } catch (IOException  e) {
 
             // TODO: Handle write failure
