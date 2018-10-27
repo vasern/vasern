@@ -422,7 +422,7 @@ const NavMessage = () => (
     </a>
     .
     <a
-      href="https://form.jotform.co/82917565387876"
+      href="https://medium.com/vasern/vasern-a-fast-lightweight-and-open-source-data-storage-for-react-native-7fccff7506a1"
       target="_blank"
       rel="noopener noreferrer"
     >
