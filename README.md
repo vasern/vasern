@@ -1,16 +1,19 @@
 <img src="https://unpkg.com/vasern@0.2.4/vasern-logo.svg" alt="Vasern Logo" width="300">
 
-[![npm](https://img.shields.io/npm/v/vasern.svg)](https://npmjs.com/package/vasern) 
-[![Travis (.org)](https://img.shields.io/travis/vasern/vasern.svg)](https://github.com/vasern/vasern)
-[![GitHub issues](https://img.shields.io/github/issues/vasern/vasern.svg)](https://github.com/vasern/vasern/issues)
-![](https://img.shields.io/badge/React%20Native-iOS%20%2B%20Android-brightgreen.svg)
+[![npm](https://img.shields.io/npm/v/vasern.svg)](https://npmjs.com/package/vasern) [![Travis (.org)](https://img.shields.io/travis/vasern/vasern.svg)](https://github.com/vasern/vasern) [![GitHub issues](https://img.shields.io/github/issues/vasern/vasern.svg)](https://github.com/vasern/vasern/issues) ![](https://img.shields.io/badge/React%20Native-iOS%20%2B%20Android-brightgreen.svg)
 
 
 Vasern is a fast and open source data storage for React Native. 
-[Subscribe for updates](https://form.jotform.co/82917565387876) (+ 2 optional survey question)
+[Subscribe for updates](https://form.jotform.co/82917565387876)
 
+[**Read about our beta release announcement**](https://medium.com/vasern/vasern-a-fast-lightweight-and-open-source-data-storage-for-react-native-7fccff7506a1)
+
+---
+
+A detailed user documentation available at https://vasern.com/docs/overview
 
 - [What is Vasern?](#what-is-vasern)
+- [Status](#status)
 - [Getting Started](#getting-started)
 - [Examples](#examples)
 - [Help and Feedback](#help-and-feedback)
@@ -55,14 +58,13 @@ VasernDB.Todos.onChange(() => {
 ```
 
 ## Status
-Vasern (alpha) is **available on iOS and Android**, which expects breaking changes and improvements.
+
+Vasern beta is **available on iOS and Android**. It is being heavily tested to ensure its functionality, data quality and consistency.
+
+Most of APIs won’t be changed in the near future. A stable release of Vasern will be announced within a month from now unless there are major issues. After the stable release, Vasern will continue to be maintained and improved.
 
 [Join us on Slack](https://join.slack.com/t/vasern/shared_invite/enQtNDU4NTk2MDI5OTcyLTRiYzRjZDI5YTAyMjlhYzg1YTdhNjFjZGNkODI1OTQwYzExZjA3NWRkYTY1MGE2ZjU0YzU3NzE2NzUwZmEwMjM) for any quick update and discusion.
 
-
-## Documentation
-
-A detailed user documentation available at https://vasern.com/docs/overview
 
 ## Getting Started
 

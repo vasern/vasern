@@ -413,14 +413,20 @@ const Showcase = props => {
 
 const NavMessage = () => (
   <p className="block block__1col block__message">
-    Available for experimental.
     <a
       href="https://form.jotform.co/82917565387876"
       target="_blank"
       rel="noopener noreferrer"
     >
-      {" "}
       Subscribe to receive updates
+    </a>
+    .
+    <a
+      href="https://form.jotform.co/82917565387876"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      Read about Beta Release
     </a>
   </p>
 );
