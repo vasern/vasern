@@ -155,7 +155,7 @@ const FeatureBlocks = () => {
       title: "Built with thin layers, near zero dependencies",
       content: `Dependencies are great, though it created complex layers that affect the performance.
         Vasern is built with care to reduce as many dependencies as possible. 
-        Zero dependency is the goal. Current size less than 500kb. 
+        Zero dependency is the goal. Current size ~100kb. 
       `,
       img: "003-bag.svg",
       alignRight: true,
