@@ -67,6 +67,24 @@
       },
       "version-0.2.7-alpha-write-schema-setup-vasern": {
         "title": "Write Schema, Setup Vasern"
+      },
+      "version-0.3.0-beta-basic-crud-operation": {
+        "title": "Basic CRUD operations"
+      },
+      "version-0.3.0-beta-install-vasern": {
+        "title": "Installation"
+      },
+      "version-0.3.0-beta-queries": {
+        "title": "Queries"
+      },
+      "version-0.3.0-beta-supported-data-types": {
+        "title": "Supported Data Types"
+      },
+      "version-0.3.0-beta-todo-example": {
+        "title": "Example - Vasern Todo"
+      },
+      "version-0.3.0-beta-vasern-and-document": {
+        "title": "Vasern and Document"
       }
     },
     "links": {

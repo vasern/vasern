@@ -1,6 +1,7 @@
 ---
-id: queries
+id: version-0.3.0-beta-queries
 title: Queries
+original_id: queries
 ---
 
 Queries are used to get and filter records through a `Queryable` object. Which uses `lodash` to work with `Array` records. The following contents are a list of available query methods.

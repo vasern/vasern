@@ -1,6 +1,7 @@
 ---
-id: install-vasern
+id: version-0.3.0-beta-install-vasern
 title: Installation
+original_id: install-vasern
 ---
 
 Vasern is available on Android and iOS. The following steps will help you install Vasern into your 

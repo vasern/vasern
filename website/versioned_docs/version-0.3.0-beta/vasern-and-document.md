@@ -1,6 +1,7 @@
 ---
-id: vasern-and-document
+id: version-0.3.0-beta-vasern-and-document
 title: Vasern and Document
+original_id: vasern-and-document
 ---
 
 This page will explain Vasern, Document to give you a brief understanding.

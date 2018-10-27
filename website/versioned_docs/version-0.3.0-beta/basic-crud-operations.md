@@ -1,6 +1,7 @@
 ---
-id: basic-crud-operation
+id: version-0.3.0-beta-basic-crud-operation
 title: Basic CRUD operations
+original_id: basic-crud-operation
 ---
 
 CRUD shorts for create (insert), read (get), update, delete (remove) - basic database operations.

@@ -1,6 +1,7 @@
 ---
-id: supported-data-types
+id: version-0.3.0-beta-supported-data-types
 title: Supported Data Types
+original_id: supported-data-types
 ---
 
 Data types are used to define property's type when writting Document schema.

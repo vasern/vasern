@@ -1,6 +1,7 @@
 ---
-id: todo-example
+id: version-0.3.0-beta-todo-example
 title: Example - Vasern Todo
+original_id: todo-example
 ---
 
 This example implements a simple todo list app using [Vasern](https://github.com/ambistudio/vasern) as data storage and React Native. It demonstrates basic CRUD operations of Vasern (get, insert, update, delete data).
