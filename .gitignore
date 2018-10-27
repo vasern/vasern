@@ -8,7 +8,7 @@ vasern/src/plugins/vasern-server-sync
 android/build
 android/.gradle
 
-examples/android/.gradle
+examples/*/android/.gradle
 
 
 Dockerfile

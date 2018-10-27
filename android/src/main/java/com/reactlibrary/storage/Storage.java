@@ -15,11 +15,19 @@ import java.util.Arrays;
 import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
-import java.io.DataOutputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+
+import java.lang.StringBuffer;
 import java.nio.charset.Charset;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
+
+import android.util.Log;
+// import com.android.tradefed.util.StringEscapeUtils;
 
 public class Storage {
 
@@ -133,14 +141,21 @@ public class Storage {
             
             ArrayList<String> list = new ArrayList<String>();
 
-            RandomAccessFile raf = new RandomAccessFile(filePath, "rw");
-            raf.seek(0);
+            RandomAccessFile raf = new RandomAccessFile(filePath, "r");
+            MappedByteBuffer mappedByteBuffer = raf.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, raf.length());
+            byte[] buffer = new byte[(int)raf.length()];
+            mappedByteBuffer.get(buffer);
+            
+            raf.close();
+
+            BufferedReader in = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(buffer)));
             
             String line;
-            while((line = raf.readLine()) != null) {
-                list.add(line.substring(2));
+            while((line = in.readLine()) != null) {
+                list.add(line);
             }
-            raf.close();
+
+            in.close();
             return list;
 
         } catch (FileNotFoundException e) {
@@ -155,13 +170,13 @@ public class Storage {
 
     // Convert a List<String> to byte[], used when writing records to file
     static byte[] listStringToBytes(List<String> list) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        DataOutputStream out = new DataOutputStream(baos);
+        StringBuffer builder = new StringBuffer();
+         
         for (String line : list) {
-            out.writeUTF(line);
-            out.writeBytes(System.getProperty("line.separator"));
+            builder.append(line);
+            builder.append(System.getProperty("line.separator"));
         }
-        return baos.toByteArray();
+        return String.valueOf(builder).getBytes();
     }
 
     private boolean writeContents(String filePath, List<String> contents) {
