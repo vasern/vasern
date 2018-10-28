@@ -25,7 +25,7 @@ $ npm install --save vasern
     $ react-native link vasern
     ```
 
-- **Manually - for iOS**:
+- **Manually - for iOS**: (Vasern does not support install via Cocoapods)
 
     - Browse to _"node_packages/vasern/vasern/ios"_, and drag "_Vasern.xcodeproj_" to "_Libraries_" directory on your project in XCode.
 
