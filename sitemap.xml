@@ -5,6 +5,7 @@
 <url> <loc>https://vasern.com/users</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/en/users" /> </url>
 <url> <loc>https://vasern.com/versions</loc> <changefreq>weekly</changefreq> <priority>0.5</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/en/versions" /> </url>
 <url> <loc>https://vasern.com/docs/next/basic-crud-operation</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/next/basic-crud-operation" /> </url>
+<url> <loc>https://vasern.com/docs/next/event-listeners</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/next/event-listeners" /> </url>
 <url> <loc>https://vasern.com/docs/next/install-vasern</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/next/install-vasern" /> </url>
 <url> <loc>https://vasern.com/docs/next/intro</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/next/intro" /> </url>
 <url> <loc>https://vasern.com/docs/next/overview</loc> <changefreq>hourly</changefreq> <priority>1.0</priority> <xhtml:link rel="alternate" hreflang="en" href="https://vasern.com/docs/next/overview" /> </url>
