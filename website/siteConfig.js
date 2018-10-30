@@ -40,6 +40,7 @@ const siteConfig = {
   headerLinks: [
     { doc: "overview", label: "Docs" },
     { doc: "todo-example", label: "Examples" },
+    { href: "https://medium.com/vasern", label: "Blog" },
     { href: "https://github.com/vasern/vasern", label: "Github" },
     { href: "https://form.jotform.co/82917565387876", label: "Subscribe" },
     // {doc: 'doc4', label: 'API'},
@@ -103,23 +104,13 @@ const siteConfig = {
   // Media article about the project
   mediaItems: [
     {
-      title: "New React Native tool coming your way — Vasern joins the party",
-      description:
-        "The best tools are built by users who are determined to improve their workflow! The story behind the creation of Vasern, a brand new data storage for React Native.",
-      link: "https://jaxenter.com/new-react-native-tool-vasern-150729.html",
-      author: "Eirini-Eleni",
-      publisher: "Jaxenter",
-      profilePhoto: "Eirini-Eleni.png",
-    },
-    {
-      title: "I built Vasern — a data storage for React Native",
-      description:
-        "An open source sync database solution. The goals of Vasern focus on performance, friendly to developers and make it available for everyone.",
+      title: "Towards Vasern Beta - Updates And Features",
+      description: `Vasern project started 3 months ago, with a goal to be a fast data storage for React Native, be able to sync to remote servers and available for everyone.`,
       link:
-        "https://hackernoon.com/i-built-vasern-a-data-storage-for-react-native-50ad91aa8b27",
+        "https://medium.com/vasern/vasern-a-fast-lightweight-and-open-source-data-storage-for-react-native-7fccff7506a1",
       author: "Hieu Nguyen",
       profilePhoto: "Hieu-Nguyen.png",
-      publisher: "Hacker Noon",
+      publisher: "Vasern Blog",
     },
     {
       title: "Vasern : une base de données pour React native",
@@ -129,6 +120,25 @@ const siteConfig = {
       author: "Fredericmazue",
       link:
         "https://www.programmez.com/actualites/vasern-une-base-de-donnees-pour-react-native-28136",
+    },
+    {
+      title: "New React Native tool coming your way — Vasern joins the party",
+      description:
+        "The best tools are built by users who are determined to improve their workflow! The story behind the creation of Vasern, a brand new data storage for React Native.",
+      link: "https://jaxenter.com/new-react-native-tool-vasern-150729.html",
+      author: "Eirini-Eleni",
+      publisher: "Jaxenter",
+      profilePhoto: "Eirini-Eleni.png",
+    },
+    {
+      title: "Vasern : une base de données pour React native",
+      description:
+        "React Native bringt React aufs Mobilgerät. Mit Vasern steht nun die Beta-Version von einer neuen Data-Storage-Lösung für React Native zum Testen bereit, die die Library um einige Funktionen erweitern soll.",
+      publisher: "Entwickler.de",
+      author: "Ann-Cathrin Klose",
+      profilePhoto: "ann-cathrin-klose.jpg",
+      link:
+        "https://entwickler.de/online/javascript/vasern-data-storage-react-native-579865402.html",
     },
   ],
   cname: "vasern.com",

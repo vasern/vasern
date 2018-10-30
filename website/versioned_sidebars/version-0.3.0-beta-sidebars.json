@@ -1,0 +1,20 @@
+{
+  "version-0.3.0-beta-docs": {
+    "Getting Started": [
+      "version-0.3.0-beta-overview",
+      "version-0.3.0-beta-vasern-and-document"
+    ],
+    "Guides": [
+      "version-0.3.0-beta-install-vasern",
+      "version-0.3.0-beta-supported-data-types",
+      "version-0.3.0-beta-write-schema-setup-vasern",
+      "version-0.3.0-beta-basic-crud-operation",
+      "version-0.3.0-beta-queries",
+      "version-0.3.0-beta-event-listeners",
+      "version-0.3.0-beta-support-and-feedback"
+    ],
+    "Examples": [
+      "version-0.3.0-beta-todo-example"
+    ]
+  }
+}

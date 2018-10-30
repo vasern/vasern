@@ -28,7 +28,7 @@ Queryable.get(lookupQuery)
 
 #### Arguments
 
-- **_lookupQuery ( string, Object )_**
+- **_lookupQuery ( string | Object )_**
   - (string): match record id with `string` value
   - (Object): match record properties and values with `Object` properties and values
 
@@ -112,8 +112,4 @@ var records = Queryable.filter({ completed: true });
 
 # What's next?
 
-Visit [Support and Feedback](support-and-feedback.md) for contribution, ask for help or give us feedback. 
-
-If you have gone this far, and have read information provided, we'd like to thank you for your intests in Vasern. We have some [examples](todo-example.md) in case you want some more. 
-
-P/s: Don't wait to start building your dream app!
+Learn about [Event listeners](event-listeners.md)

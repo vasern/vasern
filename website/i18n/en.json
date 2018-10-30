@@ -8,6 +8,9 @@
       "basic-crud-operation": {
         "title": "Basic CRUD operations"
       },
+      "event-listeners": {
+        "title": "Event Listeners"
+      },
       "install-vasern": {
         "title": "Installation"
       },
@@ -71,11 +74,17 @@
       "version-0.3.0-beta-basic-crud-operation": {
         "title": "Basic CRUD operations"
       },
+      "version-0.3.0-beta-event-listeners": {
+        "title": "Event Listeners"
+      },
       "version-0.3.0-beta-install-vasern": {
         "title": "Installation"
       },
       "version-0.3.0-beta-queries": {
         "title": "Queries"
+      },
+      "version-0.3.0-beta-support-and-feedback": {
+        "title": "Support and Feedback"
       },
       "version-0.3.0-beta-supported-data-types": {
         "title": "Supported Data Types"
@@ -90,6 +99,7 @@
     "links": {
       "Docs": "Docs",
       "Examples": "Examples",
+      "Blog": "Blog",
       "Github": "Github",
       "Subscribe": "Subscribe"
     },

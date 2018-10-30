@@ -315,23 +315,36 @@ const Media = () => (
     <div className="block block__centered block__nowidth">
       {/* <h2>Vasern on Media</h2> */}
       <div className="block__container">
-        {siteConfig.mediaItems.map((item, i) => (
-          <div key={`article_${i}`} className="block__item">
-            <h4>{item.title}</h4>
-            <p className="block__content">{item.description}</p>
-            <div className="block__footer">
-              { !item.profilePhoto ? null :
-                <img src={imgUrl(item.profilePhoto)} alt={item.author} />
-              }
-              <p>
-                <b>{item.author}</b>
-                <a href={item.link} alt={item.title}>
-                  View on {item.publisher}
-                </a>
-              </p>
+        <div
+          className="block__container"
+          style={{
+            width: 300 * siteConfig.mediaItems.length,
+            flexWrap: "nowrap",
+          }}
+        >
+          {siteConfig.mediaItems.map((item, i) => (
+            <div key={`article_${i}`} className="block__item">
+              <h4>{item.title}</h4>
+              <p className="block__content">{item.description}</p>
+              <div className="block__footer">
+                {!item.profilePhoto ? null : (
+                  <img src={imgUrl(item.profilePhoto)} alt={item.author} />
+                )}
+                <p>
+                  <b>{item.author}</b>
+                  <a
+                    href={item.link}
+                    alt={item.title}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    View on {item.publisher}
+                  </a>
+                </p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   </div>
@@ -420,18 +433,10 @@ const NavMessage = () => (
     >
       Subscribe to receive updates
     </a>
-    .
-    <a
-      href="https://medium.com/vasern/vasern-a-fast-lightweight-and-open-source-data-storage-for-react-native-7fccff7506a1"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      Read about Beta Release
-    </a>
   </p>
 );
 
-class Index extends React.Component {
+class Index extends React.PureComponent {
   render() {
     const language = this.props.language || "";
 

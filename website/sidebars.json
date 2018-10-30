@@ -10,6 +10,7 @@
       "write-schema-setup-vasern",
       "basic-crud-operation",
       "queries",
+      "event-listeners",
       "support-and-feedback"
     ],
     "Examples": [

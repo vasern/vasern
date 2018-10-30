@@ -167,8 +167,7 @@ p { font-size: 16px; line-height: 1.6em; }
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    flex-wrap: wrap;
-    max-width: 1100px;
+    flex-wrap: nowrap;
     margin: auto;
 }
 
@@ -178,9 +177,9 @@ p { font-size: 16px; line-height: 1.6em; }
 
 .block__article .block__item {
 
-    width: 30%;
-    min-width: 300px;
-    margin: 2em 0;
+    /* width: 30%; */
+    flex: 1 300px;
+    margin: 2em 1em;
     background: #fff;
     padding: 1em 1.5em;
     border-radius: 1px;
@@ -233,6 +232,7 @@ p { font-size: 16px; line-height: 1.6em; }
     -webkit-line-clamp: 3;
     overflow: hidden;
     margin-bottom: 1.6em;
+    height: 3em;
 }
 
 .block__article .block__item .block__footer {
@@ -353,7 +353,6 @@ p { font-size: 16px; line-height: 1.6em; }
 
 .toc .toggleNav ul li a {
     color: #4e677d;
-    font-size: 12px;
 }
 
 /* Right Nav */
