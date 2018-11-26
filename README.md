@@ -4,6 +4,7 @@
 
 
 Vasern is a fast and open source data storage for React Native. 
+
 [Subscribe for updates](https://form.jotform.co/82917565387876)
 
 [**Read about our beta release announcement**](https://medium.com/vasern/vasern-a-fast-lightweight-and-open-source-data-storage-for-react-native-7fccff7506a1)
