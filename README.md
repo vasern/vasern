@@ -1,16 +1,23 @@
-<img src="https://unpkg.com/vasern@0.2.4/vasern-logo.svg" alt="Vasern Logo" width="300">
+<img style="display: block; margin: auto;" src="https://unpkg.com/vasern@0.2.4/vasern-logo.svg" alt="Vasern Logo" width="300" height="120">
+
+<center>
+<p align="justify">
 
 [![npm](https://img.shields.io/npm/v/vasern.svg)](https://npmjs.com/package/vasern) [![Travis (.org)](https://img.shields.io/travis/vasern/vasern.svg)](https://github.com/vasern/vasern) [![GitHub issues](https://img.shields.io/github/issues/vasern/vasern.svg)](https://github.com/vasern/vasern/issues) ![](https://img.shields.io/badge/React%20Native-iOS%20%2B%20Android-brightgreen.svg)
 
 
-Vasern is a fast and open source data storage for React Native. 
-[Subscribe for updates](https://form.jotform.co/82917565387876)
+**Vasern is a fast and open source data storage for React Native.**
+[**Subscribe for updates**](https://form.jotform.co/82917565387876)
 
-[**Read about our beta release announcement**](https://medium.com/vasern/vasern-a-fast-lightweight-and-open-source-data-storage-for-react-native-7fccff7506a1)
+Read about [beta release announcement](https://medium.com/vasern/vasern-a-fast-lightweight-and-open-source-data-storage-for-react-native-7fccff7506a1)
+
+</p>
+</center>
+
 
 ---
 
-A detailed user documentation available at https://vasern.com/docs/overview
+__Table of Contents:__
 
 - [What is Vasern?](#what-is-vasern)
 - [Status](#status)
@@ -18,6 +25,9 @@ A detailed user documentation available at https://vasern.com/docs/overview
 - [Examples](#examples)
 - [Help and Feedback](#help-and-feedback)
 - [Contribute to Vasern](#contribute-to-vasern)
+
+
+For more details, visit [Vasern Documentation](https://vasern.com/docs/overview)
 
 ## What is Vasern?
 
