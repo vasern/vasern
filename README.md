@@ -1,18 +1,33 @@
-<img style="display: block; margin: auto;" src="https://unpkg.com/vasern@0.2.4/vasern-logo.svg" alt="Vasern Logo" width="300" height="120">
 
-<center>
-<p align="justify">
-
-[![npm](https://img.shields.io/npm/v/vasern.svg)](https://npmjs.com/package/vasern) [![Travis (.org)](https://img.shields.io/travis/vasern/vasern.svg)](https://github.com/vasern/vasern) [![GitHub issues](https://img.shields.io/github/issues/vasern/vasern.svg)](https://github.com/vasern/vasern/issues) ![](https://img.shields.io/badge/React%20Native-iOS%20%2B%20Android-brightgreen.svg)
-
-
-**Vasern is a fast and open source data storage for React Native.**
-[**Subscribe for updates**](https://form.jotform.co/82917565387876)
-
-Read about [beta release announcement](https://medium.com/vasern/vasern-a-fast-lightweight-and-open-source-data-storage-for-react-native-7fccff7506a1)
-
+<p align="center">  
+<img align="center" src="https://unpkg.com/vasern@0.2.4/vasern-logo.svg" alt="Vasern Logo" width="300" height="120">
 </p>
-</center>
+
+<p align="center">
+  <a href="https://npmjs.com/package/vasern">
+    <img src="https://img.shields.io/npm/v/vasern.svg" alt="NPM">
+  </a>
+  
+  <a href="https://github.com/vasern/vasern">
+    <img src="https://img.shields.io/travis/vasern/vasern.svg" alt="CI Status">
+  </a>
+  
+  <a href="https://github.com/vasern/vasern/issues">
+    <img src="https://img.shields.io/github/issues/vasern/vasern.svg" alt="GitHub Issues">
+  </a>
+  
+  <a href="https://github.com/vasern/vasern">
+    <img src="https://img.shields.io/badge/React%20Native-iOS%20%2B%20Android-brightgreen.svg" alt="Supported Platforms ">
+  </a>
+</p>
+
+<h4 align="center">
+Vasern is a fast and open source data storage for React Native.
+</h4>
+
+<p align="center">
+  <a href="https://form.jotform.co/82917565387876">Subscribe for updates</a>. Read about <a href="https://medium.com/vasern/vasern-a-fast-lightweight-and-open-source-data-storage-for-react-native-7fccff7506a1">beta release announcement</a>
+</p>
 
 
 ---
