@@ -9,7 +9,7 @@
   </a>
   
   <a href="https://github.com/vasern/vasern">
-    <img src="https://img.shields.io/travis/vasern/vasern.svg" alt="CI Status">
+    <img src="https://img.shields.io/travis/vasern/vasern.svg?logo=travis" alt="CI Status">
   </a>
   
   <a href="https://github.com/vasern/vasern/issues">
@@ -18,6 +18,10 @@
   
   <a href="https://github.com/vasern/vasern">
     <img src="https://img.shields.io/badge/React%20Native-iOS%20%2B%20Android-brightgreen.svg" alt="Supported Platforms ">
+  </a>
+  
+  <a href="https://join.slack.com/t/vasern/shared_invite/enQtNDU4NTk2MDI5OTcyLTRiYzRjZDI5YTAyMjlhYzg1YTdhNjFjZGNkODI1OTQwYzExZjA3NWRkYTY1MGE2ZjU0YzU3NzE2NzUwZmEwMjM">
+    <img src="https://img.shields.io/badge/chat-on%20Slack-%23e21357.svg?logo=slack" alt="Join Slack">
   </a>
 </p>
 
