@@ -30,7 +30,7 @@ Vasern is a fast and open source data storage for React Native.
 </h4>
 
 <p align="center">
-  <a href="https://form.jotform.co/82917565387876">Subscribe for updates</a>. Read about <a href="https://medium.com/vasern/vasern-a-fast-lightweight-and-open-source-data-storage-for-react-native-7fccff7506a1">beta release announcement</a>
+  View <a href="https://github.com/vasern/vasern/blob/master/roadmap.md">Development Roadmap</a>. Read about <a href="https://medium.com/vasern/vasern-a-fast-lightweight-and-open-source-data-storage-for-react-native-7fccff7506a1">beta release announcement</a>
 </p>
 
 
@@ -39,7 +39,7 @@ Vasern is a fast and open source data storage for React Native.
 __Table of Contents:__
 
 - [What is Vasern?](#what-is-vasern)
-- [Status](#status) and [View Roadmap](roadmap.md)
+- [Devlopment Status](#development-status)
 - [Getting Started](#getting-started)
 - [Examples](#examples)
 - [Help and Feedback](#help-and-feedback)
@@ -86,7 +86,7 @@ VasernDB.Todos.onChange(() => {
 })
 ```
 
-## Status
+## Development Status
 
 Vasern beta is **available on iOS and Android**. It is being heavily tested to ensure its functionality, data quality and consistency. View [Development Roadmap](roadmap.md)
 
