@@ -2,6 +2,14 @@
 <img src="./banner.svg" alt="Vasern Logo" width="100%">
 </p>
 
+<h3 align="center">
+Vasern is a fast and open source data storage for React Native.
+</h3>
+
+<p align="center">
+  <a href="https://form.jotform.co/82917565387876">Subscribe for updates</a>. Read about <a href="https://medium.com/vasern/vasern-a-fast-lightweight-and-open-source-data-storage-for-react-native-7fccff7506a1">beta release announcement</a>
+</p>
+
 <p align="center">
   
   <a href="https://github.com/vasern/vasern">
@@ -23,14 +31,6 @@
   <a href="https://join.slack.com/t/vasern/shared_invite/enQtNDU4NTk2MDI5OTcyLTRiYzRjZDI5YTAyMjlhYzg1YTdhNjFjZGNkODI1OTQwYzExZjA3NWRkYTY1MGE2ZjU0YzU3NzE2NzUwZmEwMjM">
     <img src="https://img.shields.io/badge/chat-on%20Slack-%23e21357.svg?logo=slack" alt="Join Slack">
   </a>
-</p>
-
-<h2 align="center">
-Vasern is a fast and open source data storage for React Native.
-</h2>
-
-<p align="center">
-  <a href="https://form.jotform.co/82917565387876">Subscribe for updates</a>. Read about <a href="https://medium.com/vasern/vasern-a-fast-lightweight-and-open-source-data-storage-for-react-native-7fccff7506a1">beta release announcement</a>
 </p>
 
 
