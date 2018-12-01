@@ -1,5 +1,5 @@
 <p align="center"> 
-<img src="./banner.svg" alt="Vasern Logo" height="250">
+<img src="./banner.svg" alt="Vasern Logo" width="100%">
 </p>
 
 <p align="center">
