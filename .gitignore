@@ -1,0 +1,18 @@
+node_modules
+
+# plugins currently unavailable
+vasern/src/plugins/vasern-auth
+vasern/src/plugins/vasern-server-sync
+
+# exclude builds and bundles
+android/build
+android/.gradle
+
+examples/*/android/.gradle
+
+
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+coverage

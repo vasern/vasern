@@ -1,0 +1,5 @@
+rootProject.name = 'VasernTodo'
+include ':vasern'
+project(':vasern').projectDir = new File(rootProject.projectDir, '../node_modules/vasern/android')
+
+include ':app'

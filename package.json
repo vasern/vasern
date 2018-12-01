@@ -1,0 +1,55 @@
+{
+  "name": "vasern",
+  "version": "0.3.0",
+  "description": "Vasern is an open source data storage for React Native, aims to be developer friendly, high performance",
+  "main": "vasern/index.js",
+  "scripts": {
+    "test": "lint",
+    "flow start": "flow start",
+    "flow stop": "flow stop",
+    "flow status": "flow status",
+    "flow coverage": "flow coverage",
+    "flow": "flow; test $? -eq 0 -o $? -eq 2",
+    "coveralls": "jest --coverage && cat ./tests/coverage/lcov.info | coveralls",
+    "lint": "eslint \"vasern/**/*.{js,jsx}\" --quiet"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vasern/vasern.git"
+  },
+  "keywords": [
+    "react-native",
+    "database",
+    "data-storage",
+    "sqlite",
+    "asyncstorage"
+  ],
+  "author": "Ambi Studio",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/vasern/vasern/issues"
+  },
+  "homepage": "https://github.com/vasern/vasern#readme",
+  "dependencies": {
+    "eslint-config-airbnb-base": "^13.1.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "babel-preset-flow": "^6.23.0",
+    "coveralls": "^3.0.2",
+    "eslint": "^5.7.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^3.1.0",
+    "eslint-plugin-flowtype": "^3.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-prettier": "^3.0.0",
+    "eslint-plugin-react": "^7.11.1",
+    "eslint-watch": "^4.0.2",
+    "flow-bin": "^0.42.0",
+    "jest": "^23.6.0",
+    "metro-react-native-babel-preset": "0.48.1",
+    "prettier": "^1.14.3",
+    "prettier-eslint": "^8.8.2"
+  }
+}

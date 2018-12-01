@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 271.17 68">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #191601;
+        font-size: 57px;
+        font-family: HelveticaNeue-Bold, Helvetica Neue;
+        font-weight: 700;
+      }
+
+      .cls-2 {
+        fill: #fa0;
+      }
+
+      .cls-3 {
+        fill: #ffce00;
+      }
+
+      .cls-4 {
+        fill: #ffec00;
+      }
+
+      .cls-5 {
+        fill: #cb9c00;
+      }
+    </style>
+  </defs>
+  <g id="Group_5" data-name="Group 5" transform="translate(-2.15 -7.952)">
+    <text id="Vasern" class="cls-1" transform="translate(87.321 63.952)"><tspan x="0" y="0">Vasern</tspan></text>
+    <g id="Group_3_1_" transform="translate(2.1 13.025)">
+      <path id="Path_8_1_" class="cls-2" d="M40.067,22.671,55.91,33.09c5.52,3.632,5.52,9.655,0,13.287L40.067,56.8c-5.52,3.632-14.514,3.632-20.136,0L4.19,46.377c-5.52-3.632-5.52-9.655,0-13.287L20.033,22.671C25.553,18.943,34.547,18.943,40.067,22.671Z" transform="translate(0 0.1)"/>
+      <path id="Path_7_1_" class="cls-3" d="M40.067,12.7,55.91,23.211c5.52,3.665,5.52,9.741,0,13.406L40.067,47.227c-5.52,3.665-14.514,3.665-20.136,0L4.19,36.618c-5.52-3.665-5.52-9.741,0-13.406L20.033,12.7C25.553,9.034,34.547,9.034,40.067,12.7Z" transform="translate(0 0.025)"/>
+      <path id="Path_6_1_" class="cls-4" d="M40.067,2.771,55.91,13.19c5.52,3.632,5.52,9.655,0,13.287L40.067,36.9c-5.52,3.632-14.514,3.632-20.136,0L4.19,26.477c-5.52-3.632-5.52-9.655,0-13.287L19.931,2.771C25.553-.957,34.547-.957,40.067,2.771Z" transform="translate(0 0)"/>
+      <path id="Path_9_1_" class="cls-5" d="M20.9,18.244l8.592,8.387,2.966-4.4L38.8,27.96l-6.75-13.6-2.659,3.682L25.5,11.8Z" transform="translate(0.456 -0.364)"/>
+    </g>
+  </g>
+</svg>

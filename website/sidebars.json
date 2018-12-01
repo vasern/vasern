@@ -1,0 +1,20 @@
+{
+  "docs": {
+    "Getting Started": [
+      "overview",
+      "vasern-and-document"
+    ],
+    "Guides": [
+      "install-vasern",
+      "supported-data-types",
+      "write-schema-setup-vasern",
+      "basic-crud-operation",
+      "queries",
+      "event-listeners",
+      "support-and-feedback"
+    ],
+    "Examples": [
+      "todo-example"
+    ]
+  }
+}

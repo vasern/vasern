@@ -1,0 +1,15 @@
+language: node_js
+node_js:
+- '8'
+branches:
+  only:
+  - master
+cache:
+  directories:
+  - node_modules
+before_install:
+- npm update
+install:
+- npm install
+script:
+- npm run lint
