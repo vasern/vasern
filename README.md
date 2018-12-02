@@ -2,6 +2,7 @@
 <img src="./banner.svg" alt="Vasern Logo" width="100%">
 </p>
 
+<h1 align="center">(This version is under development)</h1>
 <h3 align="center">
 Vasern is a fast and open source data storage for React Native.
 </h3>
