@@ -104,7 +104,7 @@ namespace vs {
         return reader->get_ptr(i);
     }
     
-    std::vector<record_t*> collect_t::filter(vs::upair_t query) {
+    std::vector<record_t*> collect_t::filter(vs::upair_t* query) {
         auto items = indexes.filter(query);
         std::vector<record_t*> rs;
         

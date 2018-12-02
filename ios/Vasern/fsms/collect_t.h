@@ -30,7 +30,7 @@ namespace vs {
         void close_reader();
 
         record_t* get(const char*);
-        std::vector<record_t*> filter(vs::upair_t);
+        std::vector<record_t*> filter(vs::upair_t*);
         
         void startup();
         

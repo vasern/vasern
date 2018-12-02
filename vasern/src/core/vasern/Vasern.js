@@ -10,15 +10,18 @@ import { Queryable, EventSubscriber } from "..";
 import Collection from "./Collection";
 // import { AuthModel } from "../../plugins/auth";
 
-const VasernManager = NativeModules.VasernManager;
-
 // @flow
+
+const VasernManager : {
+  Startup: Function
+} = NativeModules.VasernManager;
+
 
 export default class Vasern {
   // Collections
   collections: {
     [key: string]: Collection
-  };
+  } = {};
 
   // Vasern load status
   loaded = false;
@@ -59,9 +62,10 @@ export default class Vasern {
         }
       });
     });
-
+    
+    // debugger;
     // TODO: send DBSchema to native side and check
-    VasernManager.VerifySchema(DbSchema);
+    VasernManager.Startup(DbSchema);
   }
 
   collect( name: string ) : Collection {
@@ -139,7 +143,7 @@ export default class Vasern {
    * which contains an array of function name that will be assign into Collection prototype
    * @param {class function or object} plugin
    */
-  static import(plugin: function) {
+  static import(plugin: Function) {
     if (plugin.methods) {
       plugin.methods.forEach(k => {
         Collection.prototype[k] = plugin.prototype[k];

@@ -55,6 +55,29 @@ const Parser = {
     }
   },
 
+  parseToSave: (inputType: string, val: any) => {
+    let dataType;
+    let type = inputType;
+
+    if (type.indexOf("#") !== -1) {
+      dataType = "ref";
+      type = type.replace("#", "");
+    } else {
+      dataType = type;
+    }
+
+    switch (dataType) {
+      case "datetime":
+        return val.getTime();
+
+      case "ref":
+        return val.id;
+
+      default:
+        return val;
+    }
+  },
+
   // Parse string to object, using a schema
   // @input: unformated data separated by line, with schema in the first line
   parse: (lines, schema) => {
@@ -216,7 +239,7 @@ const Parser = {
     remove.forEach(item => {
       output.push(item.id);
     });
-
+    debugger;
     return output;
   },
 
@@ -227,26 +250,42 @@ const Parser = {
     // remove id if exsits
     // delete obj.id;
 
-    const keys = Object.keys(props);
-    let value;
-    let result = obj.id;
+    var rs = {
+      id: obj.id,
+      indexes: {},
+      body: ""
+    }
+    
+    Object.keys(props.indexes).forEach(( name: string ) => {
+      rs.indexes[name] = Parser.parseToSave(props.indexes[name].type, obj[name]);
+      // if (props.indexes[name].type == "datetime") {
+      //   rs.indexes[name] = obj[name].getTime();
+      // } else {
+      //   rs.indexes[name] = obj[name];
+      // }
+    })
 
-    keys.forEach(k => {
-      result += ",\u00A0";
+    // props.body.forEach(( name: string ) => {
+    //   rs.body[name] = obj[name];
+    // })
 
-      value = obj[k];
-      if (value === 0 || (value && value !== "undefined")) {
-        value = Parser.valueTypeToStr(props[k], value);
+    // const keys = Object.keys(props);
+
+    Object.keys(props.body).forEach(k => {
+      
+      if (k in obj) {
+        rs.body += Parser.valueTypeToStr(props.body[k].type, obj[k]);
       } else {
-        value = "";
+        rs.body += "";
       }
 
-      result += value;
+      rs.body += ",\u00A0";
     });
-    return result; // .replace(',\u00A0','')
+    
+    return rs; // .replace(',\u00A0','')
   },
 
-  valueTypeToStr: (dataType, value) => {
+  valueTypeToStr: (dataType: string, value) => {
     let type = dataType;
     if (dataType.indexOf("#") !== -1) {
       type = "ref";
@@ -258,9 +297,10 @@ const Parser = {
 
     let listType;
     let result;
+
     switch (type) {
       case "string":
-        return String(value).replace(/\n/g, "\u00A0n");
+        return value.replace(/\n/g, "\u00A0n");
       case "datetime":
         return value.getTime ? value.getTime() : value;
       case "boolean":

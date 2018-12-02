@@ -30,10 +30,13 @@ int main(int argc, const char * argv[]) {
     }});
     set.push(value);
     
-    auto found = set.filter({{ "ids", vs::value_f::create("abcds") }});
-    auto found2 = set.filter({
+    vs::upair_t query = {{ "ids", vs::value_f::create("abcds") }};
+    auto found = set.filter(&query);
+    
+    vs::upair_t query2 = {
         { "created_on", vs::value_f::create(20181124)},
         { "is_verified", vs::value_f::create(true)}
-    });
+    };
+    auto found2 = set.filter(&query2);
     return 0;
 };

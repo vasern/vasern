@@ -100,7 +100,7 @@ RCT_EXPORT_METHOD(Query: (NSDictionary *) data
         
         collect->open_reader();
         
-        [items addObjectsFromArray:vs_utils_ios::to_nsarray(collect->filter(query), &collect->desc)];
+        [items addObjectsFromArray:vs_utils_ios::to_nsarray(collect->filter(&query), &collect->desc)];
 
         collect->close_reader();
     }
@@ -109,7 +109,7 @@ RCT_EXPORT_METHOD(Query: (NSDictionary *) data
 }
 
 
-RCT_EXPORT_METHOD(VerifyModel: (NSDictionary*)models
+RCT_EXPORT_METHOD(Startup: (NSDictionary*)models
                   getWithResolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {

@@ -16,7 +16,7 @@ namespace vs {
     template index_set<size_t>::index_set();
     template index_set<size_t>::index_set(std::unordered_map<std::string, prop_desc_t> args);
     template void index_set<size_t>::push(std::shared_ptr<value_i<size_t>> value);
-    template std::vector<value_ptr> index_set<size_t>::filter(upair_t query);
+    template std::vector<value_ptr> index_set<size_t>::filter(upair_t* query);
     template size_t index_set<size_t>::get(upair_t*);
     template prop_desc_t index_set<size_t>::type_of(const char*);
 //    template std::vector<size_t> index_set<size_t>::get_multiple(upair_t*);

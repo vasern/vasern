@@ -23,9 +23,9 @@ namespace vs {
         T value;
         std::unordered_map<std::string, value_t*> items;
         
-        bool match_query(upair_t query, const char* exclude) {
+        bool match_query(upair_t* query, const char* exclude) {
             
-            for (auto itr: query) {
+            for (auto itr: *query) {
                 
                 if (itr.first.compare(exclude) != 0) {
                     

@@ -59,15 +59,15 @@ namespace vs {
     // Get all values within the query, remove duplicate
     // then return these values
     template<typename T>
-    std::vector<value_ptr> index_set<T>::filter(upair_t query) {
+    std::vector<value_ptr> index_set<T>::filter(upair_t* query) {
         
         // TODO: first itr shouldn't be bool
         std::vector<value_ptr> list;
         
-        auto itr = query.begin();
+        auto itr = query->begin();
         
         if (type_of(itr->first.c_str()) == BOOLEAN) {
-            if (std::next(itr) != query.end()) {
+            if (std::next(itr) != query->end()) {
                 itr = std::next(itr);
             }
         }

@@ -8,6 +8,7 @@ namespace vs {
         { "int", vs::INT_N },
         { "long", vs::LONG_N },
         { "double", vs::DOUBLE_N },
+        { "datetime", vs::LONG_N }
     };
     
     desc_t::desc_t() : key("", ""), value("", "") {};

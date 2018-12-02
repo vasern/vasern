@@ -25,10 +25,15 @@ type NativePropType = {
   indexed?: boolean
  };
  
- type NativePropTypeList = { [key: string]: NativePropType };
+type NativePropTypeList = { [key: string]: NativePropType };
 type Props = {
   name: string
-}
+};
+type Schema = {
+  key: NativePropType, 
+  indexes: NativePropTypeList,
+  body: NativePropTypeList
+};
  
 export default class Collection<Props> {
   // record list
@@ -37,11 +42,7 @@ export default class Collection<Props> {
   // record schema
   props: NativePropTypeList;
 
-  _nativeSchema: {
-    key: NativePropType, 
-    indexes: NativePropTypeList,
-    body: NativePropTypeList
-  };
+  _nativeSchema: Schema;
 
   // record id handler
   oid: ObjectID;
@@ -58,7 +59,7 @@ export default class Collection<Props> {
   eventManager: EventSubscriber;
 
   constructor(args: { props: NativePropTypeList, version: number, name: string }) {
-    // Initiate Document using a schema class
+    // Initiate Collection using a schema class
     if (typeof args === "function") {
       // TODO: validate schema (i.e require "name" and "props")
       this.inject(args);
@@ -84,6 +85,7 @@ export default class Collection<Props> {
     this.assignNativeSchema.bind(this)();
   }
 
+  /*:: bindEvents: () => void; */
   bindEvents() {
     // Events binding
     this.on = this.on.bind(this);
@@ -95,45 +97,50 @@ export default class Collection<Props> {
     this.onAvailable = this.onAvailable.bind(this);
   }
   
-  getNativeSchema() {
-    var nativeSchema : {
-      key: NativePropType, 
-      indexes: NativePropTypeList,
-      body: NativePropTypeList
+  /*:: getNativeSchema: () => Schema; */
+  getNativeSchema(): Schema {
+    return this._nativeSchema;
+  }
+
+  async nFilter(filter: Object) {
+    let queryObj = {};
+    queryObj[this.name] = filter;
+    // TODO:
+    // 0. create and return proxy
+    // 1. fetch related object id
+    // 2. assign related id to query
+    // 3. execute fetch query
+    // 4. assign result to object
+    return await VasernManager.Query(queryObj);
+  }
+  
+  /*:: assignNativeSchema: () => void; */
+  assignNativeSchema() {
+    
+    var nativeSchema : Schema = {
+      key: {},
+      indexes: {},
+      body: {}
     };
 
     var prop = {};
 
-    Object.keys(this.props).forEach( name => {
+    Object.keys(this.props).forEach((name: string) => {
   	  prop = this.props[name];
       if (prop.primary) {
         nativeSchema.key = prop;
       } else if (prop.indexed) {
         nativeSchema.indexes[name] = prop;
-      } else {
+      } else if (prop.type.indexOf("#") == 0) {
+        prop.size = 32;
+        nativeSchema.indexes[name] = prop;
+      }
+      else {
         nativeSchema.body[name] = prop;
       }
 
     });
-
-    return nativeSchema;
-  }
-  /*:: assignNativeSchema: () => void; */
-  assignNativeSchema() {
-    
-    var prop = {};
-
-    Object.keys(this.props).forEach( name => {
-  	  prop = this.props[name];
-      if (prop.primary) {
-        this._nativeSchema.key = prop;
-      } else if (prop.indexed) {
-        this._nativeSchema.indexes[name] = prop;
-      } else {
-        this._nativeSchema.body[name] = prop;
-      }
-
-    });
+    this._nativeSchema = nativeSchema;
   }
 
   object(input) {
@@ -242,16 +249,16 @@ export default class Collection<Props> {
     const validObjects = inputs.map(input => {
       propKeys = Object.keys(input);
 
-      if (!this.validateProps(propKeys)) {
-        Reporter.warn(
-          `Invalid input for ${
-            this.name
-          }. Record will not be added into database`
-        );
+      // if (!this.validateProps(propKeys)) {
+      //   Reporter.warn(
+      //     `Invalid input for ${
+      //       this.name
+      //     }. Record will not be added into database`
+      //   );
 
-        Reporter.warn(propKeys, Object.keys(this.props));
-        return null;
-      }
+      //   Reporter.warn(propKeys, Object.keys(this.props));
+      //   return null;
+      // }
 
       const content = this.oid.new();
 
@@ -340,15 +347,15 @@ export default class Collection<Props> {
     // If it is, delay until write process is completed,
     // then process write request (see 1)
     if (!this.isWriting) {
-      const logRecords = Parser.convertToLog(this.props, this._commitedItems);
+      const logRecords = Parser.convertToLog(this._nativeSchema, this._commitedItems);
 
       this.isWriting = true;
 
       try {
         const success = await VasernManager.Insert(
-          this.docName(),
-          logRecords,
-          this.storeOptions
+          this.name,
+          logRecords
+          // this.storeOptions
         );
 
         if (success) {
@@ -396,8 +403,8 @@ export default class Collection<Props> {
   // Else push into sub"_"ibers list to execute when data is loaded (see 'populate' function)
   // @callback: a callback function, given reference of this Doc object
   // Example usage: doc.loaded(doc => { Reporter.err(doc.toArray()) })
-  /*:: onLoaded: (callback: function) => void; */
-  onLoaded(callback: function) {
+  /*:: onLoaded: (callback: Function) => void; */
+  onLoaded(callback: Function) {
     if (this.loaded) {
       callback(this);
     } else {
@@ -409,8 +416,8 @@ export default class Collection<Props> {
   // Else push into subscribers list to execute when data is loaded (see 'populate' function)
   // @callback: a callback function, given reference of this Doc object
   // Example usage: doc.loaded(doc => { Reporter.err(doc.toArray()) })
-  /*:: onAvailable: (callback: function) => void; */
-  onAvailable(callback: function) {
+  /*:: onAvailable: (callback: Function) => void; */
+  onAvailable(callback: Function) {
     if (this.available) {
       callback(this);
     } else {
@@ -421,28 +428,28 @@ export default class Collection<Props> {
   /** ====================//
   //====   TRIGGERS   ====//
   /====================== */
-  /*:: on: (callback: function) => void; */
-  on(eventType: string, callback:function) {
+  /*:: on: (callback: Function) => void; */
+  on(eventType: string, callback: Function) {
     this.eventManager.subscribe(eventType, { callback });
   }
 
-  /*:: onInsert: (callback: function) => void; */
-  onInsert(callback: function) {
+  /*:: onInsert: (callback: Function) => void; */
+  onInsert(callback: Function) {
     this.eventManager.subscribe("insert", { callback });
   }
 
-  /*:: onRemove: (callback: function) => void; */
-  onRemove(callback: function) {
+  /*:: onRemove: (callback: Function) => void; */
+  onRemove(callback: Function) {
     this.eventManager.subscribe("remove", { callback });
   }
 
-  /*:: onUpdate: (callback: function) => void; */
-  onUpdate(callback: function) {
+  /*:: onUpdate: (callback: Function) => void; */
+  onUpdate(callback: Function) {
     this.eventManager.subscribe("update", { callback });
   }
 
-  /*:: onChange: (callback: function) => void; */
-  onChange(callback: function) {
+  /*:: onChange: (callback: Function) => void; */
+  onChange(callback: Function) {
     this.eventManager.onChange({ callback });
   }
 
@@ -459,6 +466,7 @@ export default class Collection<Props> {
   // Return boolean value
   // @key: Array of object key of new record
   validateProps = keys => {
+    return true;
     const schemaProps = Object.keys(this.props);
     const objectProps = keys;
     let isValid = true;
@@ -562,15 +570,15 @@ export default class Collection<Props> {
   //============================= */
 
   /**
-   * Import a plugin class into Document class
+   * Import a plugin class into Collection class
    * Plugin requires a static "methods" property
-   * which contains an array of function name that will be assign into Document prototype
+   * which contains an array of function name that will be assign into Collection prototype
    * @param {class function or object} plugin
    */
   static import(plugin) {
     if (plugin.methods) {
       plugin.methods.forEach(k => {
-        Document.prototype[k] = plugin.prototype[k];
+        Collection.prototype[k] = plugin.prototype[k];
       });
     } else {
       throw Error(
@@ -582,8 +590,8 @@ export default class Collection<Props> {
   }
 
   /**
-   * Merge properties and functions from a class to Document object
-   * Use to initate Document with model class
+   * Merge properties and functions from a class to Collection object
+   * Use to initate Collection with model class
    * @param {class function or object} model
    */
   inject(Model) {
@@ -604,4 +612,4 @@ export default class Collection<Props> {
 }
 
 // Default imports
-Document.import(Queryable);
+Collection.import(Queryable);
