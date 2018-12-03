@@ -91,6 +91,12 @@ namespace vs {
     };
     
     template <typename T>
+    const char* index_set<T>::get_id(upair_t* query) {
+        auto itr = query->begin();
+        return _set[itr->first]->get(itr->second).front()->items["id"]->str_value();
+    };
+    
+    template <typename T>
     prop_desc_t index_set<T>::type_of(const char* name) {
         return _set[name]->type();
     }

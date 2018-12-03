@@ -14,6 +14,9 @@ import DefaultConfigs from "../../config";
 
 import ObjectID, { OBJECTID_LEN } from "../../plugins/vasern-objectid";
 
+import ResultProxy from "./ResultProxy";
+import { toNativeQuery, toNativeSchema } from "./utils";
+
 // @flow
 const { VasernManager } = NativeModules;
 
@@ -102,45 +105,28 @@ export default class Collection<Props> {
     return this._nativeSchema;
   }
 
-  async nFilter(filter: Object) {
-    let queryObj = {};
-    queryObj[this.name] = filter;
+  nFilter(query: Object) {
+
+
     // TODO:
     // 0. create and return proxy
     // 1. fetch related object id
     // 2. assign related id to query
     // 3. execute fetch query
     // 4. assign result to object
-    return await VasernManager.Query(queryObj);
+    var result = ResultProxy();
+
+    (async () => {
+      let queryResults = await VasernManager.Query(this.name, toNativeQuery(this.props, query));
+      result.setValues(queryResults.data);
+    })();
+
+    return result;
   }
   
   /*:: assignNativeSchema: () => void; */
   assignNativeSchema() {
-    
-    var nativeSchema : Schema = {
-      key: {},
-      indexes: {},
-      body: {}
-    };
-
-    var prop = {};
-
-    Object.keys(this.props).forEach((name: string) => {
-  	  prop = this.props[name];
-      if (prop.primary) {
-        nativeSchema.key = prop;
-      } else if (prop.indexed) {
-        nativeSchema.indexes[name] = prop;
-      } else if (prop.type.indexOf("#") == 0) {
-        prop.size = 32;
-        nativeSchema.indexes[name] = prop;
-      }
-      else {
-        nativeSchema.body[name] = prop;
-      }
-
-    });
-    this._nativeSchema = nativeSchema;
+    this._nativeSchema = toNativeSchema(this.props);
   }
 
   object(input) {

@@ -37,6 +37,8 @@ namespace vs {
         vs::value_ptr load_i_value(record_t* r, size_t pos);
         
         prop_desc_t type_of(const char*);
+        const char* get_id(vs::upair_t*);
+        
     private:
         
         std::unordered_map<std::string, size_t> ids;

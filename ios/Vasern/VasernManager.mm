@@ -84,7 +84,8 @@ RCT_EXPORT_METHOD(Insert: (NSString *)collection
     resolve(@{ @"status": @200 });
 }
 
-RCT_EXPORT_METHOD(Query: (NSDictionary *) data
+RCT_EXPORT_METHOD(Query: (NSString*)collect_name
+                  data:(NSDictionary *)data
                   getWithResolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
@@ -93,16 +94,76 @@ RCT_EXPORT_METHOD(Query: (NSDictionary *) data
     std::string value;
     vs::upair_t query;
     std::shared_ptr<vs::collect_t> collect;
-    for (id collect_name in data) {
+    
+    NSMutableDictionary* queries = [data mutableCopy];
+    [queries removeObjectsForKeys:@[@"$prefetch", @"$include"]];
+    
+    // Process `$prefetch` and `$include`
+    
+    if ([data valueForKey:@"$prefetch"] != nil) {
         
-        collect = fsm.select([collect_name UTF8String]);
-        query = vs_utils_ios::to_query(collect, [data objectForKey:[NSString stringWithUTF8String:[collect_name UTF8String]]]);
         
-        collect->open_reader();
+        NSDictionary* pValues = [data objectForKey:@"$prefetch"];
         
-        [items addObjectsFromArray:vs_utils_ios::to_nsarray(collect->filter(&query), &collect->desc)];
+        // Prefetch
+        vs::upair_t pQuery;
+        std::shared_ptr<vs::collect_t> pCollect;
+        NSArray* qValues;
+        for (id ref in pValues) {
+            
+            qValues = [[pValues objectForKey:ref] allKeys];
 
-        collect->close_reader();
+            // Collection level
+            id obj = [qValues objectAtIndex:0];
+
+            pCollect = fsm.select([obj UTF8String]);
+            
+            // Properties level
+            pQuery = vs_utils_ios::to_query(pCollect, [[pValues objectForKey:ref] objectForKey:obj]);
+            
+            // Filter and get id
+            [queries setValue:@{ @"equal" : @(pCollect->get_id(&pQuery)) }
+                       forKey:ref];
+        }
+    }
+    
+    collect = fsm.select([collect_name UTF8String]);
+    query = vs_utils_ios::to_query(collect, queries);
+    
+    collect->open_reader();
+    
+    [items addObjectsFromArray:vs_utils_ios::to_nsarray(collect->filter(&query), &collect->desc)];
+
+    collect->close_reader();
+    
+    if ([data valueForKey:@"$include"] != nil) {
+        auto deep = [data valueForKey:@"$include"];
+        vs::upair_t pQuery;
+        std::shared_ptr<vs::collect_t> pCollect;
+        
+        // tasks, ...
+        for (id itr: deep) {
+            
+            pCollect = fsm.select([[deep objectForKey:itr][@"relate"] UTF8String]);
+            pCollect->open_reader();
+            // items
+            for (id item : items) {
+                
+                if ([[deep objectForKey:itr] valueForKey:@"filter"] != nil) {
+                    pQuery = vs_utils_ios::to_query(pCollect, [[deep objectForKey:itr] objectForKey:@"filter"]);
+                }
+                // relate
+                pQuery[[[deep objectForKey:itr][@"idMatchField"] UTF8String]] = vs::value_f::create([[item valueForKey:@"id"] UTF8String]);
+                
+                auto found = pCollect->filter(&pQuery);
+                [item
+                 setValue:vs_utils_ios::to_nsarray(found, &pCollect->desc)
+                 forKey:itr];
+                
+                
+            };
+            pCollect->close_reader();
+        }
     }
     
     resolve(@{ @"data": items });

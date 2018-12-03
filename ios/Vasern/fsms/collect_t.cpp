@@ -48,7 +48,7 @@ namespace vs {
         vs::upair_t items = {{ "id", vs::value_f::create(r->key()) }};
         
         for (auto itr : desc.indexes) {
-            // TODO: handle duplicate/repe issue
+            // TODO: handle duplicate/repeat issue
             items[itr->name] = vs::value_f::create(r, itr->type, itr->name.c_str());
             
         }
@@ -113,5 +113,10 @@ namespace vs {
         }
         
         return rs;
+    }
+    
+    const char* collect_t::get_id(vs::upair_t * query) {
+        
+        return indexes.get_id(query);
     }
 }

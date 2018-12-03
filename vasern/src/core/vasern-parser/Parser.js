@@ -14,23 +14,23 @@ const Parser = {
   // Parse unformated data value to js value, with its original type (string/int)
   // @schema: Vase schema object
   // @val: raw value
-  parseValue: (inputType, val) => {
-    let dataType;
-    let type = inputType;
+  parseValue: (type: string, asList: boolean, val) => {
+
     let results;
     let splitted;
 
-    if (type.indexOf("[]") !== -1) {
-      dataType = "list";
-      type = type.replace("[]", "");
-    } else if (type.indexOf("#") !== -1) {
-      dataType = "ref";
-      type = type.replace("#", "");
-    } else {
-      dataType = type;
-    }
+    if (asList) {
 
-    switch (dataType) {
+      splitted = val.split(LBreak);
+      results = new Array(splitted.length);
+      splitted.forEach((value, i) => {
+        results[i] = Parser.parseValue(type, false, value);
+      });
+      return results;
+
+    }
+    
+    switch (type) {
       case "string":
         return val && val.replace ? val.replace(/\u00A0n/g, "\n") : "";
       case "int":
@@ -43,30 +43,14 @@ const Parser = {
         return new Date(parseInt(val, 10));
       case "ref":
         return val;
-      case "list":
-        splitted = val.split(LBreak);
-        results = new Array(splitted.length);
-        splitted.forEach((value, i) => {
-          results[i] = Parser.parseValue(type, value);
-        });
-        return results;
       default:
         return val;
     }
   },
 
-  parseToSave: (inputType: string, val: any) => {
-    let dataType;
-    let type = inputType;
+  parseToSave: (type: string, val: any) => {
 
-    if (type.indexOf("#") !== -1) {
-      dataType = "ref";
-      type = type.replace("#", "");
-    } else {
-      dataType = type;
-    }
-
-    switch (dataType) {
+    switch (type) {
       case "datetime":
         return val.getTime();
 
@@ -116,7 +100,7 @@ const Parser = {
             prop = propKeys[i];
 
             if (splittedItem && prop) {
-              obj[prop] = Parser.parseValue(schema[prop], splittedItem);
+              obj[prop] = Parser.parseValue(schema[prop].type, schema[prop].asList, splittedItem);
             }
             i += 1;
           });
@@ -156,9 +140,9 @@ const Parser = {
 
         if (data && prop) {
           if (schema[prop].indexOf("#") > -1) {
-            obj[`${prop}_id`] = Parser.parseValue(schema[prop], data);
+            obj[`${prop}_id`] = Parser.parseValue(schema[prop].type, schema[prop].astList, data);
           } else {
-            obj[prop] = Parser.parseValue(schema[prop], data);
+            obj[prop] = Parser.parseValue(schema[prop].type, schema[prop].astList, data);
           }
         }
       });
