@@ -119,6 +119,7 @@ export default class Collection<Props> {
     (async () => {
       let queryResults = await VasernManager.Query(this.name, toNativeQuery(this.props, query));
       result.setValues(queryResults.data);
+      console.log(result);
     })();
 
     return result;

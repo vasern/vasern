@@ -5,6 +5,7 @@ namespace vs {
     std::unordered_map<std::string, vs::prop_desc_t> type_mapped_str = {
         { "boolean", vs::BOOLEAN },
         { "string", vs::STRING },
+        { "ref", vs::STRING },
         { "int", vs::INT_N },
         { "long", vs::LONG_N },
         { "double", vs::DOUBLE_N },

@@ -152,12 +152,22 @@ RCT_EXPORT_METHOD(Query: (NSString*)collect_name
                 if ([[deep objectForKey:itr] valueForKey:@"filter"] != nil) {
                     pQuery = vs_utils_ios::to_query(pCollect, [[deep objectForKey:itr] objectForKey:@"filter"]);
                 }
-                // relate
-                pQuery[[[deep objectForKey:itr][@"idMatchField"] UTF8String]] = vs::value_f::create([[item valueForKey:@"id"] UTF8String]);
+                
+                if ([deep objectForKey:itr][@"idMatchField"] != nil) {
+                    
+                    // relate
+                    pQuery[[[deep objectForKey:itr][@"idMatchField"] UTF8String]] = vs::value_f::create([[item valueForKey:@"id"] UTF8String]);
+                    
+                } else if([deep objectForKey:itr][@"refField"] != nil)  {
+                    
+                    auto key = [NSString stringWithFormat:@"%s", [[deep objectForKey:itr][@"refField"] UTF8String] ];
+                    pQuery["id"] = vs::value_f::create([[item valueForKey:key] UTF8String]);
+                    
+                }
                 
                 auto found = pCollect->filter(&pQuery);
                 [item
-                 setValue:vs_utils_ios::to_nsarray(found, &pCollect->desc)
+                 setValue:vs_utils_ios::to_nsarray(found, &pCollect->desc)[0]
                  forKey:itr];
                 
                 

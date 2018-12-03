@@ -74,7 +74,7 @@ function toNativeSchema(props: Object) {
             nativeSchema.key = prop;
         } else if (prop.indexed) {
             nativeSchema.indexes[name] = prop;
-        } else if (prop.type.indexOf("#") == 0) {
+        } else if (prop.type == "ref" || prop.type.indexOf("#") == 0) {
             prop.size = 32;
             nativeSchema.indexes[name] = prop;
         } else {
