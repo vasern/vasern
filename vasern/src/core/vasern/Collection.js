@@ -107,19 +107,11 @@ export default class Collection<Props> {
 
   nFilter(query: Object) {
 
-
-    // TODO:
-    // 0. create and return proxy
-    // 1. fetch related object id
-    // 2. assign related id to query
-    // 3. execute fetch query
-    // 4. assign result to object
     var result = ResultProxy();
 
     (async () => {
       let queryResults = await VasernManager.Query(this.name, toNativeQuery(this.props, query));
-      result.setValues(queryResults.data);
-      console.log(result);
+      result.$set = queryResults.data;
     })();
 
     return result;

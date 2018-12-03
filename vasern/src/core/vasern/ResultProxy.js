@@ -1,27 +1,26 @@
 // @flow
 
-function createProxy() {
+function createProxy() : Proxy {
     const traps = {
-        get: (target, property) => {
+        get: (target, property: any) => {
 
             return target[property];
         },
-        set: (target, property, value, receiver) => {
+        set: (target, property: any, value, receiver) => {
 
-            target[property] = value;
+            if (property == "$set") {
+                let item, i = target.length;
+                for (item in value) {
+                    target[i++] = value[item];
+                }
+            } else {
+                target[property] = value;
+            }
             return true;
         }
     };
 
-    var proxy = new Proxy([], traps);
-
-    proxy.setValues = (values: Array<Object>) => {
-        values.forEach(item => {
-            proxy.push(item);
-        });
-    }
-
-    return proxy;
+    return new Proxy([], traps);
 }
 
 export default createProxy;

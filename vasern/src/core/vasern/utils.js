@@ -1,40 +1,52 @@
 // @flow
 
-function toNativeQueryValue(type, value: any) {
+/**
+ * Restructure query value
+ * @param {string} type: value type
+ * @param {any} value: value
+ */
+function toNativeQueryValue(type: string, value: any) {
 
     if (typeof value != "object") {
         return { equal: value };
-
     } else if ("equal" in value) {
-
         return value;
+    } else if ("id" in value) {
+        return { equal: value.id };
     }
-    var rs = {};
-    Object.keys(value).forEach(key => {
+
+    var rs = {}, key: string;
+    for (key in value) {
         rs[key] = toNativeQueryValue(type, value[key]);
-    })
+    }
     return rs;
 }
 
-// Convert user's query into fsm understandable query
+
+/**
+ * Convert user defined query to native fsm query structure
+ * @param {*} schema: native fsm schema
+ * @param {*} query : user defined query
+ */
 function toNativeQuery(schema, query: Object) {
     let rs = {};
 
-    let scm;
-
-    Object.keys(query).forEach(key => {
+    let scm, key: string, includeKey: string;
+    
+    for (key in query) {
         scm = schema[key];
 
         if (key == "$include") {
 
             let inclueQ = {};
-            Object.keys(query[key]).forEach( includeKey => {
+            
+            for (includeKey in query[key]) {
                 inclueQ[includeKey] = query[key][includeKey];
 
                 if ("filter" in query[key][includeKey]) {
                     inclueQ[includeKey].filter = toNativeQueryValue(null, inclueQ[includeKey].filter);
                 }
-            })
+            }
             rs[key] = inclueQ;
 
         } else if (scm.type == "ref" && "equal" in query[key] === false) {
@@ -54,20 +66,25 @@ function toNativeQuery(schema, query: Object) {
         } else {
             rs[key] = toNativeQueryValue(scm, query[key]);
         }
-    })
+    };
     return rs;
 }
 
+/**
+ * Convert user defined schema to fsm schema
+ * @param props: User defined data schema 
+ */
 function toNativeSchema(props: Object) {
     var nativeSchema = {
         key: {},
         indexes: {},
         body: {}
     }
-        , prop = {};
+    , prop = {};
 
-    Object.keys(props).forEach((name: string) => {
+    let name: string;
 
+    for (name in props) {
         prop = props[name];
 
         if (prop.primary) {
@@ -80,8 +97,7 @@ function toNativeSchema(props: Object) {
         } else {
             nativeSchema.body[name] = prop;
         }
-
-    });
+    };
     return nativeSchema;
 }
 
