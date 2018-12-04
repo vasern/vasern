@@ -141,7 +141,15 @@ RCT_EXPORT_METHOD(Query: (NSString*)collect_name
     if (data[@"$limit"] != nil) {
         [items addObjectsFromArray:vs_utils_ios::to_nsarray(collect->filter(&query),
                                                             &collect->desc,
+                                                            0,
                                                             [data[@"$limit"] longValue])];
+    } else if (data[@"$paging"] != nil) {
+        int max = [data[@"$paging"][@"max"] intValue];
+        int start = [data[@"$paging"][@"page"] intValue] * max;
+        [items addObjectsFromArray:vs_utils_ios::to_nsarray(collect->filter(&query),
+                                                            &collect->desc,
+                                                            start,
+                                                            start + max)];
     } else {
         [items addObjectsFromArray:vs_utils_ios::to_nsarray(collect->filter(&query), &collect->desc)];
     }
