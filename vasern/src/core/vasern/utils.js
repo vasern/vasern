@@ -3,7 +3,7 @@
 type RType = "datetime" | "string" | "int" | "double" | "float" | "boolean";
 
 function toValue(value: any) {
-    if (value.constructor.name == "Date") {
+    if (value.constructor.name === "Date") {
         return value.getTime();
     }
 
@@ -54,17 +54,21 @@ function toNativeQueryValue(layout: { type: RType, indexed: boolean }, value: an
             equal: value.id
         };
 
-    } else if (value.constructor.name == "Date") {
+    } else if (value.constructor.name === "Date") {
 
         return {
             equal: value.getTime()
         }
     }
 
-    var rs = {},
-        key;
+    var rs = {}, key: string;
+
     for (key in value) {
-        rs[key] = toNativeQueryValue(layout, value[key]);
+        if (key === "range") {
+            rs = toNativeQueryValue(layout, value[key]);
+        } else {
+            rs[key] = toNativeQueryValue(layout, value[key]);
+        }
     }
     return rs;
 }
@@ -83,7 +87,7 @@ function toNativeQuery(schema, query: Object) {
     for (key in query) {
         scm = schema[key];
 
-        if (key == "$include") {
+        if (key === "$include") {
 
             let inclueQ = {};
 
@@ -96,9 +100,9 @@ function toNativeQuery(schema, query: Object) {
             }
             rs[key] = inclueQ;
 
-        } else if(key.indexOf("$") == 0) {
+        } else if(key.indexOf("$") === 0) {
             rs[key] = query[key];
-        } else if (scm.type == "ref" && "equal" in query[key] === false) {
+        } else if (scm.type === "ref" && "equal" in query[key] === false) {
 
             // Query with prefetched reference
 
@@ -139,7 +143,7 @@ function toNativeSchema(props: Object) {
             nativeSchema.key = prop;
         } else if (prop.indexed) {
             nativeSchema.indexes[name] = prop;
-        } else if (prop.type == "ref" || prop.type.indexOf("#") == 0) {
+        } else if (prop.type === "ref" || prop.type.indexOf("#") === 0) {
             prop.size = 32;
             nativeSchema.indexes[name] = prop;
         } else {
