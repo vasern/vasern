@@ -14,12 +14,22 @@
 
 namespace vs {
     struct value_t {
+        
+        virtual bool is_range() { return false; };
+        virtual bool is_in_range(value_t*) { return false; };
+        virtual bool is_in_range_e(value_t*) { return false; };
+        
         virtual int int_value() { return 0; };
         virtual const char* str_value() { return ""; };
         virtual bool bool_value() { return false; };
         virtual long long_value() { return 0; };
         virtual double double_value() { return 0.0; };
         virtual bool is_match(value_t *) { return false; };
+        
+        virtual bool is_gt(value_t*) { return false; }
+        virtual bool is_lt(value_t*) { return false; }
+        virtual bool is_gte(value_t*) { return false; }
+        virtual bool is_lte(value_t*) { return false; }
     };
     
     struct value_str
@@ -57,6 +67,22 @@ namespace vs {
         bool is_match(value_t* cmp) {
             return value == cmp->int_value();
         }
+        
+        bool is_gt(value_t* cmp) {
+            return value > cmp->int_value();
+        }
+        
+        bool is_lt(value_t* cmp) {
+            return value < cmp->int_value();
+        }
+        
+        bool is_gte(value_t* cmp) {
+            return value >= cmp->int_value();
+        }
+        
+        bool is_lte(value_t* cmp) {
+            return value <= cmp->int_value();
+        }
     };
     
     struct value_bool
@@ -91,6 +117,22 @@ namespace vs {
         bool is_match(value_t* cmp) {
             return value == cmp->long_value();
         }
+        
+        bool is_gt(value_t* cmp) {
+            return value > cmp->long_value();
+        }
+        
+        bool is_lt(value_t* cmp) {
+            return value < cmp->long_value();
+        }
+        
+        bool is_gte(value_t* cmp) {
+            return value >= cmp->long_value();
+        }
+        
+        bool is_lte(value_t* cmp) {
+            return value <= cmp->long_value();
+        }
     };
     
     struct value_double
@@ -108,7 +150,92 @@ namespace vs {
         bool is_match(value_t* cmp) {
             return value == cmp->double_value();
         }
+        
+        bool is_gt(value_t* cmp) {
+            return value > cmp->double_value();
+        }
+        
+        
+        bool is_lt(value_t* cmp) {
+            return value < cmp->double_value();
+        }
+        
+        bool is_gte(value_t* cmp) {
+            return value >= cmp->double_value();
+        }
+        
+        
+        bool is_lte(value_t* cmp) {
+            return value <= cmp->double_value();
+        }
     };
+    
+    struct value_range_double
+    : public value_t
+    {
+        double start;
+        double end;
+        
+        value_range_double(double s, double e)
+        : start(s), end(e) { }
+        
+        bool is_in_range(value_t* cmp) {
+            return end > cmp->double_value() && start < cmp->double_value();
+        }
+        
+        bool is_in_range_e(value_t* cmp) {
+            return end >= cmp->double_value() && start < cmp->double_value();
+        }
+        
+        bool is_range() {
+            return true;
+        }
+    };
+    
+    struct value_range_long
+    : public value_t
+    {
+        long start;
+        long end;
+        
+        value_range_long(long s, long e)
+        : start(s), end(e) { }
+        
+        bool is_in_range(value_t* cmp) {
+            return end > cmp->long_value() && start < cmp->long_value();
+        }
+        
+        bool is_in_range_e(value_t* cmp) {
+            return end >= cmp->long_value() && start < cmp->long_value();
+        }
+        
+        bool is_range() {
+            return true;
+        }
+    };
+    
+    struct value_range_int
+    : public value_t
+    {
+        int start;
+        int end;
+        
+        value_range_int(int s, int e)
+        : start(s), end(e) { }
+        
+        bool is_in_range(value_t* cmp) {
+            return end > cmp->int_value() && start < cmp->int_value();
+        }
+        
+        bool is_in_range_e(value_t* cmp) {
+            return end >= cmp->int_value() && start < cmp->int_value();
+        }
+        
+        bool is_range() {
+            return true;
+        }
+    };
+    
     
     struct value_f {
         
@@ -134,6 +261,18 @@ namespace vs {
         
         static value_t* create(long value) {
             return new value_long { value };
+        }
+        
+        static value_t* create(long start, long end) {
+            return new value_range_long(start, end);
+        }
+        
+        static value_t* create(int start, int end) {
+            return new value_range_int(start, end);
+        }
+        
+        static value_t* create(double start, double end) {
+            return new value_range_double(start, end);
         }
         
         static value_t* create(record_t* r, prop_desc_t type, const char* key) {

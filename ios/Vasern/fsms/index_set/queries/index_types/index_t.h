@@ -41,6 +41,11 @@ namespace vs {
             
         };
         
+        virtual
+        std::vector<value_ptr> range(value_t* value) {
+            return std::vector<value_ptr>();
+        };
+        
         bool is(prop_desc_t compare_type) {
             return _type == compare_type;
         }

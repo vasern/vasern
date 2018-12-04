@@ -72,13 +72,28 @@ namespace vs {
             }
         }
         
-        std::vector<value_ptr> candidates = _set[itr->first]->get(itr->second);
+        std::vector<value_ptr> candidates;
+        
+        if (itr->second->is_range()) {
+            
+            // Filter records by range
+            candidates = _set[itr->first]->range(itr->second);
+        } else {
+            
+            // filter record by exact value
+            candidates = _set[itr->first]->get(itr->second);
+        }
+        
         const char* exclude = itr->first.c_str();
         
-        for (value_ptr ptr : candidates) {
-            if (ptr->match_query(query, exclude)) {
-                list.push_back(ptr);
+        if (query->size() > 1) {
+            for (value_ptr ptr : candidates) {
+                if (ptr->match_query(query, exclude)) {
+                    list.push_back(ptr);
+                }
             }
+        } else {
+            list = candidates;
         }
     
         return list;

@@ -66,10 +66,19 @@ namespace vs_utils_ios {
             case vs::KEY:
                 return vs::value_f::create([[pair valueForKey:key] UTF8String]);
             case vs::INT_N:
+                if ([pair count] == 2) {
+                    return vs::value_f::create([[pair valueForKey:@"start"] intValue], [[pair valueForKey:@"end"] intValue]);
+                }
                 return vs::value_f::create([[pair valueForKey:key] intValue]);
             case vs::LONG_N:
+                if ([pair count] == 2) {
+                    return vs::value_f::create([[pair valueForKey:@"start"] longValue], [[pair valueForKey:@"end"] longValue]);
+                }
                 return vs::value_f::create([[pair valueForKey:key] longValue]);
             case vs::DOUBLE_N:
+                if ([pair count] == 2) {
+                    return vs::value_f::create([[pair valueForKey:@"start"] doubleValue], [[pair valueForKey:@"end"] doubleValue]);
+                }
                 return vs::value_f::create([[pair valueForKey:key] doubleValue]);
             case vs::BOOLEAN:
                 return vs::value_f::create([[pair valueForKey:key] boolValue]);
@@ -87,10 +96,16 @@ namespace vs_utils_ios {
             
             // condition level
             con = [obj objectForKey:attr];
-            for (id con_itr in con) {
+            if (con[@"equal"] != nil) {
                 rs.insert({
                     [attr UTF8String],
-                    get_value(coll->type_of([attr UTF8String]), con, [NSString stringWithUTF8String:[con_itr UTF8String]])
+                    get_value(coll->type_of([attr UTF8String]), con, [NSString stringWithFormat:@"equal"])
+                });
+            } else if (con[@"start"] != nil) {
+                
+                rs.insert({
+                    [attr UTF8String],
+                    get_value(coll->type_of([attr UTF8String]), con, [NSString stringWithFormat:@"start"])
                 });
             }
         }

@@ -21,9 +21,9 @@ namespace vs {
     template<typename T>
     struct value_i {
         T value;
-        std::unordered_map<std::string, value_t*> items;
+        upair_t items;
         
-        bool match_query(upair_t* query, const char* exclude) {
+        bool match_query(upair_t *query, const char* exclude) {
             
             for (auto itr: *query) {
                 

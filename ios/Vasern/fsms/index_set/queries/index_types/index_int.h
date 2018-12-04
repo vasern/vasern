@@ -42,6 +42,21 @@ namespace vs {
             return items[key->int_value()];
         }
         
+        std::vector<value_ptr> range(value_t* value) {
+            std::vector<value_ptr> rs;
+            std::vector<value_ptr> temp;
+            for (auto itr: items) {
+                if (value->is_in_range(value_f::create( itr.first ))) {
+                    rs.reserve(temp.size() + itr.second.size());
+                    rs.insert(rs.end(), temp.begin(), temp.end());
+                    rs.insert(rs.end(), itr.second.begin(), itr.second.end());
+                    temp = rs;
+                }
+            }
+            
+            return rs;
+        }
+        
     private:
         std::unordered_map<int, std::vector<value_ptr>> items;
     };
