@@ -102,7 +102,7 @@ RCT_EXPORT_METHOD(Query: (NSString*)collect_name
     std::shared_ptr<vs::collect_t> collect;
     
     NSMutableDictionary* queries = [data mutableCopy];
-    [queries removeObjectsForKeys:@[@"$prefetch", @"$include"]];
+    [queries removeObjectsForKeys:@[@"$prefetch", @"$include", @"$limit", @"$paging"]];
     
     // Process `$prefetch` and `$include`
     
@@ -138,7 +138,13 @@ RCT_EXPORT_METHOD(Query: (NSString*)collect_name
     
     collect->open_reader();
     
-    [items addObjectsFromArray:vs_utils_ios::to_nsarray(collect->filter(&query), &collect->desc)];
+    if (data[@"$limit"] != nil) {
+        [items addObjectsFromArray:vs_utils_ios::to_nsarray(collect->filter(&query),
+                                                            &collect->desc,
+                                                            [data[@"$limit"] longValue])];
+    } else {
+        [items addObjectsFromArray:vs_utils_ios::to_nsarray(collect->filter(&query), &collect->desc)];
+    }
 
     collect->close_reader();
     
@@ -149,7 +155,7 @@ RCT_EXPORT_METHOD(Query: (NSString*)collect_name
         
         // tasks, ...
         for (id itr: deep) {
-            
+            pQuery.clear();
             pCollect = fsm.select([[deep objectForKey:itr][@"relate"] UTF8String]);
             pCollect->open_reader();
             // items
@@ -172,9 +178,12 @@ RCT_EXPORT_METHOD(Query: (NSString*)collect_name
                 }
                 
                 auto found = pCollect->filter(&pQuery);
-                [item
-                 setValue:vs_utils_ios::to_nsarray(found, &pCollect->desc)[0]
-                 forKey:itr];
+                
+                if (found.size() > 0) {
+                    [item
+                     setValue:vs_utils_ios::to_nsarray(found, &pCollect->desc)[0]
+                     forKey:itr];
+                }
                 
                 
             };

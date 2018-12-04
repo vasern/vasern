@@ -19,6 +19,7 @@ namespace vs_utils_ios {
     // Get and convert vector of records into an array
     // This method is used when passing record to JavaScript side
     NSArray* to_nsarray(std::vector<vs::record_t*>, vs::desc_t*);
+    NSArray* to_nsarray(std::vector<vs::record_t*>, vs::desc_t*, long limit);
     
     // Convert dictionary into query
     // This method is used when JavaScript side send a records request with filters

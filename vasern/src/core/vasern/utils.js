@@ -2,8 +2,8 @@
 
 type RType = "datetime" | "string" | "int" | "double" | "float" | "boolean";
 
-function toValue(type: RType, value: any) {
-    if (type == "datetime") {
+function toValue(value: any) {
+    if (value.constructor.name == "Date") {
         return value.getTime();
     }
 
@@ -20,30 +20,30 @@ function toNativeQueryValue(layout: { type: RType, indexed: boolean }, value: an
     // Range
     if (Array.isArray(value)) {
         return {
-            start: toValue(layout.type, value[0]),
-            end: toValue(layout.type, value[1]),
+            start: toValue(value[0]),
+            end: toValue(value[1]),
         };
     } else if (typeof value != "object") {
 
         return {
-            equal: toValue(layout.type, value)
+            equal: toValue(value)
         };
 
     } else if ("equal" in value) {
 
         return {
-            equal: toValue(layout.type, value.equal)
+            equal: toValue(value.equal)
         };
 
     } else if ("start" in value || "end" in value) {
         let obj = {};
 
         if ("start" in value) {
-            obj.start = toValue(layout.type, value.start);
+            obj.start = toValue(value.start);
         }
 
         if ("end" in value) {
-            obj.end = toValue(layout.type, value.end);
+            obj.end = toValue(value.end);
         }
 
         return obj;
@@ -54,7 +54,7 @@ function toNativeQueryValue(layout: { type: RType, indexed: boolean }, value: an
             equal: value.id
         };
 
-    } else if (layout.type == "datetime") {
+    } else if (value.constructor.name == "Date") {
 
         return {
             equal: value.getTime()
@@ -91,11 +91,13 @@ function toNativeQuery(schema, query: Object) {
                 inclueQ[includeKey] = query[key][includeKey];
 
                 if ("filter" in query[key][includeKey]) {
-                    inclueQ[includeKey].filter = toNativeQueryValue(scm, inclueQ[includeKey].filter);
+                    inclueQ[includeKey].filter = toNativeQueryValue(scm, query[key][includeKey].filter);
                 }
             }
             rs[key] = inclueQ;
 
+        } else if(key.indexOf("$") == 0) {
+            rs[key] = query[key];
         } else if (scm.type == "ref" && "equal" in query[key] === false) {
 
             // Query with prefetched reference

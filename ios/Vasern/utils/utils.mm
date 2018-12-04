@@ -59,6 +59,31 @@ namespace vs_utils_ios {
         return rs;
     }
     
+    NSArray* to_nsarray(std::vector<vs::record_t*> records, vs::desc_t* desc, long limit) {
+        NSMutableArray* rs = [NSMutableArray arrayWithCapacity:records.size()];
+        
+        int i = 0;
+        NSMutableDictionary* obj;
+        for (auto r: records) {
+            obj = [NSMutableDictionary new];
+            [obj setValue:[NSString stringWithUTF8String:r->key().c_str()] forKey:@"id"];
+            [obj setValue:[NSString stringWithUTF8String:r->value().c_str()] forKey:@"body"];
+            
+            for (auto itr : desc->indexes) {
+                assign_objc_native_value(itr->type, obj, r, itr->name.c_str());
+            }
+            
+            [rs insertObject:obj atIndex:i];
+            i++;
+            
+            if (i == limit) {
+                break;
+            }
+        }
+        
+        return rs;
+    }
+    
     vs::value_t* get_value(vs::prop_desc_t type, NSDictionary* pair, NSString* key) {
         
         switch (type) {
