@@ -32,6 +32,8 @@ namespace vs {
         record_t* get(const char*);
         std::vector<record_t*> filter(vs::upair_t*);
         
+        size_t count(upair_t*);
+        
         void startup();
         
         vs::value_ptr load_i_value(record_t* r, size_t pos);

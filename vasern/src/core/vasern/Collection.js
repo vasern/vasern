@@ -116,6 +116,20 @@ export default class Collection<Props> {
 
     return result;
   }
+
+  nCount(query: Object) {
+    
+    var result = new Proxy({ count: 0 }, {});
+
+    (async () => {
+      
+      let queryResults = await VasernManager.Count(this.name, toNativeQuery(this.props, query));
+      result.count = queryResults.data.count;
+      console.log(result);
+    })();
+
+    return result;
+  }
   
   /*:: assignNativeSchema: () => void; */
   assignNativeSchema() {

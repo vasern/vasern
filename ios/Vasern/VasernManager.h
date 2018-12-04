@@ -12,6 +12,8 @@
 
 @interface VasernManager : NSObject <RCTBridgeModule>
 
+- (dispatch_queue_t)methodQueue;
+
 @end
 
 #endif /* VasernManager_h */

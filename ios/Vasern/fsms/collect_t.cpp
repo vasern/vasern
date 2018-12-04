@@ -44,16 +44,16 @@ namespace vs {
         reader->close_conn();
     }
     
-    vs::value_ptr collect_t::load_i_value(record_t* r, size_t pos) {
-        vs::upair_t items = {{ "id", vs::value_f::create(r->key()) }};
+    value_ptr collect_t::load_i_value(record_t* r, size_t pos) {
+        upair_t items = {{ "id", value_f::create(r->key()) }};
         
         for (auto itr : desc.indexes) {
             // TODO: handle duplicate/repeat issue
-            items[itr->name] = vs::value_f::create(r, itr->type, itr->name.c_str());
+            items[itr->name] = value_f::create(r, itr->type, itr->name.c_str());
             
         }
         
-        return vs::value_ptr(new vs::value_i<size_t>{ pos, items });
+        return value_ptr(new value_i<size_t>{ pos, items });
     }
     
     prop_desc_t collect_t::type_of(const char* key) {
@@ -74,7 +74,7 @@ namespace vs {
             record_t* r = reader->get_ptr(0);
             size_t pos = 0;
             
-            vs::value_ptr index_value;
+            value_ptr index_value;
             while (r->valid()) {
                 
                 index_value = load_i_value(r, pos);
@@ -93,18 +93,18 @@ namespace vs {
         for (auto itr : desc.indexes) {
             schema.insert({ itr->name, itr->type });
         }
-        indexes = vs::index_set<size_t>(schema);
+        indexes = index_set<size_t>(schema);
     }
     
     record_t* collect_t::get(const char* id) {
-        vs::upair_t query = {{ "id", vs::value_f::create(id) }};
+        upair_t query = {{ "id", value_f::create(id) }};
         size_t i = indexes.get(&query);
         
         // TODO: add value_ptr to index_t::create
         return reader->get_ptr(i);
     }
     
-    std::vector<record_t*> collect_t::filter(vs::upair_t* query) {
+    std::vector<record_t*> collect_t::filter(upair_t* query) {
         auto items = indexes.filter(query);
         std::vector<record_t*> rs;
         
@@ -115,7 +115,11 @@ namespace vs {
         return rs;
     }
     
-    const char* collect_t::get_id(vs::upair_t * query) {
+    size_t collect_t::count(upair_t* query) {
+        return indexes.filter(query).size();
+    }
+    
+    const char* collect_t::get_id(upair_t * query) {
         
         return indexes.get_id(query);
     }

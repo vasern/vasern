@@ -16,6 +16,12 @@ const char* dir = vs_utils_ios::create_dir("fsm");
 vs::fsm fsm(dir);
 
 @implementation VasernManager
+
+- (dispatch_queue_t)methodQueue
+{
+    return dispatch_queue_create("ios.ambistudio.VasernQueue", DISPATCH_QUEUE_SERIAL);
+}
+
 RCT_EXPORT_MODULE();
 
 RCT_EXPORT_METHOD(Insert: (NSString *)collection
@@ -177,6 +183,25 @@ RCT_EXPORT_METHOD(Query: (NSString*)collect_name
     }
     
     resolve(@{ @"data": items });
+}
+
+RCT_EXPORT_METHOD(Count: (NSString*)collect_name
+                  data:(NSDictionary *)data
+                  getWithResolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+    
+    std::shared_ptr<vs::collect_t> collect = fsm.select([collect_name UTF8String]);
+    vs::upair_t query = vs_utils_ios::to_query(collect, data);
+    
+    collect->open_reader();
+    
+    NSNumber *result = @(collect->count(&query));
+    
+    collect->close_reader();
+    
+    
+    resolve(@{ @"data": @{ @"count": result } });
 }
 
 
