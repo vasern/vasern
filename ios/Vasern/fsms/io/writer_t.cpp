@@ -54,11 +54,17 @@ namespace vs {
         return curr;
     }
 
-    void writer_t::remove(size_t pos, int num_of_block) {
+    void writer_t::remove(size_t pos) {
         
         // Move cursor to begin position
-        ffile.seekp(b_size * pos, std::ios::beg);
+        ffile.seekp(b_size * pos + b_size - 2, std::ios::beg);
         
+        char buff[1];
+        ffile.read(buff, 1);
+        
+        int num_of_block = buff[0] & 0x1;
+        
+        ffile.seekp(b_size * pos, std::ios::beg);
         int i = 0;
         char meta[3];
         meta[0] = -1;

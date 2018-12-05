@@ -31,25 +31,23 @@ namespace vs {
     }
 
     void collect_t::remove(std::vector<const char*> key) {
-        open_reader();
+        
         writer->open_trunc();
         
-        record_t* r;
         size_t pos;
         for (auto iid : key) {
             upair_t query = {{ "id", value_f::create(iid) }};
             auto found = indexes.filter(&query);
             if (found.size() > 0) {
                 pos = found.front()->value;
-                r= reader->get_ptr(pos);
-                writer->remove(pos, r->total_blocks());
+                writer->remove(pos);
                 
                 indexes.remove(&found.front()->items);
             }
         }
         
         writer->close_trunc();
-        close_reader();
+        
         // TODO: throw error
     }
 

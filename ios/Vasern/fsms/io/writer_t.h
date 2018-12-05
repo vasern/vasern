@@ -16,7 +16,7 @@ namespace vs {
         ~writer_t();
         
         size_t insert(std::string* buff, row_desc_t row);
-        void remove(size_t pos, int num_of_blocks);
+        void remove(size_t pos);
         size_t update(size_t pos, std::string* buff, row_desc_t row);
         
         void open_trunc();
