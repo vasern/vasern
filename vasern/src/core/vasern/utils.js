@@ -3,16 +3,19 @@
 type RType = "datetime" | "string" | "int" | "double" | "float" | "boolean";
 
 function toNativeSortQueryValue(value: any) {
-	let rs = {};
+    let rs = {};
 
-  if (typeof value === "boolean") {
-  	return value;
-  } else if (typeof value === "string") {
-  	
-    rs[value] = true;
-  }
-  
-  return rs;
+    if (typeof value === "boolean") {
+        return value;
+    } else if (typeof value === "string") {
+
+        rs[value] = true;
+    } else if (typeof value === "object") {
+
+        return value;
+    }
+
+    return rs;
 }
 
 function toValue(value: any) {
@@ -21,7 +24,7 @@ function toValue(value: any) {
     }
 
     return value;
-};
+}
 
 /**
  * Restructure query value
@@ -135,7 +138,7 @@ function toNativeQuery(schema, query: Object) {
         } else {
             rs[key] = toNativeQueryValue(scm, query[key]);
         }
-    };
+    }
     return rs;
 }
 

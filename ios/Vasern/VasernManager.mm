@@ -150,26 +150,56 @@ RCT_EXPORT_METHOD(Query: (NSString*)collect_name
     
     collect->open_reader();
     
+    // Check if $sort is enabled
+    // Then extract $sort properties
+    
+    bool sortable = false;
+    bool desc = false;
+    const char* order_by;
+    if (data[@"$sort"] != nil) {
+        sortable = true;
+        for (id itr in data[@"$sort"]) {
+            order_by = [itr UTF8String];
+            desc = [data[@"$sort"][itr] boolValue];
+        }
+    }
+    
+    // Apply sort and query
+    
+    std::vector<vs::record_t*> rs = collect->filter(&query);
+    
+    if (sortable) {
+        rs = collect->filter(&query, order_by, desc);
+    } else {
+        rs = collect->filter(&query);
+    }
+    
+    // Query properties
+    // $sort, $paging, $limit
+    
     if (data[@"$limit"] != nil) {
-        [items addObjectsFromArray:vs_utils_ios::to_nsarray(collect->filter(&query),
-                                                            &collect->desc,
-                                                            0,
-                                                            [data[@"$limit"] longValue])];
+        
+        // Apply $limit
+        
+        [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs, &collect->desc, 0, [data[@"$limit"] longValue])];
+        
     } else if (data[@"$paging"] != nil) {
+        
+        // Apply $paging
+        
         int max = [data[@"$paging"][@"max"] intValue];
         int start = [data[@"$paging"][@"page"] intValue] * max;
-        [items addObjectsFromArray:vs_utils_ios::to_nsarray(collect->filter(&query),
-                                                            &collect->desc,
-                                                            start,
-                                                            start + max)];
+        [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs, &collect->desc, start, start + max)];
+        
     } else {
-        [items addObjectsFromArray:vs_utils_ios::to_nsarray(collect->filter(&query), &collect->desc)];
+        
+        [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs, &collect->desc)];
     }
 
     collect->close_reader();
     
     if ([data valueForKey:@"$include"] != nil) {
-        auto deep = [data valueForKey:@"$include"];
+        id deep = [data valueForKey:@"$include"];
         vs::upair_t pQuery;
         std::shared_ptr<vs::collect_t> pCollect;
         

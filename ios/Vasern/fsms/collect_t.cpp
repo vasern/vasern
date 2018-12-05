@@ -154,6 +154,7 @@ namespace vs {
         
         return rs;
     }
+
     
     size_t collect_t::count(upair_t* query) {
         return indexes.filter(query).size();

@@ -50,6 +50,14 @@ namespace vs {
         bool is_match(value_t* cmp) {
             return value.compare(cmp->str_value()) == 0;
         }
+        
+        bool is_gt(value_t* cmp) {
+            return value.compare(cmp->str_value()) < 0;
+        }
+        
+        bool is_lt(value_t* cmp) {
+            return value.compare(cmp->str_value()) > 0;
+        }
     };
     
     struct value_int
