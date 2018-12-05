@@ -8,6 +8,7 @@ namespace vs {
     , meta_path(std::string(path).append("/meta.bin"))
     , ready(false)
     , version(0) {
+        writer = new writer_t(this->meta_path.c_str(), &meta);
         meta = desc_t({
             col_key_t("collection", ""),
             col_str_t("desc", "", 100),
@@ -30,7 +31,8 @@ namespace vs {
 
     // IO
     void fsm::open_writer() {
-        writer = new writer_t(meta_path.c_str(), &meta);
+        writer->open_conn();
+//        writer = new writer_t(meta_path.c_str(), &meta);
     }
 
     void fsm::close_writer() {

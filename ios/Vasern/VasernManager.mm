@@ -244,9 +244,9 @@ RCT_EXPORT_METHOD(Delete:  (NSString*)collect_name
     std::shared_ptr<vs::collect_t> collect = fsm.select([collect_name UTF8String]);
     std::vector<const char*> ids = vs_utils_ios::to_vector<const char*>(data);
     
-    collect->open_writer();
+//    collect->open_writer();
     collect->remove(ids);
-    collect->open_writer();
+//    collect->close_writer();
     
     resolve(@{ @"status": @200 });
 }

@@ -125,7 +125,19 @@ export default class Collection<Props> {
       
       let queryResults = await VasernManager.Count(this.name, toNativeQuery(this.props, query));
       result.count = queryResults.data.count;
-      console.log(result);
+    })();
+
+    return result;
+  }
+
+  rRemove(ids: Array<string>) {
+    var result = new Proxy({ status: 0 }, {});
+
+    (async () => {
+      
+      let queryResults = await VasernManager.Delete(this.name, ids);
+      result.status = queryResults.status;
+      console.log(result)
     })();
 
     return result;

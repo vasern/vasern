@@ -10,8 +10,22 @@ namespace vs {
     , desc(_desc)
     , b_size(_desc->block_size())
     , r_size(_desc->block_size() - 3)
-    , file(_path, std::ios::binary | std::ios::app) {
+//    , file(_path, std::ios::binary | std::ios::app)
+    {
+        
+    }
+    
+    void writer_t::open_conn() {
+        file.open(path.c_str(), std::ios::binary | std::ios::app);
         last_block_pos = file.tellp() / b_size;
+    }
+    
+    void writer_t::open_trunc() {
+        ffile.open(path.c_str(), std::ios::binary | std::ios::out | std::ios::in);
+    }
+    
+    void writer_t::close_trunc() {
+        ffile.close();
     }
     
     writer_t::~writer_t() { }
@@ -35,16 +49,31 @@ namespace vs {
         meta[2] = '0';
         file.write(meta, 3);
         
-        return last_block_pos += 1;
+        size_t curr = last_block_pos;
+        last_block_pos += 1;
+        return curr;
     }
 
     void writer_t::remove(size_t pos, int num_of_block) {
         
         // Move cursor to begin position
-        file.seekp(b_size * pos);
+        ffile.seekp(b_size * pos, std::ios::beg);
         
-        // Override record with blank
-        file.write("", b_size * num_of_block);
+        int i = 0;
+        char meta[3];
+        meta[0] = -1;
+        meta[1] = 1;
+        
+        while (i < num_of_block) {
+            // Override record with blank
+            ffile.write("", r_size);
+            
+            meta[2] = (char)i;
+            ffile.write(meta, 3);
+            i++;
+        }
+        
+//        file.flush();
     }
     
     size_t writer_t::update(size_t pos, std::string* buff, row_desc_t row) {

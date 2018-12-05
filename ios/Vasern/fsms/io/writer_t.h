@@ -18,7 +18,10 @@ namespace vs {
         size_t insert(std::string* buff, row_desc_t row);
         void remove(size_t pos, int num_of_blocks);
         size_t update(size_t pos, std::string* buff, row_desc_t row);
-
+        
+        void open_trunc();
+        void close_trunc();
+        void open_conn();
         void close_conn();
 
     private:
@@ -29,6 +32,7 @@ namespace vs {
         size_t last_block_pos;
         
         std::ofstream file;
+        std::fstream ffile;
         std::string path;
     };
 

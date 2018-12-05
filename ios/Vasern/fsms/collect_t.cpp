@@ -10,13 +10,14 @@ namespace vs {
     : path(std::string(dir).append("/").append(_name).append(".bin"))
     , desc(_desc)
     {
-        
+        writer = new writer_t(this->path.c_str(), &desc);
     }
     
     collect_t::collect_t(const char* dir, const char* _name, desc_t _desc, bool _startup)
     : path(std::string(dir).append("/").append(_name).append(".bin"))
     , desc(_desc)
     {
+        writer = new writer_t(this->path.c_str(), &desc);
         if (_startup) {
             startup();
         }
@@ -31,6 +32,7 @@ namespace vs {
 
     void collect_t::remove(std::vector<const char*> key) {
         open_reader();
+        writer->open_trunc();
         
         record_t* r;
         size_t pos;
@@ -42,17 +44,23 @@ namespace vs {
                 r= reader->get_ptr(pos);
                 writer->remove(pos, r->total_blocks());
                 
-                indexes.remove(new upair_t{{ "id", value_f::create(iid) }});
+                indexes.remove(&found.front()->items);
             }
         }
         
+        writer->close_trunc();
         close_reader();
         // TODO: throw error
     }
 
     // IO
     void collect_t::open_writer() {
-        writer = new writer_t(path.c_str(), &desc);
+//        writer = new writer_t(path.c_str(), &desc);
+        writer->open_conn();
+    }
+    
+    void collect_t::open_writer_u() {
+        writer->open_trunc();
     }
 
     void collect_t::close_writer() {

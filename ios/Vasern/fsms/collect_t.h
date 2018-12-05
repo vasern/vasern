@@ -25,6 +25,7 @@ namespace vs {
         void remove(std::vector<const char*> key);
 
         void open_writer();
+        void open_writer_u();
         void close_writer();
 
         void open_reader();
