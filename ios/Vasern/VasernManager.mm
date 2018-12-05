@@ -114,7 +114,7 @@ RCT_EXPORT_METHOD(Query: (NSString*)collect_name
     std::shared_ptr<vs::collect_t> collect;
     
     NSMutableDictionary* queries = [data mutableCopy];
-    [queries removeObjectsForKeys:@[@"$prefetch", @"$include", @"$limit", @"$paging"]];
+    [queries removeObjectsForKeys:@[@"$prefetch", @"$include", @"$limit", @"$paging", @"$sort"]];
     
     // Process `$prefetch` and `$include`
     
@@ -236,7 +236,7 @@ RCT_EXPORT_METHOD(Count: (NSString*)collect_name
     });
 }
 
-RCT_EXPORT_METHOD(Delete:  (NSString*)collect_name
+RCT_EXPORT_METHOD(Delete: (NSString*)collect_name
                   data:(NSArray*)data
                   getWithResolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {

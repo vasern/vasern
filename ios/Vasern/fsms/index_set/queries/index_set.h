@@ -28,6 +28,9 @@ namespace vs {
         void remove(value_ptr);
         
         std::vector<value_ptr> filter(upair_t*);
+        std::vector<value_ptr> filter(upair_t*, const char*, bool);
+        
+        void sort(std::vector<value_ptr>*, const char*, bool);
         
         value_ptr get(upair_t*);
         const char* get_id(upair_t*);

@@ -2,6 +2,19 @@
 
 type RType = "datetime" | "string" | "int" | "double" | "float" | "boolean";
 
+function toNativeSortQueryValue(value: any) {
+	let rs = {};
+
+  if (typeof value === "boolean") {
+  	return value;
+  } else if (typeof value === "string") {
+  	
+    rs[value] = true;
+  }
+  
+  return rs;
+}
+
 function toValue(value: any) {
     if (value.constructor.name === "Date") {
         return value.getTime();
@@ -100,6 +113,9 @@ function toNativeQuery(schema, query: Object) {
             }
             rs[key] = inclueQ;
 
+        } else if (key ==="$sort") {
+        	
+        	rs[key] = toNativeSortQueryValue(query[key]);
         } else if(key.indexOf("$") === 0) {
             rs[key] = query[key];
         } else if (scm.type === "ref" && "equal" in query[key] === false) {

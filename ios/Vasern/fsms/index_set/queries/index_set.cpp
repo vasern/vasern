@@ -101,6 +101,37 @@ namespace vs {
         return list;
     }
     
+    template<typename T>
+    std::vector<value_ptr> index_set<T>::filter(upair_t* query, const char* order_by, bool desc) {
+        std::vector<value_ptr> rs = filter(query);
+        
+        if (desc) {
+            std::sort(rs.begin(), rs.end(), [&order_by](value_ptr a, value_ptr b) {
+                return a->items[order_by]->is_gt(b->items[order_by]);
+            });
+        } else {
+            std::sort(rs.begin(), rs.end(), [&order_by](value_ptr a, value_ptr b) {
+                return a->items[order_by]->is_lt(b->items[order_by]);
+            });
+        }
+        
+        return rs;
+    }
+    
+    template<typename T>
+    void index_set<T>::sort(std::vector<value_ptr>* rs, const char* order_by, bool desc) {
+
+        if (desc) {
+            std::sort(rs->begin(), rs->end(), [&order_by](value_ptr a, value_ptr b) {
+                return a->items[order_by]->is_gt(b->items[order_by]);
+            });
+        } else {
+            std::sort(rs->begin(), rs->end(), [&order_by](value_ptr a, value_ptr b) {
+                return a->items[order_by]->is_lt(b->items[order_by]);
+            });
+        }
+    }
+    
     template <typename T>
     value_ptr index_set<T>::get(upair_t* query) {
         auto itr = query->begin();

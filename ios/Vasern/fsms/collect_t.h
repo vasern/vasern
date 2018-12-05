@@ -33,6 +33,7 @@ namespace vs {
 
         record_t* get(const char*);
         std::vector<record_t*> filter(upair_t*);
+        std::vector<record_t*> filter(upair_t*, const char*, bool);
         
         size_t count(upair_t*);
         

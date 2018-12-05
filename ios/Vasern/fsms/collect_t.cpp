@@ -144,6 +144,17 @@ namespace vs {
         return rs;
     }
     
+    std::vector<record_t*> collect_t::filter(upair_t* query, const char* order_by, bool desc) {
+        auto items = indexes.filter(query, order_by, desc);
+        std::vector<record_t*> rs;
+        
+        for (auto itr : items) {
+            rs.push_back(reader->get_ptr(itr->value));
+        }
+        
+        return rs;
+    }
+    
     size_t collect_t::count(upair_t* query) {
         return indexes.filter(query).size();
     }
