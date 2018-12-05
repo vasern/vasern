@@ -108,6 +108,21 @@ namespace vs {
     };
     
     template <typename T>
+    void index_set<T>::remove(upair_t* query) {
+        auto found = query->begin();
+        auto value = _set[found->first]->get(found->second).front()->items;
+        
+        for (auto itr : value) {
+            _set[itr.first]->remove(itr.second);
+        }
+//        for (auto itr : _set[found->first]->get(found->second).front()->items) {
+//
+//            // TODO: iterate through _set, remove value then remove key in _set
+//            itr.remove(found->second);
+//        }
+    };
+    
+    template <typename T>
     const char* index_set<T>::get_id(upair_t* query) {
         auto itr = query->begin();
         return _set[itr->first]->get(itr->second).front()->items["id"]->str_value();

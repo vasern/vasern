@@ -22,7 +22,7 @@ namespace vs {
         collect_t(const char* path, const char* name, desc_t desc, bool startup);
 
         void insert(std::string* buff, row_desc_t row);
-        void remove(const char* key);
+        void remove(std::vector<const char*> key);
 
         void open_writer();
         void close_writer();

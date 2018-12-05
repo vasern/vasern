@@ -29,6 +29,9 @@ namespace vs_utils_ios {
     // This method is used to setup storage directories
     const char* create_dir(const char* name);
     
+    template <typename T>
+    std::vector<T> to_vector(NSArray*);
+    
 }
 
 

@@ -230,9 +230,26 @@ RCT_EXPORT_METHOD(Count: (NSString*)collect_name
     collect->close_reader();
     
     
-    resolve(@{ @"data": @{ @"count": result } });
+    resolve(@{
+      @"data": @{ @"count": result },
+      @"status": @200
+    });
 }
 
+RCT_EXPORT_METHOD(Delete:  (NSString*)collect_name
+                  data:(NSArray*)data
+                  getWithResolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    
+    std::shared_ptr<vs::collect_t> collect = fsm.select([collect_name UTF8String]);
+    std::vector<const char*> ids = vs_utils_ios::to_vector<const char*>(data);
+    
+    collect->open_writer();
+    collect->remove(ids);
+    collect->open_writer();
+    
+    resolve(@{ @"status": @200 });
+}
 
 RCT_EXPORT_METHOD(Startup: (NSDictionary*)models
                   getWithResolver:(RCTPromiseResolveBlock)resolve

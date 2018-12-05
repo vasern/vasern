@@ -29,15 +29,24 @@ namespace vs {
         indexes.push(value_ptr(new value_i<size_t>{ pos, row.pairs }));
     }
 
-    void collect_t::remove(const char* key) {
+    void collect_t::remove(std::vector<const char*> key) {
+        open_reader();
         
-        upair_t query = {{ "id", value_f::create(key) }};
-        auto found = indexes.filter(&query);
-        if (found.size() > 0) {
-            // TODO: get number of block
-            writer->remove(found.front()->value, 1);
+        record_t* r;
+        size_t pos;
+        for (auto iid : key) {
+            upair_t query = {{ "id", value_f::create(iid) }};
+            auto found = indexes.filter(&query);
+            if (found.size() > 0) {
+                pos = found.front()->value;
+                r= reader->get_ptr(pos);
+                writer->remove(pos, r->total_blocks());
+                
+                indexes.remove(new upair_t{{ "id", value_f::create(iid) }});
+            }
         }
         
+        close_reader();
         // TODO: throw error
     }
 

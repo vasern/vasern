@@ -159,4 +159,17 @@ namespace vs_utils_ios {
         }
     }
     
-} // namespace vasern
+    template<>
+    std::vector<const char*> to_vector(NSArray* objects) {
+        std::vector<const char*> rs;
+        rs.reserve([objects count]);
+        
+        
+        for (id itr in objects) {
+            rs.push_back([itr UTF8String]);
+        }
+        
+        return rs;
+    };
+    
+}; // namespace vasern
