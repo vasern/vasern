@@ -13,10 +13,9 @@
 #include <string>
 #include <vector>
 #include "value_t.h"
+#include "types.h"
 
 namespace vs {
-    
-    typedef std::unordered_map<std::string, value_t*> upair_t;
     
     template<typename T>
     struct value_i {

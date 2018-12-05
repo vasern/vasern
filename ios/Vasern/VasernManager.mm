@@ -6,11 +6,12 @@
 //================================================================
 
 #import <Foundation/Foundation.h>
+#import <unordered_map>
 
 #import "VasernManager.h"
 #import "utils/utils.h"
-#import <unordered_map>
 #import "fsms/fsm.h"
+#import "fsms/index_set/queries/value_f.h"
 
 const char* dir = vs_utils_ios::create_dir("fsm");
 vs::fsm fsm(dir);
@@ -41,9 +42,14 @@ RCT_EXPORT_METHOD(Insert: (NSString *)collection
     const char* ikey;
     id indexValue;
     vs::col_t* col;
+    vs::upair_t i_pairs;
+    
+    // TODO: replace row_desc_t "indexes" with "pairs"
+    
     for (id it in data) {
         
         indexObjs = [it objectForKey:@"indexes"];
+        i_pairs = vs::upair_t();
         
         for (auto const& iitem : coll->desc.indexes) {
             ikey = iitem->name.c_str();
@@ -54,22 +60,27 @@ RCT_EXPORT_METHOD(Insert: (NSString *)collection
                 case vs::STRING:
                 case vs::KEY:
                     col->set([indexValue UTF8String]);
+                    i_pairs[ikey] = vs::value_f::create([indexValue UTF8String]);
                     break;
                     
                 case vs::INT_N:
                     col->set([indexValue intValue]);
+                    i_pairs[ikey] = vs::value_f::create([indexValue intValue]);
                     break;
                     
                 case vs::BOOLEAN:
                     col->set([indexValue boolValue]);
+                    i_pairs[ikey] = vs::value_f::create([indexValue boolValue]);
                     break;
                     
                 case vs::DOUBLE_N:
                     col->set([indexValue doubleValue]);
+                    i_pairs[ikey] = vs::value_f::create([indexValue doubleValue]);
                     break;
                     
                 case vs::LONG_N:
                     col->set([indexValue longValue]);
+                    i_pairs[ikey] = vs::value_f::create([indexValue longValue]);
                     break;
             };
             
@@ -79,7 +90,8 @@ RCT_EXPORT_METHOD(Insert: (NSString *)collection
         vs::row_desc_t row = {
             vs::col_key_t("id", [it[@"id"] UTF8String]),
             vs::col_str_t("body", [it[@"body"] UTF8String]),
-            indexes
+            indexes,
+            i_pairs
         };
         coll->insert(&buff, row);
         

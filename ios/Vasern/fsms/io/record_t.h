@@ -2,7 +2,7 @@
 #ifndef record_t_h
 #define record_t_h
 
-#include "desc_t.h"
+#include "../types/desc_t.h"
 #include <string>
 
 namespace vs {

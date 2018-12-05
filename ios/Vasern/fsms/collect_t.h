@@ -7,6 +7,7 @@
 #include "index_set/queries/query_t.h"
 #include "index_set/queries/index_set.h"
 #include "types/desc_t.h"
+#include "types/types.h"
 
 #include <string>
 
@@ -30,7 +31,7 @@ namespace vs {
         void close_reader();
 
         record_t* get(const char*);
-        std::vector<record_t*> filter(vs::upair_t*);
+        std::vector<record_t*> filter(upair_t*);
         
         size_t count(upair_t*);
         
@@ -39,7 +40,7 @@ namespace vs {
         vs::value_ptr load_i_value(record_t* r, size_t pos);
         
         prop_desc_t type_of(const char*);
-        const char* get_id(vs::upair_t*);
+        const char* get_id(upair_t*);
         
     private:
         

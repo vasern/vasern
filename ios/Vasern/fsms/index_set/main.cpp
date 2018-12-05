@@ -1,4 +1,5 @@
 #include "queries/index_set.h"
+#include "queries/value_f.h"
 
 int main(int argc, const char * argv[]) {
 

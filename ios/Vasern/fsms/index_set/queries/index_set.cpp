@@ -28,7 +28,9 @@ namespace vs {
         
         // Push value pointer into each index set
         for (auto k : value->items) {
-            _set[k.first]->push(k.second, value);
+            _set[k.first]->push(
+                                k.second,
+                                value);
         }
 //        for (auto s : _set) {
 ////            s.second->push(value->items[s.first])

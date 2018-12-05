@@ -1,5 +1,6 @@
 
 #include "collect_t.h"
+#include "index_set/queries/value_f.h"
 
 namespace vs {
 
@@ -8,7 +9,9 @@ namespace vs {
     collect_t::collect_t(const char* dir, const char* _name, desc_t _desc)
     : path(std::string(dir).append("/").append(_name).append(".bin"))
     , desc(_desc)
-    { }
+    {
+        
+    }
     
     collect_t::collect_t(const char* dir, const char* _name, desc_t _desc, bool _startup)
     : path(std::string(dir).append("/").append(_name).append(".bin"))
@@ -20,11 +23,22 @@ namespace vs {
     }
     
     void collect_t::insert(std::string* buff, row_desc_t row) {
-        writer->insert(buff, row);
+        
+        size_t pos = writer->insert(buff, row);
+        
+        indexes.push(value_ptr(new value_i<size_t>{ pos, row.pairs }));
     }
 
     void collect_t::remove(const char* key) {
-        writer->remove(key);
+        
+        upair_t query = {{ "id", value_f::create(key) }};
+        auto found = indexes.filter(&query);
+        if (found.size() > 0) {
+            // TODO: get number of block
+            writer->remove(found.front()->value, 1);
+        }
+        
+        // TODO: throw error
     }
 
     // IO
@@ -61,11 +75,12 @@ namespace vs {
     }
     
     void collect_t::startup() {
+        
+        init_index();
+        
         open_reader();
         
         if (reader->is_open()) {
-            
-            init_index();
             
             // TODO: Load ids and indexes
             size_t num_of_blocks = reader->size() / desc.block_size();

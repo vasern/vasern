@@ -14,14 +14,9 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include "../index_set/queries/q_types.h"
 
 namespace vs {
-    
-    struct row_desc_t {
-        col_key_t key;
-        col_str_t value;
-        std::vector<col_t*> indexes;
-    };
     
     class desc_t {
     

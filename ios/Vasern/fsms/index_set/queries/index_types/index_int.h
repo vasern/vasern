@@ -10,6 +10,7 @@
 #define index_int_h
 
 #include "index_t.h"
+#include "../value_f.h"
 
 namespace vs {
     

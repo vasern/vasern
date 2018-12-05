@@ -20,8 +20,10 @@
 		C8282FAC21ACB25800B6E91A /* index_t.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C8282F9B21ACB25800B6E91A /* index_t.cpp */; };
 		C8282FAD21ACB25800B6E91A /* index_set.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C8282FA321ACB25800B6E91A /* index_set.cpp */; };
 		C8282FAE21ACB25800B6E91A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C8282FAB21ACB25800B6E91A /* main.cpp */; };
+		C897842421B76E4C00FC95D0 /* types.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C897842321B76E4C00FC95D0 /* types.cpp */; };
+		C897842721B7717700FC95D0 /* value_f.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C897842621B7717700FC95D0 /* value_f.cpp */; };
+		C897843521B7727300FC95D0 /* VasernManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = C8F27D962158BB6900875FCD /* VasernManager.mm */; };
 		C8F27D982158BB6900875FCD /* utils.mm in Sources */ = {isa = PBXBuildFile; fileRef = C8F27D952158BB6900875FCD /* utils.mm */; };
-		C8F27D992158BB6900875FCD /* VasernManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = C8F27D962158BB6900875FCD /* VasernManager.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -81,6 +83,11 @@
 		C8282FA821ACB25800B6E91A /* index_set.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = index_set.h; sourceTree = "<group>"; };
 		C8282FA921ACB25800B6E91A /* template.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = template.h; sourceTree = "<group>"; };
 		C8282FAB21ACB25800B6E91A /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		C897841F21B7688200FC95D0 /* q_types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = q_types.h; sourceTree = "<group>"; };
+		C897842021B7692900FC95D0 /* types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		C897842321B76E4C00FC95D0 /* types.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = types.cpp; sourceTree = "<group>"; };
+		C897842521B76FC600FC95D0 /* value_f.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = value_f.h; sourceTree = "<group>"; };
+		C897842621B7717700FC95D0 /* value_f.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = value_f.cpp; sourceTree = "<group>"; };
 		C8A86EA6216F1A3600C920AB /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		C8F27D892158BB5C00875FCD /* libVasern.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVasern.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		C8F27D952158BB6900875FCD /* utils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = utils.mm; sourceTree = "<group>"; };
@@ -131,6 +138,8 @@
 		C8282EE721A80EA600B6E91A /* types */ = {
 			isa = PBXGroup;
 			children = (
+				C897842021B7692900FC95D0 /* types.h */,
+				C897842321B76E4C00FC95D0 /* types.cpp */,
 				C8282EF221A80EA600B6E91A /* enums.h */,
 				C8282EE821A80EA600B6E91A /* desc_t.h */,
 				C8282EEC21A80EA600B6E91A /* desc_t.cpp */,
@@ -181,7 +190,10 @@
 				C8282FA421ACB25800B6E91A /* query_t.h */,
 				C8282FA521ACB25800B6E91A /* value_i.h */,
 				C8282FA721ACB25800B6E91A /* value_t.h */,
+				C897842521B76FC600FC95D0 /* value_f.h */,
+				C897842621B7717700FC95D0 /* value_f.cpp */,
 				C8282FA921ACB25800B6E91A /* template.h */,
+				C897841F21B7688200FC95D0 /* q_types.h */,
 			);
 			path = queries;
 			sourceTree = "<group>";
@@ -290,7 +302,6 @@
 				C8282F0C21A80EA600B6E91A /* reader_t.cpp in Sources */,
 				C8282F0D21A80EA600B6E91A /* record_t.cpp in Sources */,
 				C8282F1121A80EA600B6E91A /* collect_t.cpp in Sources */,
-				C8F27D992158BB6900875FCD /* VasernManager.mm in Sources */,
 				C8282FAD21ACB25800B6E91A /* index_set.cpp in Sources */,
 				C8282FAC21ACB25800B6E91A /* index_t.cpp in Sources */,
 				C8282F2021A8138400B6E91A /* config.cpp in Sources */,
@@ -300,7 +311,10 @@
 				C8282F0F21A80EA600B6E91A /* fsm.cpp in Sources */,
 				C8282F0B21A80EA600B6E91A /* row_t.cpp in Sources */,
 				C8282F1021A80EA600B6E91A /* main.cpp in Sources */,
+				C897843521B7727300FC95D0 /* VasernManager.mm in Sources */,
 				C8282F0921A80EA600B6E91A /* desc_t.cpp in Sources */,
+				C897842721B7717700FC95D0 /* value_f.cpp in Sources */,
+				C897842421B76E4C00FC95D0 /* types.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,7 @@
 
 
 #include "utils.h"
+#include "../fsms/index_set/queries/value_f.h"
 
 namespace vs_utils_ios {
     
@@ -63,6 +64,9 @@ namespace vs_utils_ios {
         NSMutableArray* rs = [NSMutableArray arrayWithCapacity:end - start];
         
         int i = start, rsi = 0;
+        size_t r_size = records.size();
+        if (end > r_size) { end = r_size; };
+        
         NSMutableDictionary* obj;
         vs::record_t* r;
         while (i < end) {

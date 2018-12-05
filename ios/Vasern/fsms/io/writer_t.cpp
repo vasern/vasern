@@ -1,6 +1,7 @@
 
 #include "writer_t.h"
 #include "../types/col_t.h"
+#include "../types/types.h"
 
 namespace vs {
 
@@ -9,11 +10,13 @@ namespace vs {
     , desc(_desc)
     , b_size(_desc->block_size())
     , r_size(_desc->block_size() - 3)
-    , file(_path, std::ios::binary | std::ios::app) { }
+    , file(_path, std::ios::binary | std::ios::app) {
+        last_block_pos = file.tellp() / b_size;
+    }
     
     writer_t::~writer_t() { }
 
-    void writer_t::insert(std::string* buff, row_desc_t row) {
+    size_t writer_t::insert(std::string* buff, row_desc_t row) {
         
         size_t pos = 0;
         file.write(row.key.c_str(), desc->key.size());
@@ -32,10 +35,25 @@ namespace vs {
         meta[2] = '0';
         file.write(meta, 3);
         
+        return last_block_pos += 1;
     }
 
-    void writer_t::remove(const char* key) {
-        // TODO: find out block position and override with \0
+    void writer_t::remove(size_t pos, int num_of_block) {
+        
+        // Move cursor to begin position
+        file.seekp(b_size * pos);
+        
+        // Override record with blank
+        file.write("", b_size * num_of_block);
+    }
+    
+    size_t writer_t::update(size_t pos, std::string* buff, row_desc_t row) {
+        
+        // TODO
+        // If record doesn't fit current pos row
+        // remove record and write to end of file
+        
+        return 0;
     }
 
     void writer_t::close_conn() {
