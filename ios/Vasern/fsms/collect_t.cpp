@@ -34,15 +34,13 @@ namespace vs {
         
         writer->open_trunc();
         
-        size_t pos;
         for (auto iid : key) {
             upair_t query = {{ "id", value_f::create(iid) }};
-            auto found = indexes.filter(&query);
-            if (found.size() > 0) {
-                pos = found.front()->value;
-                writer->remove(pos);
+            auto found = indexes.get(&query);
+            if (found) {
                 
-                indexes.remove(&found.front()->items);
+                writer->remove(found->value);
+                indexes.remove(found);
             }
         }
         
@@ -128,9 +126,10 @@ namespace vs {
     
     record_t* collect_t::get(const char* id) {
         upair_t query = {{ "id", value_f::create(id) }};
-        size_t i = indexes.get(&query);
+        size_t i = indexes.get(&query)->value;
         
         // TODO: add value_ptr to index_t::create
+        // - through error if not found
         return reader->get_ptr(i);
     }
     

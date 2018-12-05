@@ -34,8 +34,10 @@ namespace vs {
             items[key->double_value()] = values;
         }
         
-        void remove(value_t* key) {
-            items.erase(key->double_value());
+        void remove(value_t* key, value_ptr value) {
+            auto vec = &items[key->double_value()];
+            
+            vec->erase(std::remove_if(vec->begin(), vec->end(), [&value](value_ptr ptr){ return ptr == value; }), vec->end());
         }
         
         std::vector<value_ptr> get(value_t* key) {

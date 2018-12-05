@@ -102,23 +102,16 @@ namespace vs {
     }
     
     template <typename T>
-    T index_set<T>::get(upair_t* query) {
+    value_ptr index_set<T>::get(upair_t* query) {
         auto itr = query->begin();
-        return _set[itr->first]->get(itr->second).front()->value;
+        return _set[itr->first]->get(itr->second).front();
     };
     
     template <typename T>
-    void index_set<T>::remove(upair_t* items) {
-      
-        
-        for (auto itr : *items) {
-            _set[itr.first]->remove(itr.second);
+    void index_set<T>::remove(value_ptr ptr) {
+        for (auto itr : ptr->items) {
+            _set[itr.first]->remove(itr.second, ptr);
         }
-//        for (auto itr : _set[found->first]->get(found->second).front()->items) {
-//
-//            // TODO: iterate through _set, remove value then remove key in _set
-//            itr.remove(found->second);
-//        }
     };
     
     template <typename T>

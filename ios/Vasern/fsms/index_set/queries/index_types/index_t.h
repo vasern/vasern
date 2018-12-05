@@ -14,6 +14,7 @@
 
 #include <unordered_map>
 #include <vector>
+#include <algorithm>
 
 namespace vs {
     
@@ -32,8 +33,11 @@ namespace vs {
         virtual
         void update(value_t* old_key, value_t* key) { };
         
+//        virtual
+//        void remove(value_t* key) { };
+        
         virtual
-        void remove(value_t* key) { };
+        void remove(value_t* key, value_ptr value) { };
         
         virtual
         std::vector<value_ptr> get(value_t* key) {

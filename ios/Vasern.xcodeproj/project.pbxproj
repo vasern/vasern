@@ -174,8 +174,8 @@
 		C8282F9821ACB25800B6E91A /* index_set */ = {
 			isa = PBXGroup;
 			children = (
-				C8282FA921ACB25800B6E91A /* template.h */,
 				C8282F9921ACB25800B6E91A /* queries */,
+				C8282FA921ACB25800B6E91A /* template.h */,
 				C8282FAB21ACB25800B6E91A /* main.cpp */,
 			);
 			path = index_set;
@@ -201,14 +201,14 @@
 		C8282F9A21ACB25800B6E91A /* index_types */ = {
 			isa = PBXGroup;
 			children = (
-				C8282F9B21ACB25800B6E91A /* index_t.cpp */,
 				C8282F9C21ACB25800B6E91A /* index_int.h */,
 				C8282F9D21ACB25800B6E91A /* index_double.h */,
 				C8282F9E21ACB25800B6E91A /* index_bool.h */,
 				C8282F9F21ACB25800B6E91A /* index_long.h */,
+				C8282FA221ACB25800B6E91A /* index_str.h */,
 				C8282FA021ACB25800B6E91A /* index_t.h */,
 				C8282FA121ACB25800B6E91A /* index_f.h */,
-				C8282FA221ACB25800B6E91A /* index_str.h */,
+				C8282F9B21ACB25800B6E91A /* index_t.cpp */,
 			);
 			path = index_types;
 			sourceTree = "<group>";

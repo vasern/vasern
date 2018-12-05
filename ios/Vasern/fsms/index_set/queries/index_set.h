@@ -25,10 +25,11 @@ namespace vs {
         index_set(std::unordered_map<std::string, prop_desc_t> args);
         
         void push(std::shared_ptr<value_i<T>> value);
-        void remove(upair_t*);
+        void remove(value_ptr);
         
         std::vector<value_ptr> filter(upair_t*);
-        T get(upair_t*);
+        
+        value_ptr get(upair_t*);
         const char* get_id(upair_t*);
         
         std::vector<T> get_multiple(upair_t*);
