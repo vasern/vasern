@@ -17,6 +17,7 @@ namespace vs {
     
     void writer_t::open_conn() {
         file.open(path.c_str(), std::ios::binary | std::ios::app);
+    
         last_block_pos = file.tellp() / b_size;
     }
     

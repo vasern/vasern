@@ -8,7 +8,6 @@ namespace vs {
     , meta_path(std::string(path).append("/meta.bin"))
     , ready(false)
     , version(0) {
-        writer = new writer_t(this->meta_path.c_str(), &meta);
         meta = desc_t({
             col_key_t("collection", ""),
             col_str_t("desc", "", 100),
@@ -21,6 +20,8 @@ namespace vs {
             },
             1
         });
+        
+        writer = new writer_t(this->meta_path.c_str(), &meta);
         startup();
         ready = true;
     }
@@ -81,7 +82,7 @@ namespace vs {
     }
 
     void fsm::setup(std::unordered_map<std::string, desc_t> desc) {
-//        size_t ds = meta.block_size();
+
         open_writer();
         
         std::string buff;
@@ -111,60 +112,6 @@ namespace vs {
         version = 1;
         close_writer();
     }
-
-    // void fsm::setup(std::unordered_map<std::string, row_t> descs) {
-    //     open_writer();
-    //     // collections = descs;
-
-    //     int num_of_coll = descs.size();
-    //     version++;
-    //     file.write((char*)&version, sizeof(version));
-    //     file.write((char*)&num_of_coll, sizeof(num_of_coll));
-
-    //     int b_size, num_of_cols;
-    //     for (auto row : descs) {
-
-    //         b_size = row.second.b_size;
-    //         num_of_cols = row.second.cols.size();
-
-    //         file.write(row.first.c_str(), 20); // row name
-    //         file.write((char*)&b_size, sizeof(b_size)); // row block size
-    //         file.write((char*)&num_of_cols, sizeof(num_of_cols)); // number of columns
-
-    //         for (auto col : row.second.cols) {
-    //             file.write(col.name, 20);
-    //             file.write((char*)&col.type, sizeof(prop_desc_t));
-    //         }
-
-    //         collections[row.first] = std::shared_ptr<collect_t>(new collect_t(dir.c_str(), row.first.c_str(), row.second));
-    //     }
-
-    //     close_writer();
-    // }
-
-//    void fsm::append_schema(const char* name, row_t desc) {
-//        open_writer();
-
-//        if (file.is_open()) {
-//            int num_of_coll = collections.size();
-//
-//            int b_size;
-//
-//            b_size = 1024;
-//
-//            file.write(name, 20); // row name
-//            file.write((char*)&b_size, sizeof(b_size)); // row block size
-//
-//            for (auto col : desc.cols) {
-//                file.write(col.name, 20);
-//                file.write((char*)&col.type, 1);
-//            }
-//
-//            close_writer();
-//
-//            collections[name] =  std::shared_ptr<collect_t>(new collect_t(dir.c_str(), name, desc));
-//        }
-//    }
     
     std::vector<col_t*> fsm::str_parse(std::string desc) {
         

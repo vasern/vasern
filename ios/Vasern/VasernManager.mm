@@ -271,12 +271,9 @@ RCT_EXPORT_METHOD(Delete: (NSString*)collect_name
                   getWithResolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
-    std::shared_ptr<vs::collect_t> collect = fsm.select([collect_name UTF8String]);
-    std::vector<const char*> ids = vs_utils_ios::to_vector<const char*>(data);
     
-//    collect->open_writer();
-    collect->remove(ids);
-//    collect->close_writer();
+    fsm.select([collect_name UTF8String])
+        ->remove(vs_utils_ios::to_vector<const char*>(data));
     
     resolve(@{ @"status": @200 });
 }

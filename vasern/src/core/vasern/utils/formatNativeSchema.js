@@ -26,6 +26,11 @@ function formatNativeSchema(props: Object) {
             nativeSchema.body[name] = prop;
         }
     };
+    
+    if (!props.version) {
+        nativeSchema.version = 1;
+    }
+
     return nativeSchema;
 }
 

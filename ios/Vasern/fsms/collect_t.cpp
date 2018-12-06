@@ -10,6 +10,7 @@ namespace vs {
     : path(std::string(dir).append("/").append(_name).append(".bin"))
     , desc(_desc)
     {
+        init_index();
         writer = new writer_t(this->path.c_str(), &desc);
     }
     
