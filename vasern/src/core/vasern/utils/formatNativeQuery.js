@@ -31,7 +31,7 @@ function toValue(value: any) {
  * @param layout: value type
  * @param {any} value: value
  */
-function toNativeQueryValue(layout: { type: RType, indexed: boolean }, value: any) {
+function formatNativeQueryValue(layout: { type: RType, indexed: boolean }, value: any) {
 
     // Range
     if (Array.isArray(value)) {
@@ -81,9 +81,9 @@ function toNativeQueryValue(layout: { type: RType, indexed: boolean }, value: an
 
     for (key in value) {
         if (key === "range") {
-            rs = toNativeQueryValue(layout, value[key]);
+            rs = formatNativeQueryValue(layout, value[key]);
         } else {
-            rs[key] = toNativeQueryValue(layout, value[key]);
+            rs[key] = formatNativeQueryValue(layout, value[key]);
         }
     }
     return rs;
@@ -95,7 +95,7 @@ function toNativeQueryValue(layout: { type: RType, indexed: boolean }, value: an
  * @param {*} schema: native fsm schema
  * @param {*} query : user defined query
  */
-function toNativeQuery(schema, query: Object) {
+function formatNativeQuery(schema, query: Object) {
     let rs = {};
 
     let scm, key, includeKey;
@@ -111,7 +111,7 @@ function toNativeQuery(schema, query: Object) {
                 inclueQ[includeKey] = query[key][includeKey];
 
                 if ("filter" in query[key][includeKey]) {
-                    inclueQ[includeKey].filter = toNativeQueryValue(scm, query[key][includeKey].filter);
+                    inclueQ[includeKey].filter = formatNativeQueryValue(scm, query[key][includeKey].filter);
                 }
             }
             rs[key] = inclueQ;
@@ -133,46 +133,13 @@ function toNativeQuery(schema, query: Object) {
                 rs.$prefetch[key] = {}
             }
 
-            rs.$prefetch[key][scm.relate] = toNativeQueryValue(scm, query[key]);
+            rs.$prefetch[key][scm.relate] = formatNativeQueryValue(scm, query[key]);
 
         } else {
-            rs[key] = toNativeQueryValue(scm, query[key]);
+            rs[key] = formatNativeQueryValue(scm, query[key]);
         }
     }
     return rs;
 }
 
-/**
- * Convert user defined schema to fsm schema
- * @param props: User defined data schema 
- */
-function toNativeSchema(props: Object) {
-    var nativeSchema = {
-        key: {},
-        indexes: {},
-        body: {}
-    },  prop = {};
-
-    let name: string;
-
-    for (name in props) {
-        prop = props[name];
-
-        if (prop.primary) {
-            nativeSchema.key = prop;
-        } else if (prop.indexed) {
-            nativeSchema.indexes[name] = prop;
-        } else if (prop.type === "ref" || prop.type.indexOf("#") === 0) {
-            prop.size = 32;
-            nativeSchema.indexes[name] = prop;
-        } else {
-            nativeSchema.body[name] = prop;
-        }
-    };
-    return nativeSchema;
-}
-
-export {
-    toNativeQuery,
-    toNativeSchema
-}
+export default formatNativeQuery;

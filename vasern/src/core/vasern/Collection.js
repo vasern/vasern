@@ -15,7 +15,7 @@ import DefaultConfigs from "../../config";
 import ObjectID, { OBJECTID_LEN } from "../../plugins/vasern-objectid";
 
 import ResultProxy from "./ResultProxy";
-import { toNativeQuery, toNativeSchema } from "./utils";
+import { formatNativeQuery, formatNativeSchema, formatSchema } from "./utils";
 
 // @flow
 const { VasernManager } = NativeModules;
@@ -61,7 +61,7 @@ export default class Collection<Props> {
   storeOptions: Object;
   eventManager: EventSubscriber;
 
-  constructor(args: { props: NativePropTypeList, version: number, name: string }) {
+  constructor(args: Function | { props: NativePropTypeList, version: number, name: string }) {
     // Initiate Collection using a schema class
     if (typeof args === "function") {
       // TODO: validate schema (i.e require "name" and "props")
@@ -72,6 +72,8 @@ export default class Collection<Props> {
       this.name = args.name;
     }
 
+    this.props = formatSchema(this.props);
+    
     this.storeOptions = DefaultConfigs.storeOptions;
 
     // Event triggers
@@ -110,7 +112,7 @@ export default class Collection<Props> {
     var result = ResultProxy();
 
     (async () => {
-      let queryResults = await VasernManager.Query(this.name, toNativeQuery(this.props, query));
+      let queryResults = await VasernManager.Query(this.name, formatNativeQuery(this.props, query));
       result.$set = queryResults.data;
     })();
 
@@ -123,7 +125,7 @@ export default class Collection<Props> {
 
     (async () => {
       
-      let queryResults = await VasernManager.Count(this.name, toNativeQuery(this.props, query));
+      let queryResults = await VasernManager.Count(this.name, formatNativeQuery(this.props, query));
       result.count = queryResults.data.count;
     })();
 
@@ -145,7 +147,7 @@ export default class Collection<Props> {
   
   /*:: assignNativeSchema: () => void; */
   assignNativeSchema() {
-    this._nativeSchema = toNativeSchema(this.props);
+    this._nativeSchema = formatNativeSchema(this.props);
   }
 
   object(input) {
