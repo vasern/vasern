@@ -98,29 +98,44 @@ function formatNativeQueryValue(layout: { type: RType, indexed: boolean }, value
 function formatNativeQuery(schema, query: Object) {
     let rs = {};
 
-    let scm, key, includeKey;
+    let scm;
 
-    for (key in query) {
+    for (let key in query) {
         scm = schema[key];
 
         if (key === "$include") {
 
             let inclueQ = {};
 
-            for (includeKey in query[key]) {
-                inclueQ[includeKey] = query[key][includeKey];
+            for (includeItem of query[key]) {
+            
+            	if (typeof includeItem === "string") {
 
-                if ("filter" in query[key][includeKey]) {
-                    inclueQ[includeKey].filter = formatNativeQueryValue(scm, query[key][includeKey].filter);
-                }
-            }
+                    inclueQ[includeItem] = {
+                        relate: schema[includeItem].relate,
+                        refField: includeItem
+                    }
+                } else {
+
+                    for (let includeKey in includeItem) {
+                        inclueQ[includeKey] = includeItem[includeKey];
+
+                        if ("filter" in includeItem) {
+                            inclueQ[includeKey].filter = formatNativeQueryValue(scm, includeItem[includeKey].filter);
+                        }
+                    }
+              }
+            };
             rs[key] = inclueQ;
 
         } else if (key ==="$sort") {
         	
-        	rs[key] = toNativeSortQueryValue(query[key]);
+            rs[key] = toNativeSortQueryValue(query[key]);
+            
         } else if(key.indexOf("$") === 0) {
+
             rs[key] = query[key];
+            
         } else if (scm.type === "ref" && "equal" in query[key] === false) {
 
             // Query with prefetched reference
