@@ -12,7 +12,7 @@
 #import <Foundation/Foundation.h>
 #import <string>
 #import <vector>
-#include "../fsms/collect_t.h"
+#include "../vasern-core/collect_t.h"
 
 namespace vs_utils_ios {
     

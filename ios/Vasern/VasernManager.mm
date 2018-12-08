@@ -10,8 +10,8 @@
 
 #import "VasernManager.h"
 #import "utils/utils.h"
-#import "fsms/fsm.h"
-#import "fsms/index_set/queries/value_f.h"
+#import "vasern-core/fsm.h"
+#import "vasern-core/index_set/queries/value_f.h"
 
 const char* dir = vs_utils_ios::create_dir("fsm");
 vs::fsm fsm(dir);

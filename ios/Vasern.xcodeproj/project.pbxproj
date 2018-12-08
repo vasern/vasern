@@ -117,7 +117,7 @@
 			path = utils;
 			sourceTree = "<group>";
 		};
-		C8282EE621A80EA600B6E91A /* fsms */ = {
+		C8282EE621A80EA600B6E91A /* vasern-core */ = {
 			isa = PBXGroup;
 			children = (
 				C8282F0721A80EA600B6E91A /* main.cpp */,
@@ -132,7 +132,7 @@
 				C8282EF921A80EA600B6E91A /* io */,
 				C8282F0321A80EA600B6E91A /* .gitignore */,
 			);
-			path = fsms;
+			path = "vasern-core";
 			sourceTree = "<group>";
 		};
 		C8282EE721A80EA600B6E91A /* types */ = {
@@ -232,7 +232,7 @@
 		C8F27D8B2158BB5C00875FCD /* Vasern */ = {
 			isa = PBXGroup;
 			children = (
-				C8282EE621A80EA600B6E91A /* fsms */,
+				C8282EE621A80EA600B6E91A /* vasern-core */,
 				C8211071219FC77D0055AA3E /* utils */,
 				C8F27DA02158BB7700875FCD /* LICENSE */,
 				C8F27DA22158BB7700875FCD /* readme.md */,
