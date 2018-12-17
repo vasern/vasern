@@ -7,111 +7,132 @@
 
 
 #include "utils.h"
-#include "../vasern-core/index_set/queries/value_f.h"
+#include "../src/values/value_f.h"
 
 namespace vs_utils_ios {
     
-    void assign_objc_native_value(vs::prop_desc_t type, NSMutableDictionary* obj, vs::record_t* r, const char* name) {
+    NSArray* ulist_to_array(vs::ulist_t list) {
+        NSMutableArray *rs = [NSMutableArray arrayWithCapacity:list.size()];
         
-        switch (type) {
-            case vs::STRING:
-                obj[@(name)] = @(r->str_value(name).c_str());
-                break;
-                
-            case vs::INT_N:
-                obj[@(name)] = @(r->int_value(name));
-                break;
-                
-            case vs::LONG_N:
-                obj[@(name)] = @(r->long_value(name));
-                break;
-                
-            case vs::DOUBLE_N:
-                obj[@(name)] = @(r->double_value(name));
-                break;
-                
-            case vs::BOOLEAN:
-                obj[@(name)] = @(r->bool_value(name));
-                break;
-                
-            default:
-                break;
+        int i = 0;
+        for (auto itr: list) {
+            switch (itr->type) {
+                case vs::STRING:
+                    [rs insertObject:@(itr->str_value()) atIndex:i];
+                    break;
+                    
+                case vs::NUMBER:
+                    [rs insertObject:@(itr->number_value()) atIndex:i];
+                    break;
+                    
+                case vs::BOOLEAN:
+                    [rs insertObject:@(itr->bool_value()) atIndex:i];
+                    break;
+                    
+                case vs::LIST:
+                    [rs insertObject:ulist_to_array(itr->list_values()) atIndex:i];
+                    break;
+                    
+                case vs::OBJECT:
+                    [rs insertObject:upair_to_obj(itr->object()) atIndex:i];
+                    break;
+                    
+                default:
+                    break;
+            }
+            i++;
         }
+        
+        return rs;
     }
     
-    NSArray* to_nsarray(std::vector<vs::record_t*> records, vs::desc_t* desc) {
+    NSDictionary* upair_to_obj(vs::upair_t pairs) {
+        NSMutableDictionary* rs = [NSMutableDictionary dictionaryWithCapacity:pairs.size()];
+        
+        for (auto itr: pairs) {
+            switch (itr.second->type) {
+                case vs::STRING:
+                    rs[@(itr.first.c_str())] = @(itr.second->str_value());
+                    break;
+                    
+                case vs::NUMBER:
+                    rs[@(itr.first.c_str())] = @(itr.second->number_value());
+                    break;
+                    
+                case vs::BOOLEAN:
+                    rs[@(itr.first.c_str())] = @(itr.second->bool_value());
+                    break;
+                    
+                case vs::LIST:
+                    rs[@(itr.first.c_str())] = ulist_to_array(itr.second->list_values());
+                    break;
+                    
+                case vs::OBJECT:
+                    rs[@(itr.first.c_str())] = upair_to_obj(itr.second->object());
+                    break;
+                    
+                default:
+                    break;
+            }
+        }
+        return rs;
+    }
+    
+    
+    NSArray* to_nsarray(std::vector<vs::block_reader*> records) {
         NSMutableArray* rs = [NSMutableArray arrayWithCapacity:records.size()];
         
         int i = 0;
-        NSMutableDictionary* obj;
         for (auto r: records) {
-            obj = [NSMutableDictionary new];
-            [obj setValue:[NSString stringWithUTF8String:r->key().c_str()] forKey:@"id"];
-            [obj setValue:[NSString stringWithUTF8String:r->value().c_str()] forKey:@"body"];
-            
-            for (auto itr : desc->indexes) {
-                assign_objc_native_value(itr->type, obj, r, itr->name.c_str());
-            }
-            
-            [rs insertObject:obj atIndex:i];
+            [rs insertObject:upair_to_obj(r->object()) atIndex:i];
             i++;
         }
-        
         return rs;
     }
     
-    NSArray* to_nsarray(std::vector<vs::record_t*> records, vs::desc_t* desc, long start, long end) {
+    NSArray* to_nsarray(std::vector<vs::block_reader*> records, long start, long end) {
         NSMutableArray* rs = [NSMutableArray arrayWithCapacity:end - start];
-        
-        int i = start, rsi = 0;
-        size_t r_size = records.size();
-        if (end > r_size) { end = r_size; };
-        
-        NSMutableDictionary* obj;
-        vs::record_t* r;
-        while (i < end) {
-            r = records.at(i);
-            obj = [NSMutableDictionary new];
-            [obj setValue:[NSString stringWithUTF8String:r->key().c_str()] forKey:@"id"];
-            [obj setValue:[NSString stringWithUTF8String:r->value().c_str()] forKey:@"body"];
-            
-            for (auto itr : desc->indexes) {
-                assign_objc_native_value(itr->type, obj, r, itr->name.c_str());
-            }
-            
-            [rs insertObject:obj atIndex:rsi++];
-            i++;
-        }
-        
+//
+//        int i = start, rsi = 0;
+//        size_t r_size = records.size();
+//        if (end > r_size) { end = r_size; };
+//
+//        NSMutableDictionary* obj;
+//        vs::record_t* r;
+//        while (i < end) {
+//            r = records.at(i);
+//            obj = [NSMutableDictionary new];
+//            [obj setValue:[NSString stringWithUTF8String:r->key().c_str()] forKey:@"id"];
+//            [obj setValue:[NSString stringWithUTF8String:r->value().c_str()] forKey:@"body"];
+//
+//            for (auto itr : desc->indexes) {
+//                assign_objc_native_value(itr->type, obj, r, itr->name.c_str());
+//            }
+//
+//            [rs insertObject:obj atIndex:rsi++];
+//            i++;
+//        }
+//
         return rs;
     }
-    
-    vs::value_t* get_value(vs::prop_desc_t type, NSDictionary* pair, NSString* key) {
+
+    vs::value_t* get_value(vs::type_desc_t type, NSDictionary* pair, NSString* key) {
         
         switch (type) {
             case vs::STRING:
-            case vs::KEY:
                 return vs::value_f::create([[pair valueForKey:key] UTF8String]);
-            case vs::INT_N:
+            case vs::NUMBER:
                 if ([pair count] == 2) {
                     return vs::value_f::create([[pair valueForKey:@"start"] intValue], [[pair valueForKey:@"end"] intValue]);
                 }
                 return vs::value_f::create([[pair valueForKey:key] intValue]);
-            case vs::LONG_N:
-                if ([pair count] == 2) {
-                    return vs::value_f::create([[pair valueForKey:@"start"] longValue], [[pair valueForKey:@"end"] longValue]);
-                }
-                return vs::value_f::create([[pair valueForKey:key] longValue]);
-            case vs::DOUBLE_N:
-                if ([pair count] == 2) {
-                    return vs::value_f::create([[pair valueForKey:@"start"] doubleValue], [[pair valueForKey:@"end"] doubleValue]);
-                }
-                return vs::value_f::create([[pair valueForKey:key] doubleValue]);
             case vs::BOOLEAN:
                 return vs::value_f::create([[pair valueForKey:key] boolValue]);
+            default:
+                break;
         }
         
-        return new vs::value_t;
+        return NULL;
     }
     
     vs::upair_t to_query(std::shared_ptr<vs::collect_t> coll, NSDictionary* obj) {
@@ -171,5 +192,62 @@ namespace vs_utils_ios {
         
         return rs;
     };
+    
+    void obj_to_upair(NSString* type, vs::upair_t* r_pairs, NSDictionary *rObj) {
+        
+        for (id it in rObj) {
+            
+            type = [NSString stringWithFormat:@"%@", [rObj[it] class]];
+            
+            if ([type isEqualToString:@"NSTaggedPointerString"] || [type isEqualToString:@"__NSCFString"]) {
+                
+                (*r_pairs)[[it UTF8String]] = vs::value_f::create([rObj[it] UTF8String]);
+            } else if ([type isEqualToString:@"__NSCFBoolean"]) {
+                
+                (*r_pairs)[[it UTF8String]] = vs::value_f::create([rObj[it] boolValue]);
+            } else if ([type isEqualToString:@"__NSCFNumber"]) {
+                (*r_pairs)[[it UTF8String]] = vs::value_f::create([rObj[it] doubleValue]);
+            } else if ([type isEqualToString:@"__NSDictionaryM"]) {
+                vs::upair_t obj;
+                obj_to_upair(type, &obj, [rObj objectForKey:it]);
+                (*r_pairs)[[it UTF8String]] = vs::value_f::create(obj);
+            } else if ([type isEqualToString:@"__NSArrayM"]) {
+                std::vector<vs::value_t*> slist;
+                array_to_ulist(type, &slist, [rObj mutableArrayValueForKey:it]);
+                (*r_pairs)[[it UTF8String]] = vs::value_f::create(slist);
+            } else {
+                printf("+++++Type unlo %s\n", [type UTF8String]);
+            }
+            
+        }
+    }
+    
+    void array_to_ulist(NSString *type, std::vector<vs::value_t*>* ulist, NSArray *rObj) {
+        
+        for (id it in rObj) {
+            
+            type = [NSString stringWithFormat:@"%@", [it class]];
+            
+            if ([type isEqualToString:@"NSTaggedPointerString"]) {
+                
+                ulist->push_back(vs::value_f::create([it UTF8String]));
+            } else if ([type isEqualToString:@"__NSCFNumber"]) {
+                ulist->push_back(vs::value_f::create([it doubleValue]));
+            } else if ([type isEqualToString:@"__NSCFBoolean"]) {
+                
+                ulist->push_back(vs::value_f::create([it boolValue]));
+            } else if ([type isEqualToString:@"__NSDictionaryM"]) {
+                vs::upair_t obj;
+                obj_to_upair(type, &obj, it);
+                ulist->push_back(vs::value_f::create(obj));
+            } else if ([type isEqualToString:@"__NSArrayM"]) {
+                std::vector<vs::value_t*> slist;
+                array_to_ulist(type, &slist, it);
+                ulist->push_back(vs::value_f::create(slist));
+            } else {
+                printf("Type unlo %s\n", [type UTF8String]);
+            }
+        }
+    }
     
 }; // namespace vasern

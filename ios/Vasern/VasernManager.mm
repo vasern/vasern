@@ -10,8 +10,8 @@
 
 #import "VasernManager.h"
 #import "utils/utils.h"
-#import "vasern-core/fsm.h"
-#import "vasern-core/index_set/queries/value_f.h"
+#import "src/fsm.h"
+#import "src/values/value_f.h"
 
 const char* dir = vs_utils_ios::create_dir("fsm");
 vs::fsm fsm(dir);
@@ -32,74 +32,30 @@ RCT_EXPORT_METHOD(Insert: (NSString *)collection
 {
     
     auto coll = fsm.select([collection UTF8String]);
-    coll->open_writer();
     
-    std::string buff;
-    std::vector<vs::col_t*> indexes;
-    NSDictionary *indexObjs;
+    if (coll != nullptr) {
+        
+        coll->open_writer();
+        
+        NSDictionary *rObj;
+        NSString* stType;
+        vs::upair_t r_pairs;
+        
+        for (rObj in data) {
 
-    
-    const char* ikey;
-    id indexValue;
-    vs::col_t* col;
-    vs::upair_t i_pairs;
-    
-    // TODO: replace row_desc_t "indexes" with "pairs"
-    
-    for (id it in data) {
-        
-        indexObjs = [it objectForKey:@"indexes"];
-        i_pairs = vs::upair_t();
-        
-        for (auto const& iitem : coll->desc.indexes) {
-            ikey = iitem->name.c_str();
-            indexValue = [indexObjs valueForKey:[NSString stringWithUTF8String:ikey]];
-            col = vs::desc_t::create_col(iitem->type, ikey, iitem->size());
+            vs_utils_ios::obj_to_upair(stType, &r_pairs, rObj);
             
-            switch (iitem->type) {
-                case vs::STRING:
-                case vs::KEY:
-                    col->set([indexValue UTF8String]);
-                    i_pairs[ikey] = vs::value_f::create([indexValue UTF8String]);
-                    break;
-                    
-                case vs::INT_N:
-                    col->set([indexValue intValue]);
-                    i_pairs[ikey] = vs::value_f::create([indexValue intValue]);
-                    break;
-                    
-                case vs::BOOLEAN:
-                    col->set([indexValue boolValue]);
-                    i_pairs[ikey] = vs::value_f::create([indexValue boolValue]);
-                    break;
-                    
-                case vs::DOUBLE_N:
-                    col->set([indexValue doubleValue]);
-                    i_pairs[ikey] = vs::value_f::create([indexValue doubleValue]);
-                    break;
-                    
-                case vs::LONG_N:
-                    col->set([indexValue longValue]);
-                    i_pairs[ikey] = vs::value_f::create([indexValue longValue]);
-                    break;
-            };
-            
-            indexes.push_back(col);
+            coll->insert(&r_pairs);
+            r_pairs.clear();
         }
+
+        coll->close_writer();
         
-        vs::row_desc_t row = {
-            vs::col_key_t("id", [it[@"id"] UTF8String]),
-            vs::col_str_t("body", [it[@"body"] UTF8String]),
-            indexes,
-            i_pairs
-        };
-        coll->insert(&buff, row);
+        resolve(@{ @"status": @200 });
         
-        indexes.clear();
+    } else {
+        reject(@"no_collection", [NSString stringWithFormat:@"Unable to find collection name %@", collection], NULL);
     }
-    
-    coll->close_writer();
-    resolve(@{ @"status": @200 });
 }
 
 RCT_EXPORT_METHOD(Query: (NSString*)collect_name
@@ -166,7 +122,7 @@ RCT_EXPORT_METHOD(Query: (NSString*)collect_name
     
     // Apply sort and query
     
-    std::vector<vs::record_t*> rs = collect->filter(&query);
+    std::vector<vs::block_reader*> rs;
     
     if (sortable) {
         rs = collect->filter(&query, order_by, desc);
@@ -181,7 +137,7 @@ RCT_EXPORT_METHOD(Query: (NSString*)collect_name
         
         // Apply $limit
         
-        [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs, &collect->desc, 0, [data[@"$limit"] longValue])];
+        [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs, 0, [data[@"$limit"] longValue])];
         
     } else if (data[@"$paging"] != nil) {
         
@@ -189,11 +145,11 @@ RCT_EXPORT_METHOD(Query: (NSString*)collect_name
         
         int max = [data[@"$paging"][@"max"] intValue];
         int start = [data[@"$paging"][@"page"] intValue] * max;
-        [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs, &collect->desc, start, start + max)];
+        [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs, start, start + max)];
         
     } else {
         
-        [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs, &collect->desc)];
+        [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs)];
     }
 
     collect->close_reader();
@@ -231,7 +187,7 @@ RCT_EXPORT_METHOD(Query: (NSString*)collect_name
                 
                 if (found.size() > 0) {
                     [item
-                     setValue:vs_utils_ios::to_nsarray(found, &pCollect->desc)[0]
+                     setValue:vs_utils_ios::to_nsarray(found)[0]
                      forKey:itr];
                 }
                 
@@ -283,49 +239,31 @@ RCT_EXPORT_METHOD(Startup: (NSDictionary*)models
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
     if (fsm.verify_collections([models count]) == false) {
-        std::unordered_map<std::string, vs::desc_t> desc;
         
-        NSDictionary *obj, *indexObjs, *indexItemObj;
-        std::vector<vs::col_t*> indexes;
+        std::unordered_map<std::string, vs::layout_t> tables;
+        NSDictionary *obj, *indexObjs;
+        vs::type_desc_t type;
         
-        size_t col_size;
-        const char* col_type;
-        vs::col_key_t* key;
-        vs::col_str_t* body;
-        
-        for (id itr : models) {
-            indexes.clear();
+        for (id itr in models) {
+            
+            vs::schema_t schema;
             obj = [models objectForKey:itr];
             
-            // Extract key
-            key = new vs::col_key_t("id", "key");
-            
-            // Extract body
-            body = new vs::col_str_t("body", "");
-            
-            // Extract indexes
-            indexObjs = [obj objectForKey:@"indexes"];
-            for (id iitr : indexObjs) {
+            for (id col_itr in obj) {
+                indexObjs = [obj objectForKey:col_itr];
+                type = static_cast<vs::type_desc_t>([indexObjs[@"type"] intValue]);
                 
-                indexItemObj = [indexObjs objectForKey:iitr];
-                
-                col_size = 0;
-                col_type = [indexItemObj[@"type"] UTF8String];
-                
-                if ([indexItemObj objectForKey:@"size"]) {
-                    col_size = [indexItemObj[@"size"] longValue];
+                if (type == vs::STRING) {
+                    schema.push_back(vs::col_t([col_itr UTF8String], type, [indexObjs[@"size"] intValue]));
+                } else {
+                    schema.push_back(vs::col_t([col_itr UTF8String], type));
                 }
-                
-                indexes.push_back(vs::desc_t::create_col(col_type, [iitr UTF8String], col_size));
             }
             
-            desc.insert({
-                [itr UTF8String],
-                vs::desc_t(*key, *body, indexes, [obj[@"version"] intValue] )
-            });
+            tables[[itr UTF8String]] = vs::layout_t(schema, 1024);
         }
         
-        fsm.setup(desc);
+        fsm.setup(tables);
     }
 }
 @end

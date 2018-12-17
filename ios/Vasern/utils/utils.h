@@ -12,18 +12,24 @@
 #import <Foundation/Foundation.h>
 #import <string>
 #import <vector>
-#include "../vasern-core/collect_t.h"
+#include "../src/collect_t.h"
 
 namespace vs_utils_ios {
     
     // Get and convert vector of records into an array
     // This method is used when passing record to JavaScript side
-    NSArray* to_nsarray(std::vector<vs::record_t*>, vs::desc_t*);
-    NSArray* to_nsarray(std::vector<vs::record_t*>, vs::desc_t*, long start, long end);
+    NSArray* to_nsarray(std::vector<vs::block_reader*> r);
+    NSArray* to_nsarray(std::vector<vs::block_reader*>, long start, long end);
     
     // Convert dictionary into query
     // This method is used when JavaScript side send a records request with filters
     vs::upair_t to_query(std::shared_ptr<vs::collect_t>, NSDictionary* obj);
+    
+    void obj_to_upair(NSString *type, vs::upair_t* r, NSDictionary *obj);
+    void array_to_ulist(NSString *type, std::vector<vs::value_t*>* ulist, NSArray *rObj);
+    
+    NSDictionary* upair_to_obj(vs::upair_t pairs);
+    NSArray* ulist_to_array(vs::ulist_t list);
     
     // Create directory for ios
     // This method is used to setup storage directories
@@ -32,6 +38,7 @@ namespace vs_utils_ios {
     template <typename T>
     std::vector<T> to_vector(NSArray*);
     
+
 }
 
 
