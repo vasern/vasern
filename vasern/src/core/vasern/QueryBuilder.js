@@ -20,10 +20,10 @@ export default class QueryBuilder {
         return this;
     }
 
-    include(props: Array<{ ref: string, refId?: string, toId?: string }>): QueryBuilder {
+    include(): QueryBuilder {
         let rs = {};
-        
-        props.forEach((item, i) => {
+        for (let item of arguments) {
+
             if (typeof(item) == "string") {
                 rs[item] = {
                     relate: this._collection.props[item].relate,
@@ -34,7 +34,7 @@ export default class QueryBuilder {
                     rs[key] = item[key]
                 }
             }
-        })
+        };
 
         this._query.$include = rs;
         return this;
