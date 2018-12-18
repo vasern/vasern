@@ -54,11 +54,11 @@ RCT_EXPORT_METHOD(Insert: (NSString *)collection
         resolve(@{ @"status": @200 });
         
     } else {
-        reject(@"no_collection", [NSString stringWithFormat:@"Unable to find collection name %@", collection], NULL);
+        reject(@"no_collection", [NSString stringWithFormat:@"Collection `%@` does not exist!", collection], NULL);
     }
 }
 
-RCT_EXPORT_METHOD(Query: (NSString*)collect_name
+RCT_EXPORT_METHOD(Query: (NSString*)collection
                   data:(NSDictionary *)data
                   getWithResolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
@@ -67,141 +67,151 @@ RCT_EXPORT_METHOD(Query: (NSString*)collect_name
     NSMutableArray* items = [NSMutableArray new];
     std::string value;
     vs::upair_t query;
-    std::shared_ptr<vs::collect_t> collect;
+    std::shared_ptr<vs::collect_t> collect = fsm.select([collection UTF8String]);
     
-    NSMutableDictionary* queries = [data mutableCopy];
-    [queries removeObjectsForKeys:@[@"$prefetch", @"$include", @"$limit", @"$paging", @"$sort"]];
-    
-    // Process `$prefetch` and `$include`
-    
-    if ([data valueForKey:@"$prefetch"] != nil) {
-        
-        
-        NSDictionary* pValues = [data objectForKey:@"$prefetch"];
-        
-        // Prefetch
-        vs::upair_t pQuery;
-        std::shared_ptr<vs::collect_t> pCollect;
-        NSArray* qValues;
-        for (id ref in pValues) {
-            
-            qValues = [[pValues objectForKey:ref] allKeys];
-
-            // Collection level
-            id obj = [qValues objectAtIndex:0];
-
-            pCollect = fsm.select([obj UTF8String]);
-            
-            // Properties level
-            pQuery = vs_utils_ios::to_query(pCollect, [[pValues objectForKey:ref] objectForKey:obj]);
-            
-            // Filter and get id
-            [queries setValue:@{ @"equal" : @(pCollect->get_id(&pQuery)) }
-                       forKey:ref];
-        }
-    }
-    
-    collect = fsm.select([collect_name UTF8String]);
-    query = vs_utils_ios::to_query(collect, queries);
-    
-    collect->open_reader();
-    
-    // Check if $sort is enabled
-    // Then extract $sort properties
-    
-    bool sortable = false;
-    bool desc = false;
-    const char* order_by;
-    if (data[@"$sort"] != nil) {
-        sortable = true;
-        for (id itr in data[@"$sort"]) {
-            order_by = [itr UTF8String];
-            desc = [data[@"$sort"][itr] boolValue];
-        }
-    }
-    
-    // Apply sort and query
-    
-    std::vector<vs::block_reader*> rs;
-    
-    if (sortable) {
-        rs = collect->filter(&query, order_by, desc);
+    if (collect == nullptr) {
+         reject(@"no_collection", [NSString stringWithFormat:@"Collection `%@` does not exist!", collection], NULL);
     } else {
-        rs = collect->filter(&query);
-    }
     
-    // Query properties
-    // $sort, $paging, $limit
-    
-    if (data[@"$limit"] != nil) {
+        NSMutableDictionary* queries = [data mutableCopy];
+        [queries removeObjectsForKeys:@[@"$prefetch", @"$include", @"$limit", @"$paging", @"$sort"]];
         
-        // Apply $limit
+        // Process `$prefetch` and `$include`
         
-        [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs, 0, [data[@"$limit"] longValue])];
-        
-    } else if (data[@"$paging"] != nil) {
-        
-        // Apply $paging
-        
-        int max = [data[@"$paging"][@"max"] intValue];
-        int start = [data[@"$paging"][@"page"] intValue] * max;
-        [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs, start, start + max)];
-        
-    } else {
-        
-        [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs)];
-    }
-
-    collect->close_reader();
-    NSDictionary* relateObj;
-    NSString* tempStr;
-    if ([data valueForKey:@"$include"] != nil) {
-        
-        NSDictionary* includeObjects = [data valueForKey:@"$include"];
-        vs::upair_t pQuery;
-        std::shared_ptr<vs::collect_t> pCollect;
-        
-        // tasks, ...
-        for (id itr: includeObjects) {
-            relateObj = [includeObjects objectForKey:itr];
+        if ([data valueForKey:@"$prefetch"] != nil) {
             
-            pCollect = fsm.select([relateObj[@"relate"] UTF8String]);
-            pCollect->open_reader();
-            // items
-            for (id item : items) {
+            
+            NSDictionary* pValues = [data objectForKey:@"$prefetch"];
+            
+            // Prefetch
+            vs::upair_t pQuery;
+            std::shared_ptr<vs::collect_t> pCollect;
+            NSArray* qValues;
+            for (id ref in pValues) {
                 
-                if (relateObj[@"filter"] != nil) {
-                    pQuery = vs_utils_ios::to_query(pCollect, relateObj[@"filter"]);
-                }
+                qValues = [[pValues objectForKey:ref] allKeys];
+
+                // Collection level
+                id obj = [qValues objectAtIndex:0];
+
+                pCollect = fsm.select([obj UTF8String]);
                 
-                if (relateObj[@"idMatchField"] != nil) {
-                    
-                    // relate
-                    pQuery[[relateObj[@"idMatchField"] UTF8String]] = vs::value_f::create([[item valueForKey:@"id"] UTF8String]);
-                    
-                } else if(relateObj[@"refField"] != nil)  {
-                    
-                    tempStr = [NSString stringWithFormat:@"%s", [relateObj[@"refField"] UTF8String] ];
-                    pQuery["id"] = vs::value_f::create([[item valueForKey:tempStr] UTF8String]);
-                    
-                }
+                // Properties level
+                pQuery = vs_utils_ios::to_query(pCollect, [[pValues objectForKey:ref] objectForKey:obj]);
                 
-                auto found = pCollect->filter(&pQuery);
-                
-                if (found.size() > 0) {
-                    [item
-                     setValue:vs_utils_ios::to_nsarray(found)[0]
-                     forKey:itr];
-                }
-                
-                
-            };
-            pCollect->close_reader();
-            pQuery.clear();
+                // Filter and get id
+                [queries setValue:@{ @"equal" : @(pCollect->get_id(&pQuery)) }
+                           forKey:ref];
+            }
         }
+        
+        query = vs_utils_ios::to_query(collect, queries);
+        
+        collect->open_reader();
+        
+        // Check if $sort is enabled
+        // Then extract $sort properties
+        
+        bool sortable = false;
+        bool desc = false;
+        const char* order_by;
+        if (data[@"$sort"] != nil) {
+            sortable = true;
+            for (id itr in data[@"$sort"]) {
+                order_by = [itr UTF8String];
+                desc = [data[@"$sort"][itr] boolValue];
+            }
+        }
+        
+        // Apply sort and query
+        
+        std::vector<vs::block_reader*> rs;
+        
+        if (sortable) {
+            rs = collect->filter(&query, order_by, desc);
+        } else {
+            rs = collect->filter(&query);
+        }
+        
+        // Query properties
+        // $sort, $paging, $limit
+        
+        if (data[@"$limit"] != nil) {
+            
+            // Apply $limit
+            
+            [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs, 0, [data[@"$limit"] longValue])];
+            
+        } else if (data[@"$paging"] != nil) {
+            
+            // Apply $paging
+            
+            int max = [data[@"$paging"][@"max"] intValue];
+            int start = [data[@"$paging"][@"page"] intValue] * max;
+            [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs, start, start + max)];
+            
+        } else {
+            
+            [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs)];
+        }
+
+        collect->close_reader();
+        NSDictionary* relateObj;
+        NSString* tempStr;
+        if ([data valueForKey:@"$include"] != nil) {
+            
+            NSDictionary* includeObjects = [data valueForKey:@"$include"];
+            vs::upair_t pQuery;
+            std::shared_ptr<vs::collect_t> pCollect;
+            bool multiple = false;
+            
+            // tasks, ...
+            for (id itr: includeObjects) {
+                relateObj = [includeObjects objectForKey:itr];
+                
+                pCollect = fsm.select([relateObj[@"relate"] UTF8String]);
+                pCollect->open_reader();
+                // items
+                for (id item : items) {
+                    
+                    if (relateObj[@"filter"] != nil) {
+                        pQuery = vs_utils_ios::to_query(pCollect, relateObj[@"filter"]);
+                    }
+                    
+                    if (relateObj[@"idMatchField"] != nil) {
+                        
+                        // relate
+                        pQuery[[relateObj[@"idMatchField"] UTF8String]] = vs::value_f::create([[item valueForKey:@"id"] UTF8String]);
+                        multiple = true;
+                        
+                    } else if(relateObj[@"refField"] != nil)  {
+                        
+                        tempStr = [NSString stringWithFormat:@"%s", [relateObj[@"refField"] UTF8String] ];
+                        pQuery["id"] = vs::value_f::create([[item valueForKey:tempStr] UTF8String]);
+                        multiple = false;
+                    }
+                    
+                    auto found = pCollect->filter(&pQuery);
+                    
+                    if (found.size() > 0) {
+                        if (multiple) {
+                            [item
+                             setValue:vs_utils_ios::to_nsarray(found)
+                             forKey:itr];
+                        } else {
+                            [item
+                             setValue:vs_utils_ios::to_nsarray({ found[0] })[0]
+                             forKey:itr];
+                        }
+                    }
+                };
+                pCollect->close_reader();
+                pQuery.clear();
+            }
+        }
+        
+        resolve(@{ @"data": items });
     }
-    
-    resolve(@{ @"data": items });
 }
 
 RCT_EXPORT_METHOD(Count: (NSString*)collect_name

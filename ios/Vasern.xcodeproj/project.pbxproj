@@ -151,10 +151,10 @@
 			isa = PBXGroup;
 			children = (
 				C883C67821C735E6002B1ABB /* index_types */,
-				C883C67F21C735E6002B1ABB /* index_set.cpp */,
 				C883C68021C735E6002B1ABB /* value_i.h */,
-				C883C68121C735E6002B1ABB /* index_set.inl */,
 				C883C68221C735E6002B1ABB /* index_set.h */,
+				C883C68121C735E6002B1ABB /* index_set.inl */,
+				C883C67F21C735E6002B1ABB /* index_set.cpp */,
 			);
 			path = index_set;
 			sourceTree = "<group>";

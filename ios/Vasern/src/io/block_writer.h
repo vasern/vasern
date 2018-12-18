@@ -40,6 +40,7 @@ namespace vs
         
         // Write buffer to ostream
         void write(std::ofstream* writer);
+        void remove(std::fstream* writer, size_t pos, int num_of_blocks);
         
         // Return block size
         int size();

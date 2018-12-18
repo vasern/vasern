@@ -36,11 +36,10 @@ namespace vs {
         
         for (auto iid : key) {
             upair_t query = {{ "id", value_f::create(iid) }};
-            auto found = indexes.get(&query);
-            if (found) {
+            auto ptr = indexes.pop(&query);
+            if (ptr) {
                 
-                writer->remove(found->value);
-                indexes.remove(found);
+                writer->remove(ptr->value);
             }
         }
         
@@ -95,16 +94,14 @@ namespace vs {
         
         if (reader->is_open()) {
             
-            // TODO: Load ids and indexes
-            size_t num_of_blocks = reader->size() / layout.size();
-//            ids.reserve(num_of_blocks);
-            
             block_reader r = reader->get(0);
             size_t pos = 0;
             
             value_ptr index_value;
+            
             while ( r.is_valid() ) {
-                index_value = value_ptr(new value_i<size_t>{ pos, r.tags() });
+                auto tags = r.tags();
+                index_value = value_ptr(new value_i<size_t>{ pos, tags });
                 indexes.push(index_value);
                 
                 pos += r.total_blocks();

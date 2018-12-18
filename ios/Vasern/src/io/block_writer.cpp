@@ -104,6 +104,16 @@ namespace vs
         clear();
     }
     
+    void block_writer::remove(std::fstream* writer, size_t pos, int num_of_blocks) {
+        total_props = 0;
+        total_blocks = num_of_blocks;
+        
+        build_meta();
+        writer->seekg(pos, std::ios::beg);
+        writer->write(buff, b_size * total_blocks);
+        clear();
+    }
+    
     void block_writer::set_total_props(int total) {
         total_props = total;
     }

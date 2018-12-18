@@ -91,27 +91,14 @@ namespace vs {
     void writer_t::remove(size_t pos) {
         
         // Move cursor to begin position
-//        ffile.seekp(layout->size() * pos + layout->size() - 2, std::ios::beg);
-//        
-//        char buff[1];
-//        ffile.read(buff, 1);
-//        
-//        int num_of_block = buff[0] & 0x1;
-//        
-//        ffile.seekp(layout->size() * pos, std::ios::beg);
-//        int i = 0;
-//        char meta[3];
-//        meta[0] = -1;
-//        meta[1] = 1;
+        ffile.seekp(layout->size() * pos, std::ios::beg);
         
-//        while (i < num_of_block) {
-//            // Override record with blank
-//            ffile.write("", r_size);
-//
-//            meta[2] = (char)i;
-//            ffile.write(meta, 3);
-//            i++;
-//        }
+        char temp_buff[1];
+        ffile.read(temp_buff, 1);
+        
+        int num_of_block = temp_buff[0] & 0xff;
+        
+        buff.remove(&ffile, layout->size() * pos, num_of_block);
         
     }
     

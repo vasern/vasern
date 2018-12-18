@@ -95,12 +95,12 @@ namespace vs {
         for (auto it : desc) {
             
             std::vector<value_t*> columns;
-            for (auto sitr: it.second.descript) {
-                
+            
+            for (auto sitr: it.second.keys) {
                 columns.push_back(value_f::create({
-                    value_f::create(sitr.first),
-                    value_f::create(sitr.second->type),
-                    value_f::create(sitr.second->size)
+                    value_f::create(sitr.name),
+                    value_f::create(sitr.type),
+                    value_f::create(sitr.size)
                 }));
             }
             

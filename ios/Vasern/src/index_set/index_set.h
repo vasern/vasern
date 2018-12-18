@@ -32,6 +32,7 @@ namespace vs {
         void sort(std::vector<value_ptr>*, const char*, bool);
         
         value_ptr get(upair_t*);
+        value_ptr pop(upair_t*);
         const char* get_id(upair_t*);
         
 //        std::vector<T> get_multiple(upair_t*);

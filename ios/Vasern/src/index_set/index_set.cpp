@@ -140,6 +140,15 @@ namespace vs {
     };
     
     template <typename T>
+    value_ptr index_set<T>::pop(upair_t* query) {
+        auto itr = query->begin();
+        auto ptr = _set[itr->first]->get(itr->second).front();
+        _set[itr->first]->remove(itr->second, ptr);
+        
+        return ptr;
+    };
+    
+    template <typename T>
     void index_set<T>::remove(value_ptr ptr) {
         for (auto itr : ptr->items) {
             _set[itr.first]->remove(itr.second, ptr);
