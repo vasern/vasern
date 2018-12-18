@@ -5,8 +5,6 @@
 //  (Please find "LICENSE" file attached for license details)
 //= ===============================================================
 
-// @flow
-
 import { NativeModules } from "react-native";
 import { Parser, EventSubscriber, Queryable } from "..";
 import _ from "lodash";
@@ -19,13 +17,13 @@ const { VasernManager } = NativeModules;
 
 export default class Document {
   // record list
-  _data: Array<Object>;
+  // _data: Array<Object>;
 
   // record schema
-  props: Object;
+  // props: Object;
 
   // record id handler
-  oid: ObjectID;
+  // oid: ObjectID;
 
   // Flag data is available
   available = false;
@@ -71,6 +69,7 @@ export default class Document {
     this.onRemove = this.onRemove.bind(this);
     this.onLoaded = this.onLoaded.bind(this);
     this.onAvailable = this.onAvailable.bind(this);
+    this.rollbackCommittedRecords = this.rollbackCommittedRecords.bind(this);
   }
 
   object(input) {
@@ -273,40 +272,63 @@ export default class Document {
 
   // Send current data to backend to save/persist
   async save() {
+
     // Check if records is being written to file
     // If it is, delay until write process is completed,
     // then process write request (see 1)
     if (!this.isWriting) {
-      const logRecords = Parser.convertToLog(this.props, this._commitedItems);
+
+      const currentCommitItems = this._commitedItems;
+
+      this._commitedItems = {
+        insert: [],
+        update: [],
+        remove: []
+      };
+
+      const logRecords = Parser.convertToLog(this.props, currentCommitItems);
 
       this.isWriting = true;
 
       try {
-        const success = await VasernManager.Insert(
+        await VasernManager.Insert(
           this.docName(),
           logRecords,
           this.storeOptions
         );
 
-        if (success) {
-          // Trigger subscribed events
-          this._executeCommitedEvents();
-          this.isWriting = false;
-        }
-
-        // TODO: handle unsuccess request (i.e retry, throw exception)
+        // Trigger subscribed events
+        this._executeCommitedEvents(currentCommitItems);
+        this.isWriting = false;
 
         // Check and process queueing commits
         if (this._isCommitOnQueue) {
           this.save();
           this._isCommitOnQueue = false;
         }
+        
       } catch (e) {
-        // TODO: handle Insert failed
+        this.isWriting = false;
+        this.rollbackCommittedRecords(currentCommitItems);
       }
+
     } else {
       this._isCommitOnQueue = true;
     }
+  }
+
+  // Merge previous commited items to the current commited item list
+  // then write to database.
+  // Used as rollback mechanism when commited items failed to write to database
+  rollbackCommittedRecords(previousCommitedItems) {
+
+    for (let key in previousCommitedItems) {
+      if (previousCommitedItems[key].length > 0) {
+        this._commitedItems[key] = previousCommitedItems.concat(this._commitedItems[key]);
+      }
+    }
+
+    this.save();
   }
 
   async createSnapshot() {
@@ -448,15 +470,14 @@ export default class Document {
 
   // Trigger events for each of commited records
   // then clear commitedItems
-  _executeCommitedEvents = () => {
-    Object.keys(this._commitedItems).forEach(k => {
-      if (this._commitedItems[k].length) {
+  _executeCommitedEvents = (items) => {
+    for (let key in items) {
+      if (items[key].length) {
         // TODO: merge changed records to data
-        this._mergeRecords(k, this._commitedItems[k]);
-        this.eventManager.fire(k, this._commitedItems[k]);
-        this._commitedItems[k] = [];
+        this._mergeRecords(key, items[key]);
+        this.eventManager.fire(key, items[key]);
       }
-    });
+    };
   };
 
   // Merging commited records to the main record list

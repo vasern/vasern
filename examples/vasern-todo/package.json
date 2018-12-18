@@ -10,7 +10,7 @@
     "react": "16.6.0-alpha.8af6728",
     "react-native": "0.57.3",
     "react-native-spacer": "^1.5.0",
-    "vasern": "^0.2.782"
+    "vasern": "^0.2.91"
   },
   "devDependencies": {
     "babel-jest": "23.6.0",
