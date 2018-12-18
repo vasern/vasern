@@ -7,21 +7,18 @@
 
 
 import { NativeModules } from "react-native";
-import { Parser, EventSubscriber, Queryable } from "..";
-import _ from "lodash";
+import { Parser, EventSubscriber } from "..";
 import { Reporter } from "../vasern-utils";
-import DefaultConfigs from "../../config";
-
 import ObjectID, { OBJECTID_LEN } from "../../plugins/vasern-objectid";
 
-import ResultProxy from "./ResultProxy";
-import { formatNativeQuery, formatNativeSchema, formatSchema } from "./utils";
+import { formatNativeQuery, formatNativeSchema } from "./utils";
+import QueryBuilder from "./QueryBuilder";
 
 // @flow
 const { VasernManager } = NativeModules;
 
 type NativePropType = {
-  type: "string" | "double" | "int" | "long" | "boolean" | "ref",
+  type: "string" | "number" | "boolean" | "ref",
   size: number,
   relate?: string,
   primary?: boolean,
@@ -61,20 +58,18 @@ export default class Collection<Props> {
   storeOptions: Object;
   eventManager: EventSubscriber;
 
-  constructor(args: Function | { props: NativePropTypeList, version: number, name: string }) {
+  constructor( args: Function | Object ) {
+
     // Initiate Collection using a schema class
     if (typeof args === "function") {
+
       // TODO: validate schema (i.e require "name" and "props")
       this.inject(args);
+
     } else {
       this.props = args.props;
-      this.version = args.version;
       this.name = args.name;
     }
-
-    this.props = formatSchema(this.props);
-    
-    this.storeOptions = DefaultConfigs.storeOptions;
 
     // Event triggers
     this.eventManager = new EventSubscriber();
@@ -82,12 +77,7 @@ export default class Collection<Props> {
     // this.request = new ServerRequest(host, ePath);
     this.oid = new ObjectID();
 
-    // initate _data
-    this._data = [];
-
     this.bindEvents.bind(this)();
-
-    this.assignNativeSchema.bind(this)();
   }
 
   /*:: bindEvents: () => void; */
@@ -98,25 +88,16 @@ export default class Collection<Props> {
     this.onInsert = this.onInsert.bind(this);
     this.onUpdate = this.onInsert.bind(this);
     this.onRemove = this.onRemove.bind(this);
-    this.onLoaded = this.onLoaded.bind(this);
     this.onAvailable = this.onAvailable.bind(this);
-  }
-  
-  /*:: getNativeSchema: () => Schema; */
-  getNativeSchema(): Schema {
-    return this._nativeSchema;
   }
 
   nFilter(query: Object) {
 
-    var result = ResultProxy();
+    return VasernManager.Query(this.name, query);
+  }
 
-    (async () => {
-      let queryResults = await VasernManager.Query(this.name, formatNativeQuery(this.props, query));
-      result.$set = queryResults.data;
-    })();
-
-    return result;
+  filter(query: Object): QueryBuilder {
+    return new QueryBuilder(query, this);
   }
 
   nCount(query: Object) {
@@ -148,71 +129,6 @@ export default class Collection<Props> {
   /*:: assignNativeSchema: () => void; */
   assignNativeSchema() {
     this._nativeSchema = formatNativeSchema(this.props);
-  }
-
-  object(input) {
-    let object =
-      typeof input === "number" ? this._data[input] : this.get(input);
-
-    if (!this.loaded) {
-      object = Parser.strToObject(this.props, object);
-    }
-
-    return object;
-  }
-
-  // Converting raw data (unformated large string) to a 'Doc' style data
-  // When data complete formating (mean data is loaded),
-  // call all the callback has been subscribed (see function 'loaded')
-  // @rawData: raw data string
-  populate({ data }) {
-    // Convert raw data
-    if (data && data.length > 0) {
-      const records = new Array(data.length);
-      const ids = new Array(data.length);
-      let objCount = 0;
-      let currentIdIndex = -1;
-      let key;
-      let value;
-
-      data.forEach(raw => {
-        if (raw.length) {
-          key = raw.substr(0, OBJECTID_LEN);
-          value = raw.substr(OBJECTID_LEN + 2);
-          currentIdIndex = ids.indexOf(key);
-
-          if (currentIdIndex !== -1) {
-            records[currentIdIndex].raw = value;
-          } else {
-            records[objCount] = {
-              id: key,
-              raw: value,
-            };
-            ids[objCount] = key;
-            objCount += 1;
-          }
-        }
-      });
-
-      // Clean up duplicate
-      records.splice(objCount);
-
-      // Remove deleted record;
-      this._data = records.filter(item => item.raw.length);
-
-      setTimeout(() => {
-        this.formatData();
-      });
-    } else {
-      this.loaded = true;
-      this.eventManager.fire("loaded");
-    }
-
-    // Update Doc loaded status
-    this.available = true;
-
-    // Fire all callback functions have been subscribed earlier (at 'loaded' function)
-    this.eventManager.fire("available");
   }
 
   async formatData() {
@@ -334,30 +250,16 @@ export default class Collection<Props> {
     return this.oid.new(content);
   }
 
-  // Loading data from the backend-side
-  // then populate
-  async load() {
-    let rawData;
-
-    try {
-      rawData = await VasernManager.Request(this.docName());
-    } catch (e) {
-      // TODO: handle failed Request
-    }
-
-    this.populate(rawData);
-  }
-
   // Send current data to backend to save/persist
   async save() {
     // Check if records is being written to file
     // If it is, delay until write process is completed,
     // then process write request (see 1)
     if (!this.isWriting) {
-      const logRecords = Parser.convertToLog(this._nativeSchema, this._commitedItems);
-
+      // const logRecords = Parser.convertToLog(this._nativeSchema, this._commitedItems);
+      const logRecords = this._commitedItems.insert;
       this.isWriting = true;
-
+      
       try {
         const success = await VasernManager.Insert(
           this.name,
@@ -386,37 +288,9 @@ export default class Collection<Props> {
     }
   }
 
-  async createSnapshot() {
-    const logRecords = new Array(this._data.length);
-    this._data.forEach(i => {
-      logRecords.push(Parser.objToStr(this.props, i));
-    });
-
-    try {
-      await VasernManager.Insert(this.docName(), logRecords, [
-        "enable_clean_mode",
-      ]);
-    } catch (e) {
-      // TODO: handle Insert fail
-    }
-  }
-
   // Return a legit document name
   docName() {
     return `${this.name}_${this.version}`;
-  }
-
-  // Execute callback while ensuring data is loaded completely. If data is loaded, execute it.
-  // Else push into sub"_"ibers list to execute when data is loaded (see 'populate' function)
-  // @callback: a callback function, given reference of this Doc object
-  // Example usage: doc.loaded(doc => { Reporter.err(doc.toArray()) })
-  /*:: onLoaded: (callback: Function) => void; */
-  onLoaded(callback: Function) {
-    if (this.loaded) {
-      callback(this);
-    } else {
-      this.eventManager.subscribe("loaded", { callback });
-    }
   }
 
   // Execute callback while ensuring data is loaded completely. If data is loaded, execute it.
@@ -619,4 +493,4 @@ export default class Collection<Props> {
 }
 
 // Default imports
-Collection.import(Queryable);
+// Collection.import(Queryable);

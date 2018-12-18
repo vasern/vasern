@@ -158,3 +158,6 @@ function formatNativeQuery(schema, query: Object) {
 }
 
 export default formatNativeQuery;
+export {
+    formatNativeQueryValue
+}

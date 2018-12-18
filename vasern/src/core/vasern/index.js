@@ -1,4 +1,5 @@
 import Collection from "./Collection";
 import Vasern from "./Vasern";
+import types from "./types";
 
-export { Collection, Vasern };
+export { Collection, Vasern, types };

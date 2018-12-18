@@ -5,7 +5,7 @@
 //  (Please find "LICENSE" file attached for license details)
 //============================================================= */
 
-import { Collection, Vasern } from "./src/core";
+import { Collection, Vasern, types } from "./src/core";
 
 export default Vasern;
-export { Collection };
+export { Collection, types };
