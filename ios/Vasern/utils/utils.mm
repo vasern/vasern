@@ -147,13 +147,13 @@ namespace vs_utils_ios {
             if (con[@"equal"] != nil) {
                 rs.insert({
                     [attr UTF8String],
-                    get_value(coll->type_of([attr UTF8String]), con, [NSString stringWithFormat:@"equal"])
+                    get_value(type_of(attr), con, [NSString stringWithFormat:@"equal"])
                 });
             } else if (con[@"start"] != nil) {
                 
                 rs.insert({
                     [attr UTF8String],
-                    get_value(coll->type_of([attr UTF8String]), con, [NSString stringWithFormat:@"start"])
+                    get_value(type_of(attr), con, [NSString stringWithFormat:@"start"])
                 });
             }
         }
@@ -248,6 +248,29 @@ namespace vs_utils_ios {
                 printf("Type unlo %s\n", [type UTF8String]);
             }
         }
+    }
+    
+    vs::type_desc_t type_of(NSObject* obj) {
+        NSString* type = [NSString stringWithFormat:@"%@", [obj class]];
+        
+        if ([type isEqualToString:@"NSTaggedPointerString"] || [type isEqualToString:@"__NSCFString"]) {
+            
+            return vs::STRING;
+        } else if ([type isEqualToString:@"__NSCFBoolean"]) {
+            
+            return vs::BOOLEAN;
+        } else if ([type isEqualToString:@"__NSCFNumber"]) {
+            
+            return vs::NUMBER;
+        } else if ([type isEqualToString:@"__NSDictionaryM"]) {
+            
+            return vs::OBJECT;
+        } else if ([type isEqualToString:@"__NSArrayM"]) {
+            
+            return vs::LIST;
+        }
+        
+        return vs::TYPE_UNDEFINED;
     }
     
 }; // namespace vasern

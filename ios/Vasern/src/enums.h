@@ -11,7 +11,7 @@
 
 namespace vs {
     
-    enum type_desc_t { KEY, NUMBER, BOOLEAN, STRING, LIST, OBJECT, RANGE_NUMBER };
+    enum type_desc_t { KEY, NUMBER, BOOLEAN, STRING, LIST, OBJECT, RANGE_NUMBER, TYPE_UNDEFINED };
 }
 
 #endif /* enums_h */

@@ -153,33 +153,36 @@ RCT_EXPORT_METHOD(Query: (NSString*)collect_name
     }
 
     collect->close_reader();
-    
+    NSDictionary* relateObj;
+    NSString* tempStr;
     if ([data valueForKey:@"$include"] != nil) {
-        id deep = [data valueForKey:@"$include"];
+        
+        NSDictionary* includeObjects = [data valueForKey:@"$include"];
         vs::upair_t pQuery;
         std::shared_ptr<vs::collect_t> pCollect;
         
         // tasks, ...
-        for (id itr: deep) {
-            pQuery.clear();
-            pCollect = fsm.select([[deep objectForKey:itr][@"relate"] UTF8String]);
+        for (id itr: includeObjects) {
+            relateObj = [includeObjects objectForKey:itr];
+            
+            pCollect = fsm.select([relateObj[@"relate"] UTF8String]);
             pCollect->open_reader();
             // items
             for (id item : items) {
                 
-                if ([[deep objectForKey:itr] valueForKey:@"filter"] != nil) {
-                    pQuery = vs_utils_ios::to_query(pCollect, [[deep objectForKey:itr] objectForKey:@"filter"]);
+                if (relateObj[@"filter"] != nil) {
+                    pQuery = vs_utils_ios::to_query(pCollect, relateObj[@"filter"]);
                 }
                 
-                if ([deep objectForKey:itr][@"idMatchField"] != nil) {
+                if (relateObj[@"idMatchField"] != nil) {
                     
                     // relate
-                    pQuery[[[deep objectForKey:itr][@"idMatchField"] UTF8String]] = vs::value_f::create([[item valueForKey:@"id"] UTF8String]);
+                    pQuery[[relateObj[@"idMatchField"] UTF8String]] = vs::value_f::create([[item valueForKey:@"id"] UTF8String]);
                     
-                } else if([deep objectForKey:itr][@"refField"] != nil)  {
+                } else if(relateObj[@"refField"] != nil)  {
                     
-                    auto key = [NSString stringWithFormat:@"%s", [[deep objectForKey:itr][@"refField"] UTF8String] ];
-                    pQuery["id"] = vs::value_f::create([[item valueForKey:key] UTF8String]);
+                    tempStr = [NSString stringWithFormat:@"%s", [relateObj[@"refField"] UTF8String] ];
+                    pQuery["id"] = vs::value_f::create([[item valueForKey:tempStr] UTF8String]);
                     
                 }
                 
@@ -194,6 +197,7 @@ RCT_EXPORT_METHOD(Query: (NSString*)collect_name
                 
             };
             pCollect->close_reader();
+            pQuery.clear();
         }
     }
     

@@ -104,7 +104,6 @@ namespace vs {
             
             value_ptr index_value;
             while ( r.is_valid() ) {
-                
                 index_value = value_ptr(new value_i<size_t>{ pos, r.tags() });
                 indexes.push(index_value);
                 

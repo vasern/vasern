@@ -38,7 +38,7 @@ namespace vs_utils_ios {
     template <typename T>
     std::vector<T> to_vector(NSArray*);
     
-
+    vs::type_desc_t type_of(NSObject* any);
 }
 
 
