@@ -276,7 +276,6 @@ export default class Document {
     // If it is, delay until write process is completed,
     // then process write request (see 1)
     if (!this.isWriting) {
-
       const currentCommitItems = this._commitedItems;
       this._commitedItems = {
         insert: [],
@@ -301,12 +300,10 @@ export default class Document {
           this.save();
           this._isCommitOnQueue = false;
         }
-        
       } catch (e) {
         this.isWriting = false;
         this.rollbackCommittedRecords(currentCommitItems);
       }
-
     } else {
       this._isCommitOnQueue = true;
     }
@@ -318,9 +315,11 @@ export default class Document {
   rollbackCommittedRecords(previousCommitedItems) {
     Object.keys(previousCommitedItems).forEach(key => {
       if (previousCommitedItems[key].length > 0) {
-        this._commitedItems[key] = previousCommitedItems.concat(this._commitedItems[key]);
+
+        this._commitedItems[key]
+          = previousCommitedItems.concat(this._commitedItems[key]);
       }
-    })
+    });
     this.save();
   }
 
@@ -471,7 +470,7 @@ export default class Document {
         this.eventManager.fire(key, items[key]);
       }
     });
-  }
+  };
 
   // Merging commited records to the main record list
   // after data processes (insert/update/remove) are completed
