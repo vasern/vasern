@@ -272,24 +272,19 @@ export default class Document {
 
   // Send current data to backend to save/persist
   async save() {
-
     // Check if records is being written to file
     // If it is, delay until write process is completed,
     // then process write request (see 1)
     if (!this.isWriting) {
 
       const currentCommitItems = this._commitedItems;
-
       this._commitedItems = {
         insert: [],
         update: [],
-        remove: []
+        remove: [],
       };
-
       const logRecords = Parser.convertToLog(this.props, currentCommitItems);
-
       this.isWriting = true;
-
       try {
         await VasernManager.Insert(
           this.docName(),
@@ -321,13 +316,11 @@ export default class Document {
   // then write to database.
   // Used as rollback mechanism when commited items failed to write to database
   rollbackCommittedRecords(previousCommitedItems) {
-
-    for (let key in previousCommitedItems) {
+    Object.keys(previousCommitedItems).forEach(key => {
       if (previousCommitedItems[key].length > 0) {
         this._commitedItems[key] = previousCommitedItems.concat(this._commitedItems[key]);
       }
-    }
-
+    })
     this.save();
   }
 
@@ -470,15 +463,15 @@ export default class Document {
 
   // Trigger events for each of commited records
   // then clear commitedItems
-  _executeCommitedEvents = (items) => {
-    for (let key in items) {
+  _executeCommitedEvents = items => {
+    Object.keys(items).forEach(key => {
       if (items[key].length) {
         // TODO: merge changed records to data
         this._mergeRecords(key, items[key]);
         this.eventManager.fire(key, items[key]);
       }
-    };
-  };
+    });
+  }
 
   // Merging commited records to the main record list
   // after data processes (insert/update/remove) are completed
