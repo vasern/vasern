@@ -315,7 +315,6 @@ export default class Document {
   rollbackCommittedRecords(previousCommitedItems) {
     Object.keys(previousCommitedItems).forEach(key => {
       if (previousCommitedItems[key].length > 0) {
-
         this._commitedItems[key] = previousCommitedItems.concat(
           this._commitedItems[key]
         );
