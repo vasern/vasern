@@ -316,8 +316,9 @@ export default class Document {
     Object.keys(previousCommitedItems).forEach(key => {
       if (previousCommitedItems[key].length > 0) {
 
-        this._commitedItems[key]
-          = previousCommitedItems.concat(this._commitedItems[key]);
+        this._commitedItems[key] = previousCommitedItems.concat(
+          this._commitedItems[key]
+        );
       }
     });
     this.save();
