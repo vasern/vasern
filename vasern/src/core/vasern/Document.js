@@ -309,6 +309,13 @@ export default class Document {
     }
   }
 
+  // !!! Remove all records of the document
+  // Warning: Records are unable to cover after removed, use with causion
+  async removeAllRecords() {
+    await VasernManager.ClearDocument(this.docName());
+    this._data = [];
+  }
+
   // Merge previous commited items to the current commited item list
   // then write to database.
   // Used as rollback mechanism when commited items failed to write to database

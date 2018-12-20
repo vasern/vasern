@@ -60,5 +60,14 @@ RCT_EXPORT_METHOD(Request: (NSString *)doc
     resolve(@{ @"data": records });
 }
 
+// Load log file and return an array of log records
+RCT_EXPORT_METHOD(ClearDocument: (NSString *)doc
+                  storeWithResolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+    resolve(@{ @"data": db.ClearDocument([doc UTF8String]) });
+}
+
+
 @end
 

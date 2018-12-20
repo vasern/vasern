@@ -47,6 +47,10 @@ namespace vasern {
         // return as a list of records
         NSArray* Load(const char *doc);
         
+        // !!! Use with caution
+        // Remove all records within document
+        void ClearDocument(const char *doc);
+        
     private:
         
         // get_doc_path will return doc file location using doc's name

@@ -115,6 +115,12 @@ namespace vasern
         return false;
     }
     
+    void Storage::ClearDocument(const char *doc) {
+        const char* filePath = [[NSString stringWithFormat:@"%@/%s%s", docPath, doc, DOC_EXT] UTF8String];
+        std::ofstream db(filePath, std::ios::binary);
+        db.write("", 0);
+    }
+    
     //  In case you have escaped your record by replacing line breaks (\n)
     //  with something else (like \u00A0n) as mention at Storage::Insert
     //  remember to de-escape those replaced line breaks
