@@ -65,7 +65,8 @@ RCT_EXPORT_METHOD(ClearDocument: (NSString *)doc
                   storeWithResolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-    resolve(@{ @"data": db.ClearDocument([doc UTF8String]) });
+    db.ClearDocument([doc UTF8String]);
+    resolve(@{ @"data": @200 });
 }
 
 
