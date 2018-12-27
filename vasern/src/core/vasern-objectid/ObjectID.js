@@ -61,6 +61,24 @@ export default class ObjectID {
     };
   }
 
+  createID() {
+    const timeStamp = Date.now();
+
+    this.count = timeStamp === this.lastTimestamp ? this.count + 1 : 0;
+    this.lastTimestamp = timeStamp;
+
+    let countRepeated = this.count > 9 ? "0" : "00";
+    if (this.count > 99) {
+      countRepeated = "";
+    }
+
+    return Math.floor(timeStamp / 1000).toString(16) +
+      this.mid +
+      countRepeated +
+      this.count +
+      ObjectID.RandStr(5)
+  }
+
   // ID for device, length of 8
   setMID(id: string) {
     this.mid = id;

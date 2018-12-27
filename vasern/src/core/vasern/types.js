@@ -1,12 +1,13 @@
 import { typeEnums } from "./enums";
-import { OBJECTID_LEN } from "../../plugins/vasern-objectid";
+import { OBJECTID_LEN } from "../vasern-objectid";
 
 // @flow
 
 type PropertyObject = {
     type: number,
     isIndex: boolean,
-    size?: number
+    size?: number,
+    propMeta?: string
 };
 
 function string(length: number = -1, isIndex: boolean = true) : PropertyObject {

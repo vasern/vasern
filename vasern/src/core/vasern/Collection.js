@@ -6,15 +6,21 @@
 //= ===============================================================
 
 
-import { NativeModules } from "react-native";
-import { Parser, EventSubscriber } from "..";
-import { Reporter } from "../vasern-utils";
-import ObjectID, { OBJECTID_LEN } from "../../plugins/vasern-objectid";
+import { NativeModules } from 'react-native';
 
-import { formatNativeQuery, formatNativeSchema } from "./utils";
-import QueryBuilder from "./QueryBuilder";
+import EventSubscriber from '../vasern-subscriber';
+import ObjectID from '../vasern-objectid';
+
+import QueryBuilder, { toNativeQuery } from '../vasern-querybuilder';
+import createResultInterface from './utils/ResultInterface';
 
 // @flow
+type ResultInterface = {
+  asProxy: Object,
+  asPromise: Promise,
+  run: void
+}
+
 const { VasernManager } = NativeModules;
 
 type NativePropType = {
@@ -26,23 +32,13 @@ type NativePropType = {
  };
  
 type NativePropTypeList = { [key: string]: NativePropType };
-type Props = {
-  name: string
-};
-type Schema = {
-  key: NativePropType, 
-  indexes: NativePropTypeList,
-  body: NativePropTypeList
-};
  
-export default class Collection<Props> {
+export default class Collection {
   // record list
   _data: Array<Object>;
 
   // record schema
   props: NativePropTypeList;
-
-  _nativeSchema: Schema;
 
   // record id handler
   oid: ObjectID;
@@ -71,13 +67,21 @@ export default class Collection<Props> {
       this.name = args.name;
     }
 
-    // Event triggers
     this.eventManager = new EventSubscriber();
-
-    // this.request = new ServerRequest(host, ePath);
     this.oid = new ObjectID();
-
     this.bindEvents.bind(this)();
+    
+    let refProps = [];
+    for (let key in this.props) {
+      if (this.props[key].relate) {
+        this.props[`${key}_id`] = this.props[key];
+        refProps.push({
+          representProp: key,
+          actualProp: `${key}_id`
+        });
+      }
+    }
+    this.refProps = refProps;
   }
 
   /*:: bindEvents: () => void; */
@@ -92,129 +96,105 @@ export default class Collection<Props> {
   }
 
   nFilter(query: Object) {
-
-    return VasernManager.Query(this.name, query);
+    return VasernManager.GetRecordsByQuery(this.name, query);
   }
 
   filter(query: Object): QueryBuilder {
     return new QueryBuilder(query, this);
   }
 
-  nCount(query: Object) {
-    
-    var result = new Proxy({ count: 0 }, {});
-
-    (async () => {
-      
-      let queryResults = await VasernManager.Count(this.name, formatNativeQuery(this.props, query));
-      result.count = queryResults.data.count;
-    })();
-
-    return result;
+  count(query: Object): ResultInterface {
+    let nativeQuery = toNativeQuery(this.props, query);
+    return createResultInterface(
+      () => VasernManager.CountRecordsByQuery(this.name, nativeQuery),
+      { asArray: false }
+    );
   }
 
-  rRemove(ids: Array<string>) {
-    var result = new Proxy({ status: 0 }, {});
-
-    (async () => {
-      
-      let queryResults = await VasernManager.Delete(this.name, ids);
-      result.status = queryResults.status;
-      console.log(result)
-    })();
-
-    return result;
-  }
-  
-  /*:: assignNativeSchema: () => void; */
-  assignNativeSchema() {
-    this._nativeSchema = formatNativeSchema(this.props);
-  }
-
-  async formatData() {
-    let obj;
-    this._data.forEach((d, i) => {
-      obj = Parser.strToObject(this.props, d);
-      if (obj) {
-        this._data[i] = obj;
-      }
-    });
-
-    this.loaded = true;
-    this.eventManager.fire("loaded");
+  records(): ResultInterface {
+    return createResultInterface(
+      () => VasernManager.AllRecords(this.name),
+      { asArray: true }
+    );
   }
 
   // Remove a record that match given query
   // @query: id or key value (i.e { name: 'Jonas' }) that match the object that will be remove
   // @save: save/persist data, defaut is true
-  remove(query, save = true) {
-    const found = this.get(query);
-    if (found) {
-      this._commitChange("remove", found, save);
-      return true;
+  remove(ids: Array<string | Object> | Object | string): ResultInterface {
+
+    if (!Array.isArray(ids)) {
+      ids = [ids];
     }
 
-    // Not found record to be deleted
-    return false;
+    if (typeof ids[0] === "object") {
+      let strIds = new Array(ids.length);
+      ids.forEach((obj, i) => {
+        strIds[i] = obj.id
+      });
+      ids = strIds;
+    }
+    console.log(ids);
+    return createResultInterface(
+      () => VasernManager.DeleteRecords(this.name, ids),
+      { 
+        asArray: true, 
+        callbackEvent: (changes) => {
+          this.eventManager.fire("remove", { ids, ...changes });
+        }
+      }
+    );
   }
 
   // Create a new content record which return an object with generated UUID
   // Input will be validated using given schema of when initiate Doc
   // @input: a valid record
-  insert(records, save = true) {
-    if (!records) {
-      return false;
+  insert(records: Array<Object> | Object) {
+  
+    if (!Array.isArray(records)) {
+      records = [records];
     }
 
-    const inputs = Array.isArray(records) ? records : [records];
+    records.forEach(record => {
 
-    let propKeys;
-    const validObjects = inputs.map(input => {
-      propKeys = Object.keys(input);
+      if (!record.id) {
+        record.id = this.oid.createID();
+      }
 
-      // if (!this.validateProps(propKeys)) {
-      //   Reporter.warn(
-      //     `Invalid input for ${
-      //       this.name
-      //     }. Record will not be added into database`
-      //   );
+      for (let ref in this.refProps) {
+        // Replace reference object with its id 
+        // if a reference property is passed in using an object
+        if (record[ref.representProp]) {
+          record[ref.actualProp] = record[ref.representProp];
+          delete record[ref.representProp];
+        }
+      }
 
-      //   Reporter.warn(propKeys, Object.keys(this.props));
-      //   return null;
-      // }
+      // TODO: validate keys
+    })
 
-      const content = this.oid.new();
-
-      propKeys.forEach(k => {
-        // content[k] = Parser.parseValue(this.props[k], input[k]);
-        content[k] = input[k];
-      });
-
-      this._commitChange("insert", content, save);
-
-      // Avoid id being washed using save
-      // content.id = uuid;
-
-      return content;
-    });
-
-    // Invalid data type or content not match with schema
-    return validObjects;
+    return createResultInterface(
+      () => VasernManager.InsertRecords(this.name, records),
+      { 
+        asArray: true, 
+        callbackEvent: (changes) => {
+          this.eventManager.fire("insert", changes);
+        }
+      }
+    );
   }
 
-  update(lookupQuery, newValues, save = true) {
-    const found = this.get(lookupQuery);
-    if (found) {
-      const { id, ...rest } = newValues;
+  update(formatedRecords) : ResultInterface {
 
-      Object.assign(found, { ...rest });
-
-      this._commitChange("update", found, save);
-
-      return found;
-    }
-
-    return false;
+    return createResultInterface(
+      () => VasernManager.UpdateRecords(this.name, formatedRecords),
+      { 
+        asArray: true, 
+        callbackEvent: (changes) => {
+          this.eventManager.fire("update", changes);
+        }
+      }
+    );
   }
 
   // Update, write or remove item all together
@@ -229,27 +209,6 @@ export default class Collection<Props> {
     this.save();
   }
 
-  // Create a prototype content record (not saved into ) which return an object with generated UUID
-  // Input will be validated using given schema of when initiate Doc
-  // @input: a valid record
-  createPrototype(input) {
-    const propKeys = Object.keys(input);
-
-    if (!this.validateProps(propKeys)) {
-      Reporter.warn(
-        `Invalid input for ${this.name}. Record will not be added into database`
-      );
-      return null;
-    }
-
-    const content = {};
-    propKeys.forEach(k => {
-      content[k] = Parser.parseValue(this.props[k], input[k]);
-    });
-
-    return this.oid.new(content);
-  }
-
   // Send current data to backend to save/persist
   async save() {
     // Check if records is being written to file
@@ -261,7 +220,7 @@ export default class Collection<Props> {
       this.isWriting = true;
       
       try {
-        const success = await VasernManager.Insert(
+        const success = await VasernManager.InsertRecords(
           this.name,
           logRecords
           // this.storeOptions
@@ -286,6 +245,10 @@ export default class Collection<Props> {
     } else {
       this._isCommitOnQueue = true;
     }
+  }
+
+  async removeAllRecords() {
+    return VasernManager.ClearDocument(this.name);
   }
 
   // Return a legit document name
@@ -343,38 +306,6 @@ export default class Collection<Props> {
     return this._data.length;
   }
 
-  // Comparing given keys with schema props
-  // Return boolean value
-  // @key: Array of object key of new record
-  validateProps = keys => {
-    return true;
-    const schemaProps = Object.keys(this.props);
-    const objectProps = keys;
-    let isValid = true;
-    let correctProps = 0;
-    schemaProps.forEach(k => {
-      // Optional props
-      if (this.props[k].indexOf("?") > -1) {
-        correctProps += 1;
-      } else if (objectProps.indexOf(k) === -1 && k !== "id") {
-        // prop not exists
-        isValid = false;
-      } else {
-        // invalid error found
-        correctProps += 1;
-      }
-    });
-
-    if (correctProps !== schemaProps.length) {
-      Reporter.warn(
-        "Doc.validateProps: Input has more props than schema. Non-exists props will be removed"
-      );
-      Reporter.warn(schemaProps, objectProps);
-    }
-
-    return isValid;
-  };
-
   /* ======================//
   //=====   COMMITS   =====//
   //===================== */
@@ -392,7 +323,7 @@ export default class Collection<Props> {
 
   _commitChange = (type, item, save = false) => {
     // Check if commit status is available
-    if (this._commitedItems[type]) {
+    if (type in this._commitedItems) {
       this._commitedItems[type].push(item);
 
       if (save) {
@@ -409,41 +340,10 @@ export default class Collection<Props> {
   _executeCommitedEvents = () => {
     Object.keys(this._commitedItems).forEach(k => {
       if (this._commitedItems[k].length) {
-        // TODO: merge changed records to data
-        this._mergeRecords(k, this._commitedItems[k]);
         this.eventManager.fire(k, this._commitedItems[k]);
         this._commitedItems[k] = [];
       }
     });
-  };
-
-  // Merging commited records to the main record list
-  // after data processes (insert/update/remove) are completed
-  // TODO: Make sure records passed through is valid
-  _mergeRecords = (event, records) => {
-    let index;
-    switch (event) {
-      case "update":
-        records.forEach(r => {
-          index = _.findIndex(this._data, { id: r.id });
-          if (index !== -1) {
-            this._data[index] = r;
-          }
-        });
-        break;
-      case "insert":
-        this._data = this._data.concat(records);
-        break;
-
-      case "remove":
-        records.forEach(record => {
-          _.remove(this._data, { id: record.id });
-        });
-        break;
-      default:
-        // Should not going through here
-        break;
-    }
   };
 
   /* =============================//
