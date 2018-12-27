@@ -17,17 +17,17 @@ namespace vs {
         writer_t(const char* path, layout_t *layout);
         ~writer_t();
         
+        size_t update(size_t pos, upair_t* row);
         size_t insert(std::string* buff, upair_t row);
         void remove(size_t pos);
-        size_t update(size_t pos, std::string* buff, upair_t row);
         
         void open_trunc();
-        void close_trunc();
         void open_conn();
         void close_conn();
         
         void build(upair_t* record);
         size_t write();
+        void remove_all();
         
     private:
         
@@ -36,8 +36,7 @@ namespace vs {
         
         size_t last_block_pos;
         
-        std::ofstream file;
-        std::fstream ffile;
+        std::fstream file;
         std::string path;
     };
 

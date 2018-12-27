@@ -97,10 +97,20 @@ namespace vs
     //  I/O
     // ===========
 
-    void block_writer::write(std::ofstream* writer) {
+    void block_writer::write(std::fstream* writer) {
         
         build_meta();
         writer->write(buff, b_size * total_blocks);
+        clear();
+    }
+    
+    void block_writer::write(std::fstream* writer, size_t location) {
+        
+        build_meta();
+        
+        writer->seekg(location, std::ios::beg);
+        writer->write(buff, b_size * total_blocks);
+        
         clear();
     }
     

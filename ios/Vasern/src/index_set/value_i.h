@@ -35,6 +35,10 @@ namespace vs {
             
             return true;
         }
+        
+        void set_value(T v) {
+            value = v;
+        }
     };
     
     template <typename T>

@@ -44,6 +44,22 @@ namespace vs {
             return items[key->bool_value()];
         }
         
+        void move(value_t* old_key, value_t* key, value_ptr ptr) {
+            
+            auto index = std::find(items[old_key->bool_value()].begin(), items[old_key->bool_value()].end(), ptr);
+            items[old_key->bool_value()].erase(index);
+            
+            if (items.count(key->bool_value()) == 0) {
+                items[key->bool_value()] = std::vector<value_ptr>({ ptr });
+            } else {
+                items[key->bool_value()].push_back(ptr);
+            }
+            
+        }
+        
+        void clear() {
+            items.clear();
+        }
     private:
         std::unordered_map<bool, std::vector<value_ptr>> items;
     };

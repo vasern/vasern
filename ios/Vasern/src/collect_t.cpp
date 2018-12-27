@@ -29,8 +29,25 @@ namespace vs {
         size_t pos = writer->write();
         indexes.push(value_ptr(new value_i<size_t>{ pos, *row }));
     }
+    
+    void collect_t::update(value_t* key, upair_t *changes) {
+        upair_t id = {{ "id", key }};
+        auto ptr = indexes.get(&id);
+        size_t pos = ptr->value;
+        size_t new_pos = writer->update(pos, changes);
+        
+        if (pos != new_pos) {
+            ptr->set_value(new_pos);
+        }
+        
+        for (auto & itr: *changes) {
+            
+            indexes.move(itr.first, ptr->items[itr.first], itr.second, ptr);
+            ptr->items[itr.first] = itr.second;
+        }
+    }
 
-    void collect_t::remove(std::vector<const char*> key) {
+    void collect_t::remove_keys(std::vector<const char*> key) {
         
         writer->open_trunc();
         
@@ -38,14 +55,14 @@ namespace vs {
             upair_t query = {{ "id", value_f::create(iid) }};
             auto ptr = indexes.pop(&query);
             if (ptr) {
-                
+                indexes.remove(ptr);
                 writer->remove(ptr->value);
             }
         }
         
-        writer->close_trunc();
+        writer->close_conn();
         
-        // TODO: throw error
+        // TODO: design errors
     }
 
     // IO
@@ -54,7 +71,7 @@ namespace vs {
         writer->open_conn();
     }
     
-    void collect_t::open_writer_u() {
+    void collect_t::open_writer_update() {
         writer->open_trunc();
     }
 
@@ -70,18 +87,6 @@ namespace vs {
         reader->close_conn();
     }
     
-//    value_ptr collect_t::load_i_value(record_t* r, size_t pos) {
-//        upair_t items = {{ "id", value_f::create(r->key()) }};
-//
-//        for (auto itr : desc.indexes) {
-//            // TODO: handle duplicate/repeat issue
-//            items[itr->name] = value_f::create(r, itr->type, itr->name.c_str());
-//
-//        }
-//
-//        return value_ptr(new value_i<size_t>{ pos, items });
-//    }
-//
     type_desc_t collect_t::type_of(const char* key) {
         return indexes.type_of(key);
     }
@@ -140,6 +145,10 @@ namespace vs {
         return rs;
     }
     
+    block_reader* collect_t::first() {
+        return reader->get_ptr(0);
+    }
+    
     std::vector<block_reader*> collect_t::filter(upair_t* query, const char* order_by, bool desc) {
         auto items = indexes.filter(query, order_by, desc);
         std::vector<block_reader*> rs;
@@ -159,5 +168,10 @@ namespace vs {
     const char* collect_t::get_id(upair_t * query) {
         
         return indexes.get_id(query);
+    }
+    
+    void collect_t::remove_all_records() {
+        writer->remove_all();
+        indexes.remove_all();
     }
 }

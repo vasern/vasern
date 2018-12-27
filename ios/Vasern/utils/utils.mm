@@ -147,13 +147,13 @@ namespace vs_utils_ios {
             if (con[@"equal"] != nil) {
                 rs.insert({
                     [attr UTF8String],
-                    get_value(type_of(attr), con, [NSString stringWithFormat:@"equal"])
+                    get_value(type_of(con[@"equal"]), con, [NSString stringWithFormat:@"equal"])
                 });
             } else if (con[@"start"] != nil) {
                 
                 rs.insert({
                     [attr UTF8String],
-                    get_value(type_of(attr), con, [NSString stringWithFormat:@"start"])
+                    get_value(type_of(con[@"start"]), con, [NSString stringWithFormat:@"start"])
                 });
             }
         }
@@ -273,4 +273,29 @@ namespace vs_utils_ios {
         return vs::TYPE_UNDEFINED;
     }
     
+    std::unordered_map<std::string, vs::layout_t> to_database_model(NSDictionary* model) {
+        std::unordered_map<std::string, vs::layout_t> tables;
+        NSDictionary *obj, *indexObjs;
+        vs::type_desc_t type;
+        
+        for (id itr in model) {
+            
+            vs::schema_t schema;
+            obj = [model objectForKey:itr];
+            
+            for (id col_itr in obj) {
+                indexObjs = [obj objectForKey:col_itr];
+                type = static_cast<vs::type_desc_t>([indexObjs[@"type"] intValue]);
+                
+                if (type == vs::STRING) {
+                    schema.push_back(vs::col_t([col_itr UTF8String], type, [indexObjs[@"size"] intValue]));
+                } else {
+                    schema.push_back(vs::col_t([col_itr UTF8String], type));
+                }
+            }
+            
+            tables[[itr UTF8String]] = vs::layout_t(schema, 1024);
+        }
+        return tables;
+    }
 }; // namespace vasern

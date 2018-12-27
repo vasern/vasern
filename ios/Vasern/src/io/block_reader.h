@@ -35,6 +35,7 @@ namespace vs {
         
         int total_blocks();
         bool is_valid();
+        bool is_tombstone();
         
     private:
         

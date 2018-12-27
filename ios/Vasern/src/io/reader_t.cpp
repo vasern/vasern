@@ -23,7 +23,7 @@ namespace vs {
         if (beg < f_size) {
             return block_reader(beg, f_size, fmap, layout);
         }
-        return block_reader(-1, -1, NULL, NULL);
+        return block_reader(0, 0, NULL, NULL);
     }
     
     block_reader* reader_t::get_ptr(size_t pos) {
@@ -31,21 +31,20 @@ namespace vs {
         if (beg < f_size) {
             return new block_reader(beg, f_size, fmap, layout);
         }
-        return NULL;
+        return new block_reader(0, 0, NULL, NULL);
     }
 
     void reader_t::open_conn() {
         fd = open(path.c_str(), O_RDONLY, (mode_t)0600);
-            
-        // mmap file start to end (allows null chars)
-        off_t pos = lseek(fd, 0, SEEK_CUR);
-        off_t size = lseek(fd, 0, SEEK_END);
-        lseek(fd, pos, SEEK_SET);
         
-        if (size == 0) {
-            close(fd);
-            f_size = -1;
-        } else {
+        if (fd != -1) {
+            
+            // mmap file start to end (allows null chars)
+            off_t pos = lseek(fd, 0, SEEK_CUR);
+            off_t size = lseek(fd, 0, SEEK_END);
+            lseek(fd, pos, SEEK_SET);
+            
+
             int prot = PROT_READ;
             int flags = MAP_SHARED;
             
@@ -63,12 +62,15 @@ namespace vs {
 
             if (ptr == MAP_FAILED) {
                 close(fd);
-                f_size = -1;
+                f_size = 0;
             } else {
                 f_size = size;
                 fmap = (char*)ptr;
                 opening = true;
             }
+            
+        } else {
+            f_size = 0;
         }
     }
     

@@ -1,5 +1,6 @@
 
 #include "writer_t.h"
+#include "block_reader.h"
 
 namespace vs {
 
@@ -10,17 +11,13 @@ namespace vs {
     {}
     
     void writer_t::open_conn() {
-        file.open(path.c_str(), std::ios::binary | std::ios::app);
+        file.open(path.c_str(), std::ios::binary | std::ios::app | std::ios::out );
     
         last_block_pos = file.tellp() / layout->size();
     }
     
     void writer_t::open_trunc() {
-        ffile.open(path.c_str(), std::ios::binary | std::ios::out | std::ios::in);
-    }
-    
-    void writer_t::close_trunc() {
-        ffile.close();
+        file.open(path.c_str(), std::ios::binary | std::ios::out | std::ios::in);
     }
     
     writer_t::~writer_t() { }
@@ -91,27 +88,72 @@ namespace vs {
     void writer_t::remove(size_t pos) {
         
         // Move cursor to begin position
-        ffile.seekp(layout->size() * pos, std::ios::beg);
+        file.seekp(layout->size() * pos, std::ios::beg);
         
         char temp_buff[1];
-        ffile.read(temp_buff, 1);
+        file.read(temp_buff, 1);
         
         int num_of_block = temp_buff[0] & 0xff;
         
-        buff.remove(&ffile, layout->size() * pos, num_of_block);
+        buff.remove(&file, layout->size() * pos, num_of_block);
         
     }
     
-    size_t writer_t::update(size_t pos, std::string* buff, upair_t row) {
+    size_t writer_t::update(size_t pos, upair_t* row) {
         
         // TODO
         // If record doesn't fit current pos row
         // remove record and write to end of file
+        // Move cursor to begin position
+        file.seekp(layout->size() * pos, std::ios::beg);
         
-        return 0;
+        char num_buff[1];
+        file.read(num_buff, 1);
+        
+        int num_of_block = num_buff[0] & 0xff;
+        size_t r_size = num_of_block * layout->size();
+        char r_buff[r_size];
+        file.read(&r_buff[1], r_size - 1);
+        
+        block_reader reader(0, r_size, r_buff, layout);
+        upair_t record = reader.object();
+        
+        for (auto itr: *row) {
+            // TODO: handle senario where value is object or list
+            record[itr.first] = itr.second;
+        }
+        
+        build(&record);
+        
+        if (num_of_block == buff.num_of_blocks()) {
+            
+            /* Record after changed fit to the current block */
+            buff.write(&file, pos * layout->size());
+            
+        } else {
+            
+            /* Record after changed need more blocks than before */
+            
+            // Insert record into end of data file
+            size_t new_pos = last_block_pos;
+            last_block_pos += buff.num_of_blocks();
+            buff.write(&file, last_block_pos * layout->size());
+            
+            // Remove record in the old block
+            buff.remove(&file, pos, num_of_block);
+            pos = new_pos;
+        }
+        
+        return pos;
     }
 
     void writer_t::close_conn() {
+        file.close();
+    }
+    
+    void writer_t::remove_all() {
+        file.open(path.c_str(), std::ios::binary);
+        file.write("", 0);
         file.close();
     }
 }

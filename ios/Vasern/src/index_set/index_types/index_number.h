@@ -60,6 +60,22 @@ namespace vs {
             return rs;
         }
         
+        void clear() {
+            items.clear();
+        }
+        
+        void move(value_t* old_key, value_t* key, value_ptr ptr) {
+            
+            std::remove(items[old_key->number_value()].begin(), items[old_key->number_value()].end(), ptr);
+            
+            if (items.count(key->number_value()) == 0) {
+                items[key->number_value()] = std::vector<value_ptr>({ ptr });
+            } else {
+                items[key->number_value()].push_back(ptr);
+            }
+            
+        }
+        
     private:
         std::unordered_map<int, std::vector<value_ptr>> items;
     };

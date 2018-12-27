@@ -120,17 +120,17 @@
 		C883C66521C735E6002B1ABB /* io */ = {
 			isa = PBXGroup;
 			children = (
-				C883C66621C735E6002B1ABB /* reader_t.cpp */,
-				C883C66721C735E6002B1ABB /* block_writer.cpp */,
-				C883C66821C735E6002B1ABB /* block_writer.h */,
-				C883C66921C735E6002B1ABB /* block_reader.cpp */,
 				C883C66A21C735E6002B1ABB /* reader_t.h */,
+				C883C66621C735E6002B1ABB /* reader_t.cpp */,
+				C883C66E21C735E6002B1ABB /* block_reader.h */,
+				C883C66921C735E6002B1ABB /* block_reader.cpp */,
+				C883C66D21C735E6002B1ABB /* writer_t.h */,
+				C883C67021C735E6002B1ABB /* writer_t.cpp */,
+				C883C66821C735E6002B1ABB /* block_writer.h */,
+				C883C66721C735E6002B1ABB /* block_writer.cpp */,
+				C883C66F21C735E6002B1ABB /* block_helper.h */,
 				C883C66B21C735E6002B1ABB /* block_helper.cpp */,
 				C883C66C21C735E6002B1ABB /* block_config.h */,
-				C883C66D21C735E6002B1ABB /* writer_t.h */,
-				C883C66E21C735E6002B1ABB /* block_reader.h */,
-				C883C66F21C735E6002B1ABB /* block_helper.h */,
-				C883C67021C735E6002B1ABB /* writer_t.cpp */,
 			);
 			path = io;
 			sourceTree = "<group>";

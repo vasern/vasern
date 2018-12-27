@@ -39,7 +39,8 @@ namespace vs
         void clear();
         
         // Write buffer to ostream
-        void write(std::ofstream* writer);
+        void write(std::fstream* writer);
+        void write(std::fstream* writer, size_t pos);
         void remove(std::fstream* writer, size_t pos, int num_of_blocks);
         
         // Return block size

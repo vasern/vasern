@@ -25,7 +25,7 @@ vs::fsm fsm(dir);
 
 RCT_EXPORT_MODULE();
 
-RCT_EXPORT_METHOD(Insert: (NSString *)collection
+RCT_EXPORT_METHOD(InsertRecords: (NSString *)collection
                   data:(NSArray *)data
                 insertWithResolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
@@ -35,6 +35,7 @@ RCT_EXPORT_METHOD(Insert: (NSString *)collection
     
     if (coll != nullptr) {
         
+        size_t total = 0;
         coll->open_writer();
         
         NSDictionary *rObj;
@@ -47,18 +48,26 @@ RCT_EXPORT_METHOD(Insert: (NSString *)collection
             
             coll->insert(&r_pairs);
             r_pairs.clear();
+            total++;
         }
 
         coll->close_writer();
         
-        resolve(@{ @"status": @200 });
+        
+        resolve(@{
+            @"status": @"ok",
+            @"changes": @{
+                @"inserted": @(total),
+                @"unchanged": @0
+            }
+        });
         
     } else {
         reject(@"no_collection", [NSString stringWithFormat:@"Collection `%@` does not exist!", collection], NULL);
     }
 }
 
-RCT_EXPORT_METHOD(Query: (NSString*)collection
+RCT_EXPORT_METHOD(GetRecordsByQuery: (NSString*)collection
                   data:(NSDictionary *)data
                   getWithResolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
@@ -73,8 +82,7 @@ RCT_EXPORT_METHOD(Query: (NSString*)collection
          reject(@"no_collection", [NSString stringWithFormat:@"Collection `%@` does not exist!", collection], NULL);
     } else {
     
-        NSMutableDictionary* queries = [data mutableCopy];
-        [queries removeObjectsForKeys:@[@"$prefetch", @"$include", @"$limit", @"$paging", @"$sort"]];
+        NSMutableDictionary* queries = [data objectForKey:@"$filter"];
         
         // Process `$prefetch` and `$include`
         
@@ -133,152 +141,243 @@ RCT_EXPORT_METHOD(Query: (NSString*)collection
             rs = collect->filter(&query);
         }
         
-        // Query properties
-        // $sort, $paging, $limit
-        
-        if (data[@"$limit"] != nil) {
-            
-            // Apply $limit
-            
-            [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs, 0, [data[@"$limit"] longValue])];
-            
-        } else if (data[@"$paging"] != nil) {
-            
-            // Apply $paging
-            
-            int max = [data[@"$paging"][@"max"] intValue];
-            int start = [data[@"$paging"][@"page"] intValue] * max;
-            [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs, start, start + max)];
-            
+        if (rs.size() == 0) {
+            collect->close_reader();
         } else {
             
-            [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs)];
-        }
-
-        collect->close_reader();
-        NSDictionary* relateObj;
-        NSString* tempStr;
-        if ([data valueForKey:@"$include"] != nil) {
+            // Query properties
+            // $sort, $paging, $limit
             
-            NSDictionary* includeObjects = [data valueForKey:@"$include"];
-            vs::upair_t pQuery;
-            std::shared_ptr<vs::collect_t> pCollect;
-            bool multiple = false;
-            
-            // tasks, ...
-            for (id itr: includeObjects) {
-                relateObj = [includeObjects objectForKey:itr];
+            if (data[@"$limit"] != nil) {
                 
-                pCollect = fsm.select([relateObj[@"relate"] UTF8String]);
-                pCollect->open_reader();
-                // items
-                for (id item : items) {
+                // Apply $limit
+                
+                [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs, 0, [data[@"$limit"] longValue])];
+                
+            } else if (data[@"$paging"] != nil) {
+                
+                // Apply $paging
+                
+                int max = [data[@"$paging"][@"max"] intValue];
+                int start = [data[@"$paging"][@"page"] intValue] * max;
+                [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs, start, start + max)];
+                
+            } else {
+                
+                [items addObjectsFromArray:vs_utils_ios::to_nsarray(rs)];
+            }
+
+            collect->close_reader();
+            NSDictionary* relateObj;
+            NSString* tempStr;
+            if ([data valueForKey:@"$include"] != nil) {
+                
+                NSDictionary* includeObjects = [data valueForKey:@"$include"];
+                vs::upair_t pQuery;
+                std::shared_ptr<vs::collect_t> pCollect;
+                bool multiple = false;
+                
+                // tasks, ...
+                for (id itr: includeObjects) {
+                    relateObj = [includeObjects objectForKey:itr];
                     
-                    if (relateObj[@"filter"] != nil) {
-                        pQuery = vs_utils_ios::to_query(pCollect, relateObj[@"filter"]);
-                    }
-                    
-                    if (relateObj[@"idMatchField"] != nil) {
+                    pCollect = fsm.select([relateObj[@"relate"] UTF8String]);
+                    pCollect->open_reader();
+                    // items
+                    for (id item : items) {
                         
-                        // relate
-                        pQuery[[relateObj[@"idMatchField"] UTF8String]] = vs::value_f::create([[item valueForKey:@"id"] UTF8String]);
-                        multiple = true;
-                        
-                    } else if(relateObj[@"refField"] != nil)  {
-                        
-                        tempStr = [NSString stringWithFormat:@"%s", [relateObj[@"refField"] UTF8String] ];
-                        pQuery["id"] = vs::value_f::create([[item valueForKey:tempStr] UTF8String]);
-                        multiple = false;
-                    }
-                    
-                    auto found = pCollect->filter(&pQuery);
-                    
-                    if (found.size() > 0) {
-                        if (multiple) {
-                            [item
-                             setValue:vs_utils_ios::to_nsarray(found)
-                             forKey:itr];
-                        } else {
-                            [item
-                             setValue:vs_utils_ios::to_nsarray({ found[0] })[0]
-                             forKey:itr];
+                        if (relateObj[@"filter"] != nil) {
+                            pQuery = vs_utils_ios::to_query(pCollect, relateObj[@"filter"]);
                         }
-                    }
-                };
-                pCollect->close_reader();
-                pQuery.clear();
+                        
+                        if (relateObj[@"idMatchField"] != nil) {
+                            
+                            // relate
+                            pQuery[[relateObj[@"idMatchField"] UTF8String]] = vs::value_f::create([[item valueForKey:@"id"] UTF8String]);
+                            multiple = true;
+                            
+                        } else if(relateObj[@"refField"] != nil)  {
+                            
+                            tempStr = [NSString stringWithFormat:@"%s", [relateObj[@"refField"] UTF8String] ];
+                            pQuery["id"] = vs::value_f::create([[item valueForKey:tempStr] UTF8String]);
+                            multiple = false;
+                        }
+                        
+                        auto found = pCollect->filter(&pQuery);
+                        
+                        if (found.size() > 0) {
+                            if (multiple) {
+                                [item
+                                 setValue:vs_utils_ios::to_nsarray(found)
+                                 forKey:itr];
+                            } else {
+                                [item
+                                 setValue:vs_utils_ios::to_nsarray({ found[0] })[0]
+                                 forKey:itr];
+                            }
+                        }
+                    };
+                    pCollect->close_reader();
+                    pQuery.clear();
+                }
             }
         }
         
-        resolve(@{ @"data": items });
+        resolve(@{
+            @"items": items,
+            @"status": @"ok"
+        });
     }
 }
 
-RCT_EXPORT_METHOD(Count: (NSString*)collect_name
-                  data:(NSDictionary *)data
+/*
+ * Count number of records that match with query (through key and indexes)
+ * Using `CountRecordsByQuery` will be must faster than using `GetRecordsByQuery` to count
+ * as it doesn't load records
+ */
+RCT_EXPORT_METHOD(CountRecordsByQuery: (NSString*)collection
+                  data:(NSDictionary*)queryData
                   getWithResolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
     
-    std::shared_ptr<vs::collect_t> collect = fsm.select([collect_name UTF8String]);
-    vs::upair_t query = vs_utils_ios::to_query(collect, data);
-    
-    collect->open_reader();
-    
-    NSNumber *result = @(collect->count(&query));
-    
-    collect->close_reader();
-    
-    
-    resolve(@{
-      @"data": @{ @"count": result },
-      @"status": @200
-    });
+    std::shared_ptr<vs::collect_t> collect = fsm.select([collection UTF8String]);
+    if (collect == nullptr) {
+        reject(@"no_collection", [NSString stringWithFormat:@"Collection `%@` does not exist!", collection], NULL);
+    } else {
+        
+        vs::upair_t query = vs_utils_ios::to_query(collect, queryData);
+        
+        resolve(@{
+            @"count": @(collect->count(&query)),
+            @"status": @"ok"
+        });
+    }
 }
 
-RCT_EXPORT_METHOD(Delete: (NSString*)collect_name
-                  data:(NSArray*)data
+/*
+ * Remove records by keys
+ * TODO: Design errors (i.e for invalid inputs, keys)
+ */
+RCT_EXPORT_METHOD(DeleteRecords: (NSString*)collection
+                  data:(NSArray*)keys
                   getWithResolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
+    std::shared_ptr<vs::collect_t> collect = fsm.select([collection UTF8String]);
     
-    fsm.select([collect_name UTF8String])
-        ->remove(vs_utils_ios::to_vector<const char*>(data));
-    
-    resolve(@{ @"status": @200 });
+    if (collect == nullptr) {
+        reject(@"no_collection", [NSString stringWithFormat:@"Collection `%@` does not exist!", collection], NULL);
+    } else {
+        
+        size_t total = [keys count];
+        collect->remove_keys(vs_utils_ios::to_vector<const char*>(keys));
+        resolve(@{
+            @"status": @"ok",
+            @"changes": @{
+                @"deleted": @(total),
+                @"unchanged": @0
+            }
+        });
+    }
 }
 
-RCT_EXPORT_METHOD(Startup: (NSDictionary*)models
+/*
+ * Comparing user defined database model (JS side) with current database model (loaded from meta table)
+ * => If models are match, do nothing
+ * => If database has not initiated yet, setup database and save model to meta table
+ * TODO: Migration when models (JS side vs Native side) are mismatch.
+ */
+RCT_EXPORT_METHOD(Startup: (NSDictionary*)modelObject
                   getWithResolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-    if (fsm.verify_collections([models count]) == false) {
-        
-        std::unordered_map<std::string, vs::layout_t> tables;
-        NSDictionary *obj, *indexObjs;
-        vs::type_desc_t type;
-        
-        for (id itr in models) {
-            
-            vs::schema_t schema;
-            obj = [models objectForKey:itr];
-            
-            for (id col_itr in obj) {
-                indexObjs = [obj objectForKey:col_itr];
-                type = static_cast<vs::type_desc_t>([indexObjs[@"type"] intValue]);
-                
-                if (type == vs::STRING) {
-                    schema.push_back(vs::col_t([col_itr UTF8String], type, [indexObjs[@"size"] intValue]));
-                } else {
-                    schema.push_back(vs::col_t([col_itr UTF8String], type));
-                }
-            }
-            
-            tables[[itr UTF8String]] = vs::layout_t(schema, 1024);
-        }
-        
-        fsm.setup(tables);
+    if (fsm.verify_collections((int)[modelObject count]) == false) {
+        std::unordered_map<std::string, vs::layout_t> model = vs_utils_ios::to_database_model(modelObject);
+        fsm.setup(model);
     }
 }
+
+/*
+ * !!! Use with caution
+ * Permanantly remove all records within a collection
+ */
+RCT_EXPORT_METHOD(ClearDocument: (NSString*)collection
+                  getWithResolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    
+    std::shared_ptr<vs::collect_t> collect = fsm.select([collection UTF8String]);
+    
+    if (collect == nullptr) {
+        reject(@"no_collection", [NSString stringWithFormat:@"Collection `%@` does not exist!", collection], NULL);
+    } else {
+        
+        collect->remove_all_records();
+        resolve(@{ @"status": @"ok" });
+    }
+}
+
+RCT_EXPORT_METHOD(UpdateRecords: (NSString*)collection
+                  data:(NSDictionary*)data
+                  getWithResolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+    std::shared_ptr<vs::collect_t> collect = fsm.select([collection UTF8String]);
+    
+    if (collect == nullptr) {
+        reject(@"no_collection", [NSString stringWithFormat:@"Collection `%@` does not exist!", collection], NULL);
+    } else {
+        
+        size_t total = [data count];
+        
+        collect->open_writer_update();
+        vs::upair_t pairs;
+        NSString* buff;
+        for (id _id in data) {
+            vs_utils_ios::obj_to_upair(buff, &pairs, [data objectForKey:_id]);
+            collect->update(vs::value_f::create([_id UTF8String]), &pairs);
+            pairs.clear();
+        }
+        collect->close_writer();
+        
+        resolve(@{
+            @"status": @"ok",
+            @"changes": @{
+                @"updated": @(total),
+                @"unchanged": @0
+            }
+        });
+    }
+}
+
+RCT_EXPORT_METHOD(AllRecords: (NSString*)collection
+                  getWithResolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject) {
+    std::shared_ptr<vs::collect_t> collect = fsm.select([collection UTF8String]);
+    
+    if (collect == nullptr) {
+        reject(@"no_collection", [NSString stringWithFormat:@"Collection `%@` does not exist!", collection], NULL);
+    } else {
+        NSMutableArray* items = [NSMutableArray new];
+        collect->open_reader();
+        
+        vs::block_reader* item = collect->first();
+        
+        while(item->is_valid()) {
+            if (!item->is_tombstone()) {
+                [items addObject:vs_utils_ios::upair_to_obj(item->object())];
+            }
+            item->next();
+        }
+        
+        collect->close_reader();
+        
+        resolve(@{
+            @"status": @"ok",
+            @"items": items
+        });
+    }
+}
+
 @end
 

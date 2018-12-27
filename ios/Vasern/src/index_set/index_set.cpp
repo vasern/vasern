@@ -29,16 +29,14 @@ namespace vs {
         
         // Push value pointer into each index set
         for (auto k : value->items) {
-            _set[k.first]->push(
-                                k.second,
-                                value);
+            _set[k.first]->push( k.second, value);
         }
-//        for (auto s : _set) {
-////            s.second->push(value->items[s.first])
-//            for (auto k: value->items) {
-//                s.second->push(k.second, value);
-//            }
-//        }
+    }
+    
+    template<typename T>
+    void index_set<T>::move(std::string key, value_t* old_value, value_t* value, value_ptr ptr) {
+        // TODO: update _set[name] old value to new value
+        _set[key]->move(old_value, value, ptr);
     }
     
     // Merge two vector<value_ptr>
@@ -164,5 +162,12 @@ namespace vs {
     template <typename T>
     type_desc_t index_set<T>::type_of(const char* name) {
         return _set[name]->type();
+    }
+    
+    template <typename T>
+    void index_set<T>::remove_all() {
+        for (auto itr: _set) {
+            itr.second->clear();
+        }
     }
 }

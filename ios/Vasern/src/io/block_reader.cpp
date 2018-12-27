@@ -173,4 +173,8 @@ namespace vs {
     bool block_reader::is_valid() {
         return begin < flen && (fmap[begin] & 0xff) != 0;
     }
+    
+    bool block_reader::is_tombstone() {
+        return (fmap[begin + MT_TOTAL_PROPS] & 0xff) == 0;
+    }
 }

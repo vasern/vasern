@@ -45,6 +45,21 @@ namespace vs {
             return items[key->str_value()];
         }
         
+        void clear() {
+            items.clear();
+        }
+        
+        void move(value_t* old_key, value_t* key, value_ptr ptr) {
+            
+            std::remove(items[old_key->str_value()].begin(), items[old_key->str_value()].end(), ptr);
+            
+            if (items.count(key->str_value()) == 0) {
+                items[key->str_value()] = std::vector<value_ptr>({ ptr });
+            } else {
+                items[key->str_value()].push_back(ptr);
+            }
+            
+        }
     private:
         std::unordered_map<std::string, std::vector<value_ptr>> items;
     };

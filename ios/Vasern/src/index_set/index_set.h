@@ -24,6 +24,7 @@ namespace vs {
         index_set(std::unordered_map<std::string, type_desc_t> args);
         
         void push(std::shared_ptr<value_i<T>> value);
+        void move(std::string key, value_t* old_value, value_t* value, value_ptr ptr);
         void remove(value_ptr);
         
         std::vector<value_ptr> filter(upair_t*);
@@ -38,6 +39,7 @@ namespace vs {
 //        std::vector<T> get_multiple(upair_t*);
         
         type_desc_t type_of(const char*);
+        void remove_all();
         
     private:
         std::unordered_map<std::string, index_t*> _set;

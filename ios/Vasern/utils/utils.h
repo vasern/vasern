@@ -39,6 +39,8 @@ namespace vs_utils_ios {
     std::vector<T> to_vector(NSArray*);
     
     vs::type_desc_t type_of(NSObject* any);
+    
+    std::unordered_map<std::string, vs::layout_t> to_database_model(NSDictionary*);
 }
 
 

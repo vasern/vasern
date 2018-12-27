@@ -18,6 +18,7 @@ namespace vs {
     
     template void index_set<size_t>::push(std::shared_ptr<value_i<size_t>> value);
     template void index_set<size_t>::remove(value_ptr);
+    template void index_set<size_t>::move(std::string key, value_t* old_value, value_t* value, value_ptr ptr);
     
     template std::vector<value_ptr> index_set<size_t>::filter(upair_t*);
     template std::vector<value_ptr> index_set<size_t>::filter(upair_t*, const char*, bool);
@@ -28,6 +29,7 @@ namespace vs {
     template value_ptr index_set<size_t>::pop(upair_t*);
     template value_ptr index_set<size_t>::get(upair_t*);
     template type_desc_t index_set<size_t>::type_of(const char*);
+    template void index_set<size_t>::remove_all();
 }
 
 #endif /* index_set_h */
