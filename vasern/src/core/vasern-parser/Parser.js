@@ -131,12 +131,12 @@ const Parser = {
       rawObject.raw.split(RBreak).forEach((data, i) => {
         prop = props[i];
 
-        if (data && prop) {
-          if (schema[prop].indexOf("#") > -1) {
-            obj[`${prop}_id`] = Parser.parseValue(schema[prop], data);
-          } else {
-            obj[prop] = Parser.parseValue(schema[prop], data);
-          }
+        if (schema[prop].indexOf("#") > -1) {
+          // Parsing reference object
+          obj[`${prop}_id`] = Parser.parseValue(schema[prop], data);
+        } else {
+          // Parseing numbers,string,list,boolean
+          obj[prop] = Parser.parseValue(schema[prop], data);
         }
       });
 
