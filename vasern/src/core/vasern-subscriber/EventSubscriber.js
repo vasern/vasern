@@ -5,11 +5,8 @@
 //  (Please find "LICENSE" file attached for license details)
 //============================================================= */
 
-// Note: Event format is { id: string, callback: function({ changed: Array<object> }) }
-
-import _ from "lodash";
-
 export default class EventSubscriber {
+
   events = {
     change: [],
   };
@@ -19,24 +16,29 @@ export default class EventSubscriber {
   }
 
   // Subscribe a trigger to an event
-  subscribe(eventName, trigger, override = false) {
-    if (!this.events[eventName]) {
-      this.events[eventName] = [];
+  subscribe({ type, eventId, callback, override = false, immediateTrigger = false }) {
+    if (!this.events[type]) {
+      this.events[type] = [];
     }
 
     if (override) {
-      const index = _.findIndex(this.events, { id: trigger.id });
-      if (index !== -1) {
-        this.events[eventName].splice(index, 1);
-      }
+      this.events[type].some((event, i) => {
+        if (event.eventId === eventId) {
+          this.events[type].splice(i, 1);
+          return;
+        }
+      });
     }
-
-    this.events[eventName].push(trigger);
+    
+    this.events[type].push({ eventId, callback });
+    if (immediateTrigger) {
+      callback({ type: 'immediate' });
+    }
   }
 
   // Trigger all subscribers of an event
-  fire(eventName, changed) {
-    const triggers = this.events[eventName];
+  fire(type, changed) {
+    const triggers = this.events[type];
     if (triggers && triggers.length) {
       triggers.forEach(trigger => {
         if (trigger.callback) {
@@ -47,7 +49,7 @@ export default class EventSubscriber {
 
     // Trigger a event fire subscriber
     this.triggerOnChangeEvent({
-      event: eventName,
+      event: type,
       changed,
     });
   }

@@ -249,7 +249,7 @@ RCT_EXPORT_METHOD(CountRecordsByQuery: (NSString*)collection
         vs::upair_t query = vs_utils_ios::to_query(collect, queryData);
         
         resolve(@{
-            @"count": @(collect->count(&query)),
+            @"total": @(collect->count(&query)),
             @"status": @"ok"
         });
     }
@@ -295,14 +295,16 @@ RCT_EXPORT_METHOD(Startup: (NSDictionary*)modelObject
     if (fsm.verify_collections((int)[modelObject count]) == false) {
         std::unordered_map<std::string, vs::layout_t> model = vs_utils_ios::to_database_model(modelObject);
         fsm.setup(model);
-    }
+    };
+    
+    resolve(@{ @"status": @"ok" });
 }
 
 /*
  * !!! Use with caution
  * Permanantly remove all records within a collection
  */
-RCT_EXPORT_METHOD(ClearDocument: (NSString*)collection
+RCT_EXPORT_METHOD(RemoveAllRecords: (NSString*)collection
                   getWithResolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject) {
     
@@ -315,6 +317,22 @@ RCT_EXPORT_METHOD(ClearDocument: (NSString*)collection
         collect->remove_all_records();
         resolve(@{ @"status": @"ok" });
     }
+}
+
+/*
+ * !!! Use with caution
+ * Permanantly remove all records of all collections
+ */
+RCT_EXPORT_METHOD(ClearAllCollections:
+                  getWithResolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+    fsm.clear_all_collections();
+    
+    // TODO: Return number of collections
+    resolve(@{ @"status": @"ok",
+               @"changes": @{ @"removed": @0 }
+    });
 }
 
 RCT_EXPORT_METHOD(UpdateRecords: (NSString*)collection

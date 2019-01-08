@@ -1,75 +1,59 @@
 
 // @flow 
-import { createArrayProxy, createObjectProxy } from '../../vasern-querybuilder/ResultProxy';
-import Vasern from '../../../..';
+import ResultProxy from '../../vasern-querybuilder/ResultProxy';
 
-type ResultInterface = {
+type ResultInterfaceType = {
     asProxy: Object,
-    asPromise: Promise
+    asPromise: Promise,
+    run: Function,
+    subscribe: Function
 }
+type ResultInterfaceOpts = {
+    callback: Function,
+    preResult?: Object,
+    eventEmitter?: Function
+};
 
-function createResultInterface(callback: Promise, options: { asArray: boolean, callbackEvent: Function }) : ResultInterface {
+export default function ResultInterface (
+    action: Promise, 
+    options: ResultInterfaceOpts
+) : ResultInterfaceType {
 
     return {
-        asPromise: () => {
+        asPromise: function() {
 
             return new Promise((resolve, reject) => {
-                callback().then(result => {
+                action().then(result => {
 
                     resolve(result);
 
                     // Fire event trigger
-                    if (options.callbackEvent) {
-                        options.callbackEvent(result);
+                    if (options.callback) {
+                        options.callback(result);
                     }
                     
                 }).catch(reject);
             })
             
         },
-        asProxy: () => {
-            let { asArray } = options;
-            let rs = asArray ? createArrayProxy() : createObjectProxy();
-
-            callback()
-            .then(result => {
-
-                if (asArray) {
-                    if (result.items) {
-                        rs.$set = result.items;
-                    } else {
-                        rs.$set = result.item
-                    }
-                } else {
-                    for (let key in result) {
-                        rs[key] = result[key];
-                    }
-                }
-
-                // Fire event trigger
-                if (options.callbackEvent) {
-                    options.callbackEvent(result);
-                }
-            })
-            .catch(error => {
-                rs.status = 'error';
-                rs.statusMessage = error.message;
-            })
-
-            return rs;
+        asProxy: function() {
+            return ResultProxy(action, options)
         },
-        run: () => {
-            callback()
+        run: function() {
+            action()
             .then(result => {
 
                 // Fire event trigger
-                if (options.callbackEvent) {
-                    options.callbackEvent(result);
+                if (options.callback) {
+                    options.callback(result);
                 }
 
             })
+        },
+        on: function(event: "change" | "insert" | "remove" | "update" = "change", callback) {
+            options.eventEmitter(event, () => {
+                action().then(callback);
+            }, { immediateTrigger: true });
         }
     }
 }
-
-export default createResultInterface;

@@ -1,17 +1,16 @@
-import { createProxy } from './ResultProxy';
+import ResultProxy from './ResultProxy';
 import toNativeQuery from './toNativeQuery';
 
 // @flow
 
 export default class QueryBuilder {
 
-    constructor(filter: Object, collection, singleMode = false) {
+    constructor(filter: Object, collection) {
         this._query= {
             $filter: toNativeQuery(collection.props, filter)
         }
         this._queryType = 'get';
         this._collection = collection;
-        this._singleMode = singleMode;
     }
 
     limit(max: number): QueryBuilder {
@@ -57,47 +56,17 @@ export default class QueryBuilder {
         return this._collection.nFilter(this._query);
     }
 
-    subscribe(event: "change" | "insert" | "remove" | "update" = "change"): Promise {
+    on(event: "change" | "insert" | "remove" | "update" = "change", callback: Function): void {
 
-        var promise = new Promise(function(resolve, reject) {
-            
-            this._collection.on(event, () => {
-                this._collection.nFilter(this._query)
-                .then(result => {
-                    resolve(result);
-                })
-                .catch(error => {
-                    reject({ status: 'error', statusMessage: error.message });
-                });
-            });
-            
+        this._collection.on(event, () => {
             this._collection.nFilter(this._query)
-            .then(result => {
-                resolve(result);
-            })
-            .catch(error => {
-                reject({ status: 'error', statusMessage: error.message });
-            });
-
+            .then(callback)
+            .catch(callback);
         });
-
-        
-        return promise;
     }
 
     asProxy(): Object {
-        var rs = createProxy({ singleMode: this._singleMode });
-        
-        this._collection.nFilter(this._query)
-        .then(result => {
-            rs.$set = result.items;
-        })
-        .catch(error => {
-            rs.status = 'error';
-            rs.statusMessage = error.message;
-        });
-            
-        return rs;
+        return ResultProxy(() => this._collection.nFilter(this._query));
     }
 
 }

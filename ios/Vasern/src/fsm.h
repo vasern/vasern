@@ -17,10 +17,10 @@ namespace vs {
         
         std::shared_ptr<collect_t> select(const char* name);
         
-        //
         void setup(std::unordered_map<std::string, layout_t> descs);
         
         bool verify_collections(int);
+        void clear_all_collections();
         
     private:
         

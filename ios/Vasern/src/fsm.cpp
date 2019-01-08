@@ -163,4 +163,10 @@ namespace vs {
         
         return false;
     }
+    
+    void fsm::clear_all_collections() {
+        for (auto itr: collections) {
+            itr.second->remove_all_records();
+        }
+    }
 }

@@ -55,6 +55,7 @@ function ref(name: string) : PropertyObject {
     return rs;
 }
 
+// Not working yet
 function datetime(isIndex: boolean = true) : PropertyObject {
 
     var rs : PropertyObject = {
@@ -65,6 +66,7 @@ function datetime(isIndex: boolean = true) : PropertyObject {
     return rs;
 }
 
+// Not working yet
 function enums(enums: Array<string>, isIndex: boolean = true) : PropertyObject {
 
     var rs : PropertyObject = {

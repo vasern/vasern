@@ -1,7 +1,7 @@
 // @flow
 
 type ResultInterface = {
-    status: 'ok' | 'warning' | 'error' | 'unknown',
+    status: 'ok' | 'warning' | 'error' | 'unknown' | 'saving'  | 'inserting' | 'updating' | 'processing',
     statusMessage?: string,
     items?: Array<Object>,
     item?: Object,
@@ -13,35 +13,44 @@ type ResultInterface = {
     },
     count?: number
 }
+
+type ProxyOptions = { 
+    preResult: Object, 
+    callback?: Function
+};
+
 const traps = {
     get: (target, property) => {
         return target[property];
     },
     set: (target, property, value, receiver) => {
-
-        if (property === "$set" && Array.isArray(value)) {
-            value.forEach((item, index) => {
-                target[index] = item;
-            })
-
-        } else {
-            target[property] = value;
-        }
-        
+        target[property] = value;
         return true;
     }
 };
 
-function createArrayProxy() : Array<Object> {
+export default function ResultProxy(action: Promise, options: ProxyOptions) : Array<Object> {
+    let { preResult, callback } = options | { };
+    
+    if (!preResult) {
+        preResult = [];
+    }
 
-    return new Proxy([], traps);
-}
+    rs.first = () => rs.items.length ? rs.items[0] : undefined;
+    let proxy = new Proxy(rs, traps);
 
-function createObjectProxy() : Object {
-    return new Proxy({ }, traps);
-}
+    action()
+    .then(result => {
+        Object.assign(proxy, result);
+        // Fire event trigger
+        if (callback) {
+            callback(proxy);
+        }
+    })
+    .catch(error => {
+        proxy.status = 'error';
+        proxy.statusMessage = error.message;
+    })
 
-export {
-    createArrayProxy,
-    createObjectProxy
+    return proxy;
 }
