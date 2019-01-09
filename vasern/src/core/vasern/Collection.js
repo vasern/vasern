@@ -255,7 +255,10 @@ export default class Collection {
           status: 'inserting',
           items: records,
           changes: {
-            unchange: records.length
+            unchange: records.length,
+            inserted: 0,
+            removed: 0,
+            updated: 0
           }
         }
       }

@@ -58,7 +58,9 @@ RCT_EXPORT_METHOD(InsertRecords: (NSString *)collection
             @"status": @"ok",
             @"changes": @{
                 @"inserted": @(total),
-                @"unchanged": @0
+                @"unchanged": @0,
+                @"removed": @0,
+                @"updated": @0
             }
         });
         
@@ -225,8 +227,13 @@ RCT_EXPORT_METHOD(GetRecordsByQuery: (NSString*)collection
         
         resolve(@{
             @"items": items,
-            @"status": @"ok"
-        });
+            @"status": @"ok",
+            @"changes": @{
+                    @"updated": @0,
+                    @"unchanged": @0,
+                    @"removed": @0,
+                    @"inserted": @0
+            }});
     }
 }
 
@@ -250,8 +257,13 @@ RCT_EXPORT_METHOD(CountRecordsByQuery: (NSString*)collection
         
         resolve(@{
             @"total": @(collect->count(&query)),
-            @"status": @"ok"
-        });
+            @"status": @"ok",
+            @"changes": @{
+                    @"updated": @0,
+                    @"unchanged": @0,
+                    @"removed": @0,
+                    @"inserted": @0
+            }});
     }
 }
 
@@ -275,8 +287,10 @@ RCT_EXPORT_METHOD(DeleteRecords: (NSString*)collection
         resolve(@{
             @"status": @"ok",
             @"changes": @{
-                @"deleted": @(total),
-                @"unchanged": @0
+                @"removed": @(total),
+                @"unchanged": @0,
+                @"inserted": @0,
+                @"updated": @0
             }
         });
     }
@@ -297,7 +311,13 @@ RCT_EXPORT_METHOD(Startup: (NSDictionary*)modelObject
         fsm.setup(model);
     };
     
-    resolve(@{ @"status": @"ok" });
+    resolve(@{ @"status": @"ok",
+               @"changes": @{
+                       @"updated": @0,
+                       @"unchanged": @0,
+                       @"removed": @0,
+                       @"inserted": @0
+            }});
 }
 
 /*
@@ -315,7 +335,13 @@ RCT_EXPORT_METHOD(RemoveAllRecords: (NSString*)collection
     } else {
         
         collect->remove_all_records();
-        resolve(@{ @"status": @"ok" });
+        resolve(@{ @"status": @"ok",
+                   @"changes": @{
+                           @"updated": @0,
+                           @"unchanged": @0,
+                           @"removed": @0,
+                           @"inserted": @0
+                }});
     }
 }
 
@@ -331,8 +357,12 @@ RCT_EXPORT_METHOD(ClearAllCollections:
     
     // TODO: Return number of collections
     resolve(@{ @"status": @"ok",
-               @"changes": @{ @"removed": @0 }
-    });
+               @"changes": @{
+                   @"removed": @0,
+                   @"inserted": @0,
+                   @"updated": @0,
+                   @"unchanged": @0
+            }});
 }
 
 RCT_EXPORT_METHOD(UpdateRecords: (NSString*)collection
@@ -362,7 +392,9 @@ RCT_EXPORT_METHOD(UpdateRecords: (NSString*)collection
             @"status": @"ok",
             @"changes": @{
                 @"updated": @(total),
-                @"unchanged": @0
+                @"unchanged": @0,
+                @"removed": @0,
+                @"inserted": @0
             }
         });
     }
@@ -392,7 +424,13 @@ RCT_EXPORT_METHOD(AllRecords: (NSString*)collection
         
         resolve(@{
             @"status": @"ok",
-            @"items": items
+            @"items": items,
+            @"changes": @{
+                    @"updated": @0,
+                    @"unchanged": @0,
+                    @"removed": @0,
+                    @"inserted": @0
+            }
         });
     }
 }
