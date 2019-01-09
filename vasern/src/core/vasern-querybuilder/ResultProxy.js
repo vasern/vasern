@@ -30,14 +30,16 @@ const traps = {
 };
 
 export default function ResultProxy(action: Promise, options: ProxyOptions) : Array<Object> {
-    let { preResult, callback } = options | { };
+    let { preResult, callback } = options;
     
     if (!preResult) {
         preResult = [];
     }
-
-    rs.first = () => rs.items.length ? rs.items[0] : undefined;
-    let proxy = new Proxy(rs, traps);
+    
+    preResult.first = function() {
+        return preResult.items.length ? preResult.items[0] : undefined
+    };
+    let proxy = new Proxy(preResult, traps);
 
     action()
     .then(result => {
