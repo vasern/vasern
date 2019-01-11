@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.vasern.Vasern;
+import com.vasern.VasernManager;
 
 public class VasernPackage implements ReactPackage {
 
@@ -27,7 +27,7 @@ public class VasernPackage implements ReactPackage {
             ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
 
-        modules.add(new Vasern(reactContext));
+        modules.add(new VasernManager(reactContext));
 
         return modules;
     }
