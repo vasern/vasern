@@ -30,15 +30,14 @@
     "url": "https://github.com/vasern/vasern/issues"
   },
   "homepage": "https://github.com/vasern/vasern#readme",
-  "dependencies": {
-    "eslint-config-airbnb-base": "^13.1.0"
-  },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
     "babel-preset-flow": "^6.23.0",
     "coveralls": "^3.0.2",
+    "djinni-react-native": "sulewicz/djinni-react-native",
     "eslint": "^5.7.0",
     "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^3.1.0",
     "eslint-plugin-flowtype": "^3.0.0",
     "eslint-plugin-import": "^2.14.0",

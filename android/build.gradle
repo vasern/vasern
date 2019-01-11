@@ -24,6 +24,24 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    sourceSets {
+        main {
+            // first our new Java code
+            java.srcDirs = [
+                "../node_modules/djinni-react-native/support-lib/java",
+                "src/main/jni/java", 
+                "src/main/jni/jni",
+                "src/main/java"
+            ]
+        }
+    }
+    externalNativeBuild {
+        // This points ndk-build at our Android.mk file
+        ndkBuild {
+            path file('src/main/jni/Android.mk')
+        }
+    }
 }
 
 repositories {

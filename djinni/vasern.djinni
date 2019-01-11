@@ -1,0 +1,13 @@
+@extern "../../node_modules/djinni-react-native/support-lib/react.yaml"
+
+VasernManager = interface +r {
+  Startup(collect: JavascriptMap, promise: JavascriptPromise);
+  InsertRecords(collect: string, records: JavascriptArray, promise: JavascriptPromise);
+  DeleteRecords(collect: string, ids: JavascriptArray, promise: JavascriptPromise);
+  UpdateRecords(collect: string, records: JavascriptMap, promise: JavascriptPromise);
+  RemoveAllCollections(promise: JavascriptPromise);
+  RemoveAllRecords(collect: string, promise: JavascriptPromise);
+  GetRecordsByQuery(collect: string, query: JavascriptMap, promise: JavascriptPromise);
+  CountRecordsByQuery(collect: string, query: JavascriptMap, promise: JavascriptPromise);
+  AllRecords(collect: string, promise: JavascriptPromise);
+}
