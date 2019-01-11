@@ -17,3 +17,7 @@ docker-compose.yml
 
 coverage
 *.xcuserstate
+android/.project
+.idea
+.settings
+android/src/main/jni/objc
