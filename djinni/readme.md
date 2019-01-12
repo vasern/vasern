@@ -26,5 +26,19 @@ If you are using an official version of Vasern, you should not worry about using
     $ ./run.sh
     ```
 
+**Post-installation**:
+
+Replace the whole `Startup` @ReactMethod located at `vasern/android/src/main/jni/java/vasern/VasernManager.java` with:
+
+```java
+@ReactMethod
+public void Startup(ReadableMap schema, Promise promise) {
+    mModule.Startup(
+        getReactApplicationContext().getFilesDir().getPath(),
+        ReactDjinni.wrap(schema), 
+        ReactDjinni.wrap(promise));
+}
+```
+
 
 More details about Djinni React Native: https://github.com/sulewicz/djinni-react-native

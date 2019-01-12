@@ -35,8 +35,8 @@ public final class VasernManager extends ReactContextBaseJavaModule {
     private static native CppProxy create(com.rushingvise.reactcpp.ReactBridge bridge);
 
     @ReactMethod
-    public void Startup(ReadableMap collect, Promise promise) {
-        mModule.Startup(ReactDjinni.wrap(collect), ReactDjinni.wrap(promise));
+    public void Startup(ReadableMap schema, Promise promise) {
+        mModule.Startup(getReactApplicationContext().getFilesDir().getPath(), ReactDjinni.wrap(schema), ReactDjinni.wrap(promise));
     }
 
     @ReactMethod
@@ -102,12 +102,12 @@ public final class VasernManager extends ReactContextBaseJavaModule {
             super.finalize();
         }
 
-        public void Startup(com.rushingvise.reactcpp.JavascriptMap collect, com.rushingvise.reactcpp.JavascriptPromise promise)
+        public void Startup(String path, com.rushingvise.reactcpp.JavascriptMap schema, com.rushingvise.reactcpp.JavascriptPromise promise)
         {
             assert !this.destroyed.get() : "trying to use a destroyed object";
-            native_Startup(this.nativeRef, collect, promise);
+            native_Startup(this.nativeRef, path, schema, promise);
         }
-        private native void native_Startup(long _nativeRef, com.rushingvise.reactcpp.JavascriptMap collect, com.rushingvise.reactcpp.JavascriptPromise promise);
+        private native void native_Startup(long _nativeRef, String path, com.rushingvise.reactcpp.JavascriptMap schema, com.rushingvise.reactcpp.JavascriptPromise promise);
 
         public void InsertRecords(String collect, com.rushingvise.reactcpp.JavascriptArray records, com.rushingvise.reactcpp.JavascriptPromise promise)
         {

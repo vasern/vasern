@@ -34,7 +34,9 @@ rm -rf $java_out
    --jni-out $jni_out \
    --ident-jni-class NativeFooBar \
    --ident-jni-file NativeFooBar \
-   --objc-out $objc_out \
-   --objc-type-prefix $objc_prefix \
-   --objcpp-out $objc_out \
    --idl $djinni_file
+
+
+   # --objc-out $objc_out \
+   # --objc-type-prefix $objc_prefix \
+   # --objcpp-out $objc_out \

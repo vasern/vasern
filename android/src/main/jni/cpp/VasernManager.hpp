@@ -18,7 +18,7 @@ public:
 
     static std::shared_ptr<VasernManager> create(const std::shared_ptr<::ReactBridge> & bridge);
 
-    virtual void Startup(const std::shared_ptr<::JavascriptMap> & collect, const std::shared_ptr<::JavascriptPromise> & promise) = 0;
+    virtual void Startup(const std::string & path, const std::shared_ptr<::JavascriptMap> & schema, const std::shared_ptr<::JavascriptPromise> & promise) = 0;
 
     virtual void InsertRecords(const std::string & collect, const std::shared_ptr<::JavascriptArray> & records, const std::shared_ptr<::JavascriptPromise> & promise) = 0;
 

@@ -2,12 +2,15 @@
 #include "values/value_f.h"
 
 namespace vs {
-    
+
+    fsm::fsm()
+    : version(0), ready(false)
+    , meta_path("/meta.bin"), dir(".") { }
+
     fsm::fsm(const char* path)
-    : dir(path)
-    , meta_path(std::string(path).append("/meta.bin"))
-    , ready(false)
-    , version(0) {
+    : version(0), ready(false)
+    , meta_path(std::string(path).append("/meta.bin")), dir(path)
+    {
         
         layout = layout_t({
             col_t("collection", STRING, 55),
@@ -26,7 +29,6 @@ namespace vs {
     // IO
     void fsm::open_writer() {
         writer->open_conn();
-        //        writer = new writer_t(meta_path.c_str(), &meta);
     }
     
     void fsm::close_writer() {
@@ -42,8 +44,7 @@ namespace vs {
     }
     
     void fsm::startup() {
-        
-        // TODO: open reader
+
         open_reader();
         if (reader->is_open()) {
             int total = (int)(reader->size() / layout.size());
@@ -56,11 +57,11 @@ namespace vs {
             
             upair_t data;
             while (r.is_valid()) {
-                
+
                 data = r.object();
-                schema_t collumns;
+                schema_t columns;
                 type_desc_t t;
-                
+
                 for (auto itr: data["columns"]->list_values()) {
                     std::vector<value_t*> a = itr->list_values();
                     
@@ -68,13 +69,13 @@ namespace vs {
                     ab =a[1]->number_value();
                     t = static_cast<type_desc_t>(a[1]->number_value());
                     if (t == STRING) {
-                        collumns.push_back(col_t(a[0]->str_value(), t, a[2]->number_value()));
+                        columns.push_back(col_t(a[0]->str_value(), t, a[2]->number_value()));
                     } else {
-                        collumns.push_back(col_t(a[0]->str_value(), t));
+                        columns.push_back(col_t(a[0]->str_value(), t));
                     }
                     
                 }
-                cd = layout_t(collumns, data["b_size"]->number_value());
+                cd = layout_t(columns, data["b_size"]->number_value());
                 name.assign(data["collection"]->str_value());
                 
                 collections[name] = std::shared_ptr<collect_t>(new collect_t(dir.c_str(), name.c_str(), cd, true));
@@ -158,7 +159,7 @@ namespace vs {
     
     bool fsm::verify_collections(int num_of_collect) {
         if (ready) {
-            return num_of_collect == collections.size();
+            return num_of_collect == (int)collections.size();
         }
         
         return false;

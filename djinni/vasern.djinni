@@ -1,7 +1,7 @@
 @extern "../../node_modules/djinni-react-native/support-lib/react.yaml"
 
 VasernManager = interface +r {
-  Startup(collect: JavascriptMap, promise: JavascriptPromise);
+  Startup(path: string, schema: JavascriptMap, promise: JavascriptPromise);
   InsertRecords(collect: string, records: JavascriptArray, promise: JavascriptPromise);
   DeleteRecords(collect: string, ids: JavascriptArray, promise: JavascriptPromise);
   UpdateRecords(collect: string, records: JavascriptMap, promise: JavascriptPromise);

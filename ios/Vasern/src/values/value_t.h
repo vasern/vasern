@@ -16,6 +16,7 @@
 
 #include "../enums.h"
 
+
 namespace vs {
     
     // forward declaration
@@ -50,8 +51,8 @@ namespace vs {
         virtual bool is_gte(value_t*) { return false; }
         virtual bool is_lte(value_t*) { return false; }
 
-        virtual void assign(block_writer* stream) {};
-        virtual void assign(block_writer* stream, int len) {};
+        virtual void assign(block_writer*) {};
+        virtual void assign(block_writer*, int) {};
     };
     
     struct value_str
@@ -68,11 +69,11 @@ namespace vs {
         }
         
         value_str(const char* v, int size)
-        : value_t(STRING), value(v), _size(size)
+        : value_t(STRING), _size(size), value(v)
         { }
         
         value_str(std::string v, int size)
-        : value_t(STRING), value(v), _size(size)
+        : value_t(STRING), _size(size), value(v)
         { }
         
         const char* str_value() {

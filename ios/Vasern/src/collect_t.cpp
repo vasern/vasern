@@ -7,16 +7,14 @@ namespace vs {
     collect_t::collect_t() { }
 
     collect_t::collect_t(const char* dir, const char* _name, layout_t _layout)
-    : path(std::string(dir).append("/").append(_name).append(".bin"))
-    , layout(_layout)
+    : layout(_layout), path(std::string(dir).append("/").append(_name).append(".bin"))
     {
         init_index();
         writer = new writer_t(this->path.c_str(), &layout);
     }
     
     collect_t::collect_t(const char* dir, const char* _name, layout_t _layout, bool _startup)
-    : path(std::string(dir).append("/").append(_name).append(".bin"))
-    , layout(_layout)
+    : layout(_layout), path(std::string(dir).append("/").append(_name).append(".bin"))
     {
         writer = new writer_t(this->path.c_str(), &layout);
         if (_startup) {

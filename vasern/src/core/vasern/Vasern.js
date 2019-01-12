@@ -55,6 +55,7 @@ export default class Vasern {
       nativeModels[collection.name] = collection.props;
     })
     
+    
     VasernManager.Startup(nativeModels)
     .then(rs => {
       Object.keys(nativeModels).forEach(key => {

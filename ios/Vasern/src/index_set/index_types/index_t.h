@@ -27,18 +27,18 @@ namespace vs {
         index_t(type_desc_t type): _type(type) { };
         ~index_t() { };
         
-        virtual void push(value_t* key, value_ptr value) { };
+        virtual void push(value_t*, value_ptr) { };
         
-        virtual void update(value_t* old_key, value_t* key) { };
-        virtual void move(value_t* old_key, value_t* key, value_ptr ptr) { };
-        virtual void remove(value_t* key, value_ptr value) { };
+        virtual void update(value_t*, value_t*) { };
+        virtual void move(value_t*, value_t*, value_ptr) { };
+        virtual void remove(value_t*, value_ptr) { };
         virtual void clear() { };
         
-        virtual std::vector<value_ptr> get(value_t* key) {
+        virtual std::vector<value_ptr> get(value_t*) {
             return std::vector<value_ptr>();
         };
         
-        virtual std::vector<value_ptr> range(value_t* value) {
+        virtual std::vector<value_ptr> range(value_t*) {
             return std::vector<value_ptr>();
         };
         

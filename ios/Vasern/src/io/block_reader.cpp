@@ -14,10 +14,8 @@
 namespace vs {
     
     block_reader::block_reader(size_t _begin, size_t _len, char* _fmap, layout_t *_layout)
-    : begin(_begin)
-    , fmap(_fmap)
-    , layout(_layout)
-    , flen(_len)
+    : fmap(_fmap), begin(_begin)
+    , flen(_len), layout(_layout)
     { }
     
     // ===========
@@ -134,7 +132,7 @@ namespace vs {
     }
     
     // Load and return only properties that match `props`
-    upair_t block_reader::get(std::vector<std::string> props) {
+    upair_t block_reader::get(std::vector<std::string>) {
         upair_t rs;
         
         return rs;

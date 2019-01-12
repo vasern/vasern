@@ -12,7 +12,7 @@ namespace vs {
     public:
         
         int version;
-        
+        fsm();
         fsm(const char* path);
         
         std::shared_ptr<collect_t> select(const char* name);

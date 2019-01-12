@@ -32,12 +32,13 @@ CJNIEXPORT jobject JNICALL Java_com_vasern_VasernManager_create(JNIEnv* jniEnv, 
     } JNI_TRANSLATE_EXCEPTIONS_RETURN(jniEnv, 0 /* value doesn't matter */)
 }
 
-CJNIEXPORT void JNICALL Java_com_vasern_VasernManager_00024CppProxy_native_1Startup(JNIEnv* jniEnv, jobject /*this*/, jlong nativeRef, ::djinni_generated::NativeJavascriptMap::JniType j_collect, ::djinni_generated::NativeJavascriptPromise::JniType j_promise)
+CJNIEXPORT void JNICALL Java_com_vasern_VasernManager_00024CppProxy_native_1Startup(JNIEnv* jniEnv, jobject /*this*/, jlong nativeRef, jstring j_path, ::djinni_generated::NativeJavascriptMap::JniType j_schema, ::djinni_generated::NativeJavascriptPromise::JniType j_promise)
 {
     try {
         DJINNI_FUNCTION_PROLOGUE1(jniEnv, nativeRef);
         const auto& ref = ::djinni::objectFromHandleAddress<::vasern::VasernManager>(nativeRef);
-        ref->Startup(::djinni_generated::NativeJavascriptMap::toCpp(jniEnv, j_collect),
+        ref->Startup(::djinni::String::toCpp(jniEnv, j_path),
+                     ::djinni_generated::NativeJavascriptMap::toCpp(jniEnv, j_schema),
                      ::djinni_generated::NativeJavascriptPromise::toCpp(jniEnv, j_promise));
     } JNI_TRANSLATE_EXCEPTIONS_RETURN(jniEnv, )
 }

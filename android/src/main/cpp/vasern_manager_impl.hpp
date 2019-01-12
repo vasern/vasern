@@ -1,63 +1,68 @@
 #pragma once
 
-
 #include "VasernManager.hpp"
 #include "JobQueueImpl.hpp"
 #include "JobDispatcher.hpp"
+#include "utils.hpp"
+#include "../../../../ios/Vasern/src/fsm.h"
 
-namespace vasern {
-    
-    class VasernManagerImpl : public vasern::VasernManager {
+namespace vasern
+{
 
-    public:
-        static std::shared_ptr<VasernManager> create(const std::shared_ptr<::ReactBridge> & bridge);
-        VasernManagerImpl(const std::shared_ptr<::ReactBridge> & bridge);
-        ~VasernManagerImpl();
+class VasernManagerImpl : public vasern::VasernManager
+{
 
-        void Startup(
-                const std::shared_ptr<::JavascriptMap> & schema,
-                const std::shared_ptr<::JavascriptPromise> & promise) override;
+  public:
+	static std::shared_ptr<VasernManager> create(const std::shared_ptr<::ReactBridge> &bridge);
+	VasernManagerImpl(const std::shared_ptr<::ReactBridge> &bridge);
+	~VasernManagerImpl();
 
-        void InsertRecords(
-                const std::string & collect,
-                const std::shared_ptr<::JavascriptArray> & records,
-                const std::shared_ptr<::JavascriptPromise> & callback) override;
+	void Startup(
+		const std::string &path,
+		const std::shared_ptr<::JavascriptMap> &schema,
+		const std::shared_ptr<::JavascriptPromise> &promise) override;
 
-        void UpdateRecords(
-                const std::string & collect,
-                const std::shared_ptr<::JavascriptMap> & records,
-                const std::shared_ptr<::JavascriptPromise> & callback) override;
+	void InsertRecords(
+		const std::string &collect,
+		const std::shared_ptr<::JavascriptArray> &records,
+		const std::shared_ptr<::JavascriptPromise> &callback) override;
 
-        void DeleteRecords(
-                const std::string & collect,
-                const std::shared_ptr<::JavascriptArray> & records,
-                const std::shared_ptr<::JavascriptPromise> & callback) override;
+	void UpdateRecords(
+		const std::string &collect,
+		const std::shared_ptr<::JavascriptMap> &records,
+		const std::shared_ptr<::JavascriptPromise> &callback) override;
 
-        void RemoveAllRecords(
-                const std::string & collect,
-                const std::shared_ptr<::JavascriptPromise> & promise) override;
+	void DeleteRecords(
+		const std::string &collect,
+		const std::shared_ptr<::JavascriptArray> &records,
+		const std::shared_ptr<::JavascriptPromise> &callback) override;
 
-        void RemoveAllCollections(
-                const std::shared_ptr<::JavascriptPromise> & promise) override;
+	void RemoveAllRecords(
+		const std::string &collect,
+		const std::shared_ptr<::JavascriptPromise> &promise) override;
 
-        void GetRecordsByQuery(
-                const std::string & collect,
-                const std::shared_ptr<::JavascriptMap> & query,
-                const std::shared_ptr<::JavascriptPromise> & callback) override;
+	void RemoveAllCollections(
+		const std::shared_ptr<::JavascriptPromise> &promise) override;
 
-        void CountRecordsByQuery(
-                const std::string & collect,
-                const std::shared_ptr<::JavascriptMap> & query,
-                const std::shared_ptr<::JavascriptPromise> & callback) override;
+	void GetRecordsByQuery(
+		const std::string &collect,
+		const std::shared_ptr<::JavascriptMap> &query,
+		const std::shared_ptr<::JavascriptPromise> &callback) override;
 
-        void AllRecords(
-                const std::string & collect,
-                const std::shared_ptr<::JavascriptPromise> & promise) override;
-    private:
-        std::shared_ptr<ReactBridge> mBridge;
-        std::shared_ptr<JobQueueImpl> mQueue;
-        std::shared_ptr<JobDispatcher> mDispatcher;
-        
-    };
-    
-}
+	void CountRecordsByQuery(
+		const std::string &collect,
+		const std::shared_ptr<::JavascriptMap> &query,
+		const std::shared_ptr<::JavascriptPromise> &callback) override;
+
+	void AllRecords(
+		const std::string &collect,
+		const std::shared_ptr<::JavascriptPromise> &promise) override;
+
+  private:
+	std::shared_ptr<ReactBridge> mBridge;
+	std::shared_ptr<JobQueueImpl> mQueue;
+	std::shared_ptr<JobDispatcher> mDispatcher;
+	vs::fsm database;
+};
+
+} // namespace vasern
