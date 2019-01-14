@@ -8,6 +8,7 @@
 import { NativeModules } from 'react-native';
 import Collection from "./Collection";
 import ResultInterface from './utils/ResultInterface';
+import types from './types';
 
 // @flow
 type NativeModuleFunctions = {
@@ -53,6 +54,10 @@ export default class Vasern {
       });
 
       nativeModels[collection.name] = collection.props;
+
+      if ('id' in collection.props === false) {
+        nativeModels[collection.name].id = types.primary()
+      }
     })
     
     

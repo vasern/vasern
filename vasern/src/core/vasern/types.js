@@ -10,6 +10,14 @@ type PropertyObject = {
     propMeta?: string
 };
 
+function primary(): PropertyObject {
+    return {
+        type: typeEnums.string,
+        size: OBJECTID_LEN,
+        isIndex: true
+    };
+}
+
 function string(length: number = -1, isIndex: boolean = true) : PropertyObject {
     
     var rs : PropertyObject = {
@@ -78,6 +86,7 @@ function enums(enums: Array<string>, isIndex: boolean = true) : PropertyObject {
 }
 
 const types = {
+    primary,
     string,
     number,
     boolean,
