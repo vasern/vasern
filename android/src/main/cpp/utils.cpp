@@ -111,9 +111,9 @@ namespace vs_utils {
             as_range = prop_cmp->hasKey("start");
 
             if (as_range) {
-                value_type = prop_cmp->getType("equal");
-            } else {
                 value_type = prop_cmp->getType("start");
+            } else {
+                value_type = prop_cmp->getType("equal");
             }
 
             rs[prop_str] = get_value(value_type, prop_cmp, as_range);
@@ -157,16 +157,15 @@ namespace vs_utils {
 
                 prop_str = col_keys->nextKey();
 
-                if (strcmp(prop_str.c_str(), "a") != 0) {
-                    prop_map = col_model->getMap(prop_str);
-                    prop_type = static_cast<vs::type_desc_t>(prop_map->getInt("type"));
+                prop_map = col_model->getMap(prop_str);
+                prop_type = static_cast<vs::type_desc_t>(prop_map->getInt("type"));
 
-                    if (prop_type == vs::STRING) {
-                        schema.push_back(vs::col_t(prop_str, prop_type, prop_map->getInt("size")));
-                    } else {
-                        schema.push_back(vs::col_t(prop_str, prop_type));
-                    }
+                if (prop_type == vs::STRING) {
+                    schema.push_back(vs::col_t(prop_str, prop_type, prop_map->getInt("size")));
+                } else {
+                    schema.push_back(vs::col_t(prop_str, prop_type));
                 }
+
             }
 
             model[col_str] = vs::layout_t(schema, 1024);
@@ -239,5 +238,32 @@ namespace vs_utils {
         }
 
         return rs;
+    }
+
+    void extract_records(
+        std::shared_ptr<ReactBridge> & mBridge,
+        std::vector<vs::block_reader*> ptrs,
+        std::shared_ptr<JavascriptArray> & records
+    ) {
+        for (auto & itr: ptrs) {
+            records->pushMap(upair_to_jsmap(itr->object(), mBridge));
+        }
+    }
+
+    void extract_records(
+        std::shared_ptr<ReactBridge> & mBridge,
+        std::vector<vs::block_reader*> ptrs,
+        std::shared_ptr<JavascriptArray> & records,
+        int start,
+        int end
+    ) {
+
+        if (end == -1 || end > (int)ptrs.size() - 1) {
+            end = ptrs.size() - 1;
+        }
+
+        for (int i = start; i < end; i++) {
+            records->pushMap(upair_to_jsmap(ptrs.at(i)->object(), mBridge));
+        }
     }
 }

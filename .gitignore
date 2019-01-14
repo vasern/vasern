@@ -21,3 +21,4 @@ android/.project
 .idea
 .settings
 android/src/main/jni/objc
+android/.externalNativeBuild
