@@ -26,12 +26,13 @@ VasernManagerImpl::~VasernManagerImpl()
 	mDispatcher->quit();
 }
 
-void VasernManagerImpl::Startup(
-	const std::string &path,
-	const std::shared_ptr<::JavascriptMap> &schema,
-	const std::shared_ptr<::JavascriptPromise> &promise)
-{
-	database = vs::fsm(path.c_str());
+	void VasernManagerImpl::Startup(
+		const std::string &path,
+		const std::shared_ptr<::JavascriptMap> &schema,
+		const std::shared_ptr<::JavascriptPromise> &promise)
+	{
+
+		database.config(path);
 
 	int total_keys = 0;
 	auto keyItr = schema->keySetIterator();
@@ -232,6 +233,8 @@ void VasernManagerImpl::GetRecordsByQuery(
 
 		auto res = mBridge->createMap();
 		auto changes = mBridge->createMap();
+		auto items = mBridge->createArray();
+
 		changes->putInt("inserted", 0);
 		changes->putInt("updated", 0);
 		changes->putInt("removed", 0);
@@ -239,6 +242,7 @@ void VasernManagerImpl::GetRecordsByQuery(
 
 		res->putMap("changes", changes);
 		res->putInt("total", collect->count(&query));
+		res->putArray("items", items);
 		promise->resolveMap(res);
 	}
 }
@@ -261,6 +265,7 @@ void VasernManagerImpl::CountRecordsByQuery(
 
 		auto res = mBridge->createMap();
 		auto changes = mBridge->createMap();
+
 		changes->putInt("inserted", 0);
 		changes->putInt("updated", 0);
 		changes->putInt("removed", 0);
@@ -268,6 +273,7 @@ void VasernManagerImpl::CountRecordsByQuery(
 
 		res->putMap("changes", changes);
 		res->putInt("total", collect->count(&query));
+
 		promise->resolveMap(res);
 	}
 }
@@ -289,6 +295,19 @@ void VasernManagerImpl::AllRecords(
 
 		auto res = mBridge->createMap();
 		auto changes = mBridge->createMap();
+		auto items = mBridge->createArray();
+
+		collect->open_reader();
+		auto recordItr = collect->first();
+		while(recordItr->is_valid()) {
+
+			if (!recordItr->is_tombstone()) {
+				items->pushMap(vs_utils::upair_to_jsmap(recordItr->object(), mBridge));
+			}
+
+			recordItr->next();
+		}
+
 		changes->putInt("inserted", 0);
 		changes->putInt("updated", 0);
 		changes->putInt("removed", 0);
@@ -296,6 +315,7 @@ void VasernManagerImpl::AllRecords(
 
 		res->putMap("changes", changes);
 		res->putString("status", "ok");
+		res->putArray("items", items);
 		promise->resolveMap(res);
 	}
 }

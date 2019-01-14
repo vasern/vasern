@@ -21,6 +21,11 @@ namespace vs {
         
         bool verify_collections(int);
         void clear_all_collections();
+
+        // This config method will setup the database (file path, layout, writer, ...)
+        // Used for React Native on Android as cannot(*) startup with the file location
+        // (*) not for now
+        void config(std::string path);
         
     private:
         

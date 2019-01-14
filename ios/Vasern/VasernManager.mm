@@ -127,6 +127,7 @@ RCT_EXPORT_METHOD(GetRecordsByQuery: (NSString*)collection
         const char* order_by;
         if (data[@"$sort"] != nil) {
             sortable = true;
+            // Currently support only the last property
             for (id itr in data[@"$sort"]) {
                 order_by = [itr UTF8String];
                 desc = [data[@"$sort"][itr] boolValue];

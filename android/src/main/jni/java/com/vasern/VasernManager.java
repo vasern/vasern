@@ -36,7 +36,9 @@ public final class VasernManager extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void Startup(ReadableMap schema, Promise promise) {
-        mModule.Startup(getReactApplicationContext().getFilesDir().getPath(), ReactDjinni.wrap(schema), ReactDjinni.wrap(promise));
+        String rootPath = getReactApplicationContext().getFilesDir().getPath();
+        // TODO: create database folder, for example './vasern'
+        mModule.Startup(rootPath, ReactDjinni.wrap(schema), ReactDjinni.wrap(promise));
     }
 
     @ReactMethod

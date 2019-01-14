@@ -4,8 +4,8 @@
 namespace vs {
 
     fsm::fsm()
-    : version(0), ready(false)
-    , meta_path("/meta.bin"), dir(".") { }
+        : version(0), ready(false)
+        , meta_path("/meta.bin"), dir(".") { }
 
     fsm::fsm(const char* path)
     : version(0), ready(false)
@@ -18,6 +18,23 @@ namespace vs {
         }, 255);
         
         writer = new writer_t(this->meta_path.c_str(), &layout);
+        reader = new reader_t(this->meta_path.c_str(), &layout);
+        startup();
+        ready = true;
+    }
+
+    void fsm::config(std::string path) {
+        meta_path.assign(path).append("/meta.bin");
+
+        dir.assign(path);
+
+        layout = layout_t({
+            col_t("collection", STRING, 55),
+            col_t("b_size", NUMBER)
+                          }, 255);
+
+        writer = new writer_t(this->meta_path.c_str(), &layout);
+        reader = new reader_t(meta_path.c_str(), &layout);
         startup();
         ready = true;
     }
@@ -36,7 +53,8 @@ namespace vs {
     }
     
     void fsm::open_reader() {
-        reader = new reader_t(meta_path.c_str(), &layout);
+//        reader = new reader_t(meta_path.c_str(), &layout);
+        reader->open_conn();
     }
     
     void fsm::close_reader() {

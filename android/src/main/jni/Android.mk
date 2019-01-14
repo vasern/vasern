@@ -45,7 +45,5 @@ LOCAL_SRC_FILES += $(wildcard $(LOCAL_PATH)/../../../../ios/Vasern/src/values/*.
 # Specify module name for System.loadLibrary() call
 LOCAL_MODULE := vasern
 
-LOCAL_LDLIBS := -L$(SYSROOT)/usr/lib -llog
-
 # Telling make to build the library
 include $(BUILD_SHARED_LIBRARY)
