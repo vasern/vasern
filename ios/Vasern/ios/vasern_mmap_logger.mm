@@ -119,6 +119,9 @@ namespace vasern
         const char* filePath = [[NSString stringWithFormat:@"%@/%s%s", docPath, doc, DOC_EXT] UTF8String];
         std::ofstream db(filePath, std::ios::binary);
         db.write("", 0);
+        
+        // Remove records stored in memory
+        [tStore setObject:[NSArray new] forKey:[NSString stringWithUTF8String: doc]]; 
     }
     
     //  In case you have escaped your record by replacing line breaks (\n)

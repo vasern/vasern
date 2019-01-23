@@ -1,4 +1,5 @@
 node_modules
+ios/Vasern.xcodeproj/xcuserdata
 
 # plugins currently unavailable
 vasern/src/plugins/vasern-auth
