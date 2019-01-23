@@ -214,13 +214,12 @@ export default class Document {
       const { id, ...rest } = newValues;
 
       let tempObj;
-      Object.keys(rest).forEach( key => {
+      Object.keys(rest).forEach(key => {
         tempObj = rest[key];
-        if (this.props[key].indexOf("#") == 0) {
-
-          if (typeof tempObj == "object" && tempObj.id) {
+        if (this.props[key].indexOf("#") === 0) {
+          if (typeof tempObj === "object" && tempObj.id) {
             found[`${key}_id`] = tempObj.id;
-          } else if (typeof tempObj == "string") {
+          } else if (typeof tempObj === "string") {
             found[`${key}_id`] = tempObj;
           }
         } else {
