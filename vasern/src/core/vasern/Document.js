@@ -213,7 +213,20 @@ export default class Document {
     if (found) {
       const { id, ...rest } = newValues;
 
-      Object.assign(found, { ...rest });
+      let tempObj;
+      Object.keys(rest).forEach( key => {
+        tempObj = rest[key];
+        if (this.props[key].indexOf("#") == 0) {
+
+          if (typeof tempObj == "object" && tempObj.id) {
+            found[`${key}_id`] = tempObj.id;
+          } else if (typeof tempObj == "string") {
+            found[`${key}_id`] = tempObj;
+          }
+        } else {
+          found[key] = tempObj;
+        }
+      });
 
       this._commitChange("update", found, save);
 
@@ -314,6 +327,7 @@ export default class Document {
   async removeAllRecords() {
     await VasernManager.ClearDocument(this.docName());
     this._data = [];
+    this.eventManager.fire("remove");
   }
 
   // Merge previous commited items to the current commited item list
