@@ -1,39 +1,37 @@
-declare module "Parser" {
-    export interface RawObject {
-        id: number;
-        raw: string;
-    }
-
-    export interface Schema {
-        name: string;
-        props: any;
-    }
-
-    export interface ActionValues {
-        input: any;
-        update: any;
-        remove: any;
-    }
-
-    namespace Parser {
-        function parseValue(inputType: string, val: string): any;
-
-        function parse(lines: string[], schema: any): {data: string};
-
-        function strToObj(schema: any, rawObject: RawObject): RawObject;
-
-        function schemify(line: string): Schema;
-
-        function stringify(schema: Schema, data: any[]): string;
-
-        function convertToSave(schema: Schema, data: any[]): string[];
-
-        function convertToLog(schema: Schema, actions: ActionValues): string[];
-
-        function objToStr(props: any, obj: any): string;
-
-        function valueTypeToStr(dataType: string, value: any): string;
-    }
-
-    export default Parser;
+export type RawObject = {
+    id: number;
+    raw: string;
 }
+
+export type Schema = {
+    name: string;
+    props: any;
+}
+
+export type ActionValues = {
+    input: any;
+    update: any;
+    remove: any;
+}
+
+type Parser = {
+    parseValue(inputType: string, val: string): any;
+
+    parse(lines: string[], schema: any): { data: string };
+
+    strToObj(schema: any, rawObject: RawObject): RawObject;
+
+    schemify(line: string): Schema;
+
+    stringify(schema: Schema, data: any[]): string;
+
+    convertToSave(schema: Schema, data: any[]): string[];
+
+    convertToLog(schema: Schema, actions: ActionValues): string[];
+
+    objToStr(props: any, obj: any): string;
+
+    valueTypeToStr(dataType: string, value: any): string;
+}
+
+export default Parser;
