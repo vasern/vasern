@@ -5,7 +5,7 @@ declare module "Queryable" {
 
     export default class Queryable {
         // TODO: Add a more descriptive type from usages
-        constructor(data: ArrayLike<any>): Queryable;
+        constructor(data: ArrayLike<any>);
 
         data(): ArrayLike<any>;
 
@@ -23,7 +23,7 @@ declare module "Queryable" {
 
         group(key: string, transform?: (key: string, data: any) => any): any[] | Queryable;
 
-        order(key: string, order: "asc" | "desc" = "asc"): Queryable;
+        order(key: string, order: "asc" | "desc"): Queryable;
 
         count(): number;
     }
