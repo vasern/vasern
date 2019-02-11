@@ -1,5 +1,6 @@
 import Document, { Args, Plugin } from "./Document";
 import EventSubscriber from "../vasern-subscriber";
+import Queryable from "../vasern-queryable";
 
 export default class Vasern {
     docs: Document[];

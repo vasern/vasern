@@ -1,7 +1,6 @@
 import { Event } from "../vasern-subscriber/EventSubscriber.d";
 import RawObject from "../vasern-parser/Parser";
 import { NewObject } from "../../plugins/vasern-objectid";
-import { NativeModules } from "react-native";
 
 export type Args = {
     props: any;

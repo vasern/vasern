@@ -1,13 +1,17 @@
+import { NewObject } from './../../plugins/vasern-objectid';
+
 export type Event = {
     callback: (changedObject: { changed: Object[] }) => void;
     id?: string;
     event?: string;
 }
 
+export type ChangeEvent = {
+    change: any[];
+}
+
 export default class EventSubscriber {
-    events = {
-        change: [],
-    };
+    events: ChangeEvent;
 
     getEvents(): Event;
 
