@@ -1,4 +1,4 @@
-import { Document, Args, Plugin } from "..";
+import Document, { Args, Plugin } from "./Document";
 import EventSubscriber from "../vasern-subscriber";
 
 export default class Vasern {
