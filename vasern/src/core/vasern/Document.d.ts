@@ -3,8 +3,6 @@ import RawObject from "../vasern-parser/Parser";
 import { NewObject } from "../../plugins/vasern-objectid";
 import { NativeModules } from "react-native";
 
-declare const VasernManager: NativeModules;
-
 export type Args = {
     props: any;
     version: string;
@@ -40,7 +38,7 @@ export default class Document {
 
     loaded: boolean;
 
-    constructor(args: Function | Args);
+    constructor(args: NewableFunction | Args);
 
     bindEvents(): void;
 
@@ -102,5 +100,5 @@ export default class Document {
 
     static import(plugin: Plugin[]): void;
 
-    inject(Model: any): void;
+    inject(Model: NewableFunction): void;
 }
