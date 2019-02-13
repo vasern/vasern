@@ -84,7 +84,6 @@ public class Storage {
                 } else {
                     // add if item is not already in list
                     itemsList.addAll(contents);
-                    //if(!itemsList.contains(myItem)) itemsList.add(myItem);
                 }
 
                 return true;
