@@ -209,7 +209,7 @@ export default class Document {
   }
 
   update(lookupQuery, newValues, save = true) {
-    const found = this.get(lookupQuery);
+    let found = this.get(lookupQuery);
     if (found) {
       const { id, ...rest } = newValues;
 
