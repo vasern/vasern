@@ -209,7 +209,7 @@ export default class Document {
   }
 
   update(lookupQuery, newValues, save = true) {
-    let found = this.get(lookupQuery);
+    let found = this.get(lookupQuery); // eslint-disable-line
     if (found) {
       const { id, ...rest } = newValues;
 
