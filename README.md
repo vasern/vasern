@@ -8,7 +8,7 @@
     <img src="https://img.shields.io/npm/v/vasern.svg" alt="NPM">
   </a>
   
-  <a href="https://github.com/vasern/vasern">
+  <a href="https://travis-ci.org/vasern/vasern">
     <img src="https://img.shields.io/travis/vasern/vasern.svg?logo=travis" alt="CI Status">
   </a>
   
