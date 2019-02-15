@@ -1,28 +1,25 @@
-export type Query = {
-    id: string;
-}
+import { NewObject } from './../../plugins/vasern-objectid/ObjectID.d';
 
 export default class Queryable {
-    // TODO: Add a more descriptive type from usages
-    constructor(data: ArrayLike<any>);
+    constructor(data: NewObject);
 
-    data(): ArrayLike<any>;
+    data(): NewObject;
 
-    _removeRecord(query: Query | string): any[];
+    get(query: Object | string): NewObject | undefined;
 
-    get(query: Query | string): any | undefined;
+    find(query: Object | string): NewObject | undefined;
 
-    find(query: Query): any | undefined;
+    filter(query: Object): Queryable;
 
-    filter(query: Query): Queryable;
+    similarTo(props: string, value: string): NewObject[];
 
-    similarTo(props: string, value: string): any[];
+    exclude(query: Object): Queryable;
 
-    exclude(query: Query): Queryable;
-
-    group(key: string, transform?: (key: string, data: any) => any): any[] | Queryable;
+    group(key: string, transform?: (key: string, data: any) => any): NewObject[] | Queryable;
 
     order(key: string, order: "asc" | "desc"): Queryable;
 
     count(): number;
+
+    private _removeRecord(query: Object | string): any[];
 }

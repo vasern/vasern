@@ -7,19 +7,24 @@ export type Event = {
 }
 
 export type ChangeEvent = {
-    change: any[];
+    change: Event[];
+}
+
+export type EventMeta = {
+    changed: NewObject[];
+    event: string;
 }
 
 export default class EventSubscriber {
     events: ChangeEvent;
 
-    getEvents(): Event;
+    getEvents(): ChangeEvent;
 
-    subscribe(eventName: string, trigger: Event, override: boolean): void;
+    subscribe(eventName: string, trigger: Event, override?: boolean): void;
 
-    fire(eventName: string, changed: NewObject | NewObject[]): void;
+    fire(eventName: string, changed?: NewObject | NewObject[]): void;
 
-    triggerOnChangeEvent(eventMeta: () => void): void;
+    triggerOnChangeEvent(triggerFunction: (evenMeta: EventMeta) => void): void;
 
     onChange(callback: Event): void;
 }

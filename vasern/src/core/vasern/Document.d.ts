@@ -1,11 +1,14 @@
-import { Event } from "../vasern-subscriber/EventSubscriber.d";
+import EventSubscriber, { Event } from "../vasern-subscriber/EventSubscriber.d";
 import RawObject from "../vasern-parser/Parser";
-import { NewObject } from "../../plugins/vasern-objectid";
+import ObjectID, { NewObject } from "../../plugins/vasern-objectid";
+import ConfigProps from "../../config";
 
 export type Args = {
     props: any;
-    version: string;
     name: string;
+    version?: number;
+    assignTo?: string;
+    callbackFunction?: () => any;
 }
 
 export type NewValue = {
@@ -14,10 +17,10 @@ export type NewValue = {
 }
 
 export type UpdateFunc = {
-    remove: (query: string) => void;
-    insert: (input: Object | Object[]) => void;
-    update: (query: string, newValues: NewValue) => void;
-    get: (query: string) => void;
+    remove: (query: string | Object) => boolean;
+    insert: (input: Object | Object[]) => false | NewObject;
+    update: (query: string | Object, newValues: NewValue) => false | NewObject;
+    get: (query: string | Object) => NewObject;
 }
 
 export type CommitedItems = {
@@ -32,26 +35,39 @@ export type Plugin = {
 }
 
 // TODO: I'm not sure about all the query types as get isn't implemented
+// TODO: Also in the example data() gets called but there's no such function here?
 export default class Document {
     available: boolean;
 
     loaded: boolean;
 
+    name: string;
+
+    oid: ObjectID;
+
+    props: Args;
+
+    version: number;
+
+    storeOptions: ConfigProps["storeOptions"];
+
+    eventManager: EventSubscriber;
+
     constructor(args: NewableFunction | Args);
 
     bindEvents(): void;
 
-    object(input: number | string): RawObject; // TODO: What is the other type? There's no get method so I assume string?
+    object(input: number | string | Object): RawObject; // TODO: What is the other type? There's no get method so I assume string?
 
     populate(data: string[]): void;
 
     formatData(): Promise<void>;
 
-    remove(query: string, save?: boolean): boolean;
+    remove(query: string | Object, save?: boolean): boolean;
 
-    insert(query: Object | Object[], save?: boolean): false | NewObject;
+    insert(query: Object | Object[], save?: boolean): false | NewObject[];
 
-    update(lookupQuery: string, newValues: NewValue, save?: boolean): false | NewObject;
+    update(lookupQuery: string| Object, newValues: Object, save?: boolean): false | NewObject;
 
     perform(callback: (updateFuncs: UpdateFunc) => void): void;
 
@@ -63,7 +79,7 @@ export default class Document {
 
     removeAllRecords(): Promise<void>;
 
-    rollbackCommittedRecords(previousCommitedItems: Object): void;
+    rollbackCommittedRecords(previousCommitedItems: NewObject): void;
 
     createSnapshot(): Promise<void>;
 
@@ -87,17 +103,21 @@ export default class Document {
 
     validateProps: (keys: string[]) => boolean;
 
-    _commitedItems: CommitedItems;
-
-    _isCommitOnQueue: boolean;
-
-    _commitChange: (type: string, item: NewObject, save?: boolean) => void;
-
-    _executeCommitedEvents: (items: NewObject) => void;
-
-    _mergeRecords: (event: string, records: NewObject | NewObject[]) => void;
-
     static import(plugin: Plugin[]): void;
 
     inject(Model: NewableFunction): void;
+
+    get(lookupQuery: string | Object): NewObject;
+
+    private _data: NewObject[];
+
+    private _commitedItems: CommitedItems;
+
+    private _isCommitOnQueue: boolean;
+
+    private _commitChange: (type: string, item: NewObject, save?: boolean) => void;
+
+    private _executeCommitedEvents: (items: NewObject) => void;
+
+    private _mergeRecords: (event: string, records: NewObject | NewObject[]) => void;
 }

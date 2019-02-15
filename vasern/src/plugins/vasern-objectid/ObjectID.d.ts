@@ -1,5 +1,5 @@
 export type ConstructorProp = {
-    mid: string;
+    mid?: string;
 }
 
 export type NewObject = Object & {
@@ -17,9 +17,9 @@ export default class ObjectID {
 
     mid: string;
 
-    constructor(prop: ConstructorProp);
+    constructor(prop?: ConstructorProp);
 
-    new(props: Object): NewObject;
+    new(props?: Object): NewObject;
 
     setMID(id: string): void;
 

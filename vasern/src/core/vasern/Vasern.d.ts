@@ -2,6 +2,11 @@ import Document, { Args, Plugin } from "./Document";
 import EventSubscriber from "../vasern-subscriber";
 import Queryable from "../vasern-queryable";
 
+export type VasernConstructorProp = {
+    schema: Args[] | NewableFunction[];
+    version: number;
+}
+
 export default class Vasern {
     docs: Document[];
 
@@ -11,7 +16,7 @@ export default class Vasern {
 
     eventManager: EventSubscriber;
 
-    constructor(schema: Args[]);
+    constructor(schemas: VasernConstructorProp);
 
     onLoaded(callback: () => void): void;
 
