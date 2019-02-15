@@ -21,7 +21,7 @@ export default class ObjectID {
   // machine id
   mid: string;
 
-  constructor(prop: { mid: ?string }) {
+  constructor(prop: { mid: ?string }) { // Question: Is the constructor necessary? It's not used anywhere and always generates a warning
     this.count = 0;
     this.lastTimestamp = 0;
 
