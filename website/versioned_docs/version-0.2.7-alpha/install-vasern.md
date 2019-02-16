@@ -39,7 +39,7 @@ $ npm install --save vasern
 
         ```diff
         dependencies {
-        +   compile project(':vasern')
+        +   implementation project(':vasern')
 
             implementation fileTree(dir: "libs", include: ["*.jar"])
             implementation "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
