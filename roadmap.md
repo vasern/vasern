@@ -1,13 +1,15 @@
+Please note that the roadmap is intended to provide high-level visibility into the short-term direction of the product. This can change at any time.
+
 # Vasern Development Roadmap
 
-Vasern is in active development by [Ambi Studio](https://ambi.studio), aims to build a database system for React Native, and React ecosystem.
+Vasern is in active development by [Ambi Studio](https://ambi.studio), aims to build a database system for React Native, and React ecosystem. Roadmap 
 
 ## Release candidate and earlier - versions <= 0.3.0 RC
 
 - ✅ fsm - embedded storage engine used by Vasern (Native)
 - ✅ Modular architecture (allow to create and use plugins) (JavaScript)
-- 🔸 Work with flow type (JavaScript)
-- 🔸 Support query records with multiple properties and value (Native and JavaScript) 
+- ✅ Added typescript support (thanks to @curtisy1)
+- ✅ Support query records with multiple properties and value (Native and JavaScript) 
 
 ## Version 0.4
 
