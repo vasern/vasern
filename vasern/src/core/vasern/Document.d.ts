@@ -1,4 +1,4 @@
-import EventSubscriber, { Event } from "../vasern-subscriber/EventSubscriber.d";
+import EventSubscriber, { Event, EventCallback } from "../vasern-subscriber/EventSubscriber.d";
 import RawObject from "../vasern-parser/Parser";
 import ObjectID, { NewObject } from "../../plugins/vasern-objectid";
 import ConfigProps from "../../config";
@@ -98,7 +98,7 @@ export default class Document extends Queryable {
 
     onUpdate(callback: Event): void;
 
-    onChange(callback: Event): void;
+    onChange(callback: EventCallback): void;
 
     length(): number;
 
