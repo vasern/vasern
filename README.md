@@ -115,6 +115,13 @@ Most of APIs won’t be changed in the near future. A stable release of Vasern w
 
 The more concise and informative, the better it helps us to understand your concern.
 
+## Contributors
+
+Vasern is lucky to have supported from our contributors, thanks to:
+
+- [Tuan Anh Nguyen](https://github.com/anhtuank7c)
+- [Alex](https://github.com/curtisy1) (adding support for typescript)
+
 ## Contribute to Vasern
 
 Your contributions are welcome and highly appreciated. At the moment, you can [create an issue](https://github.com/vasern/vasern/issues) with (1) Goal and (2) Details of your code.
