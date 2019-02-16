@@ -9,7 +9,7 @@ export default class Queryable {
 
     find(query: Object | string): NewObject | undefined;
 
-    filter(query: Object): Queryable;
+    filter(query: Object | Function): Queryable;
 
     similarTo(props: string, value: string): NewObject[];
 
