@@ -57,7 +57,7 @@ export default class Document {
     // initate _data
     this._data = [];
 
-    this.bindEvents.bind(this)();
+    this.bindEvents.bind(this)(); // Question: Is there a reason for the double ()?
   }
 
   bindEvents() {
@@ -169,7 +169,7 @@ export default class Document {
   // @input: a valid record
   insert(records, save = true) {
     if (!records) {
-      return false;
+      return false; // Question how about just returning an empty array here? Would be great for TS
     }
 
     const inputs = Array.isArray(records) ? records : [records];
@@ -430,13 +430,13 @@ export default class Document {
     let correctProps = 0;
     schemaProps.forEach(k => {
       // Optional props
-      if (this.props[k].indexOf("?") > -1) {
+      if (this.props[k].indexOf("?") > -1) { // question: optional pattern enforcement?
         correctProps += 1;
       } else if (objectProps.indexOf(k) === -1 && k !== "id") {
         // prop not exists
         isValid = false;
       } else {
-        // invalid error found
+        // invalid error found => I think it's the opposite?
         correctProps += 1;
       }
     });
