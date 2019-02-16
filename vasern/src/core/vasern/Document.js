@@ -169,7 +169,7 @@ export default class Document {
   // @input: a valid record
   insert(records, save = true) {
     if (!records) {
-      return false; // Question how about just returning an empty array here? Would be great for TS
+      throw Error(`Unable to insert, record must not be empty`);
     }
 
     const inputs = Array.isArray(records) ? records : [records];
