@@ -3,8 +3,8 @@ import EventSubscriber from "../vasern-subscriber";
 import Queryable from "../vasern-queryable";
 
 export type VasernConstructorProp = {
-    schema: Args[] | NewableFunction[];
-    version: number;
+    schemas: Args[] | NewableFunction[];
+    version?: number;
 }
 
 export default class Vasern {
@@ -16,7 +16,7 @@ export default class Vasern {
 
     eventManager: EventSubscriber;
 
-    constructor(schemas: VasernConstructorProp);
+    constructor(opts: VasernConstructorProp);
 
     onLoaded(callback: () => void): void;
 
