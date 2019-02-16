@@ -1,7 +1,9 @@
 import { NewObject } from './../../plugins/vasern-objectid';
 
+export type EventCallback = (changedObject: { changed: Object[] }) => void;
+
 export type Event = {
-    callback: (changedObject: { changed: Object[] }) => void;
+    callback: EventCallback;
     id?: string;
     event?: string;
 }
@@ -26,5 +28,5 @@ export default class EventSubscriber {
 
     triggerOnChangeEvent(triggerFunction: (evenMeta: EventMeta) => void): void;
 
-    onChange(callback: Event): void;
+    onChange(callback: EventCallback): void;
 }
