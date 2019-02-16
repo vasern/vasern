@@ -117,7 +117,7 @@ The more concise and informative, the better it helps us to understand your conc
 
 ## Contributors
 
-Vasern is lucky to have supported from our contributors, thanks to:
+Vasern is lucky to have support from our contributors, thanks to:
 
 - [Tuan Anh Nguyen](https://github.com/anhtuank7c)
 - [Alex](https://github.com/curtisy1) (adding support for typescript)
