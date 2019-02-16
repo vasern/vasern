@@ -2,6 +2,7 @@ import EventSubscriber, { Event } from "../vasern-subscriber/EventSubscriber.d";
 import RawObject from "../vasern-parser/Parser";
 import ObjectID, { NewObject } from "../../plugins/vasern-objectid";
 import ConfigProps from "../../config";
+import Queryable from "vasern/vasern/src/core/vasern-queryable";
 
 export type Args = {
     props: any;
@@ -36,7 +37,7 @@ export type Plugin = {
 
 // TODO: I'm not sure about all the query types as get isn't implemented
 // TODO: Also in the example data() gets called but there's no such function here?
-export default class Document {
+export default class Document extends Queryable {
     available: boolean;
 
     loaded: boolean;
