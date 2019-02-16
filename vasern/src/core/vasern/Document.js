@@ -430,7 +430,7 @@ export default class Document {
     let correctProps = 0;
     schemaProps.forEach(k => {
       // Optional props
-      if (this.props[k].indexOf("?") > -1) { // question: optional pattern enforcement?
+      if (this.props[k].indexOf("?") > -1) {
         correctProps += 1;
       } else if (objectProps.indexOf(k) === -1 && k !== "id") {
         // prop not exists

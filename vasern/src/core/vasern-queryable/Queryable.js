@@ -121,7 +121,10 @@ export default class Queryable {
     return new Queryable(data);
   }
 
-  order(key, order: "asc" | "des" = "asc") {
+  // Sort records by `key`
+  // @key<string>: property used for ordering
+  // @order<"asc" | "desc">: Order direction, "asc" for ascending, "desc" or descending
+  order(key, order = "asc") {
     return new Queryable(_.orderBy(this._data, key, order));
   }
 

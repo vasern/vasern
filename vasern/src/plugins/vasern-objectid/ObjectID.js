@@ -21,14 +21,13 @@ export default class ObjectID {
   // machine id
   mid: string;
 
-  constructor(prop: { mid: ?string }) { // Question: Is the constructor necessary? It's not used anywhere and always generates a warning
-    this.count = 0;
+  constructor(prop) {
     this.lastTimestamp = 0;
 
     if (prop && prop.mid && prop.mid.length === MACHINE_ID_LEN) {
       this.mid = prop.mid;
     } else {
-      console.warn("Machine length should be ", MACHINE_ID_LEN);
+      // console.warn("Machine length should be ", MACHINE_ID_LEN);
       this.mid = ObjectID.RandStr(MACHINE_ID_LEN);
     }
   }
