@@ -47,7 +47,7 @@ class Button extends React.Component {
 }
 
 Button.defaultProps = {
-  target: "_self",
+  target: "_self"
 };
 
 const SplashContainer = props => (
@@ -71,8 +71,8 @@ const ProjectTitle = () => (
       <small>Data storage for React Native</small>
     </h1>
     <p>
-      Vasern let developers quickly setup database for React Native apps.
-      It's fast, lightweight, and open source.
+      Vasern let developers quickly setup database for React Native apps. It's
+      fast, lightweight, and open source.
     </p>
   </div>
 );
@@ -148,7 +148,7 @@ const FeatureBlocks = () => {
       content: `Address performance issue by building Vasern storage engine natively in C++, Objective-C, Java.
         Enable native performance.
       `,
-      img: "002-startup.svg",
+      img: "002-startup.svg"
     },
     {
       id: "zero-dependency",
@@ -158,7 +158,7 @@ const FeatureBlocks = () => {
         Zero dependency is the goal. Current size ~100kb. 
       `,
       img: "003-bag.svg",
-      alignRight: true,
+      alignRight: true
     },
     {
       id: "quick-setup",
@@ -166,7 +166,7 @@ const FeatureBlocks = () => {
       content: `More works are done underneath to provide a simple APIs.
         Allow you to spend less time worry about databases, more time to build your apps.
       `,
-      img: "004-gear.svg",
+      img: "004-gear.svg"
     },
     {
       id: "open-source",
@@ -175,8 +175,8 @@ const FeatureBlocks = () => {
         create and use their own plugin.
       `,
       img: "001-group.svg",
-      alignRight: true,
-    },
+      alignRight: true
+    }
   ];
   return (
     <div className="block__feature_details">
@@ -203,7 +203,7 @@ const FeatureBlocks = () => {
       ))}
     </div>
   );
-}
+};
 
 const Block = props => (
   <Container
@@ -222,29 +222,29 @@ const Features = () => {
       image: imgUrl("002-startup.svg"),
       imageAlign: "top",
       title: "Fast",
-      link: "native-performance",
+      link: "native-performance"
     },
     {
       // content: "The content of my second feature",
       image: imgUrl("003-bag.svg"),
       imageAlign: "top",
       title: "Lightweight",
-      link: "zero-dependency",
+      link: "zero-dependency"
     },
     {
       // content: "The content of my second feature",
       image: imgUrl("004-gear.svg"),
       imageAlign: "top",
       title: "Easy setup",
-      link: "quick-setup",
+      link: "quick-setup"
     },
     {
       // content: "The content of my second feature",
       image: imgUrl("001-group.svg"),
       imageAlign: "top",
       title: "Open Source",
-      link: "open-source",
-    },
+      link: "open-source"
+    }
   ];
 
   return (
@@ -319,7 +319,7 @@ const Media = () => (
           className="block__container"
           style={{
             width: 300 * siteConfig.mediaItems.length,
-            flexWrap: "nowrap",
+            flexWrap: "nowrap"
           }}
         >
           {siteConfig.mediaItems.map((item, i) => (
@@ -367,8 +367,8 @@ const LearnHow = () => (
         content: "Talk about learning how to use this",
         image: imgUrl("docusaurus.svg"),
         imageAlign: "right",
-        title: "Learn How",
-      },
+        title: "Learn How"
+      }
     ]}
   </Block>
 );
@@ -380,8 +380,8 @@ const TryOut = () => (
         content: "Talk about trying this out",
         image: imgUrl("docusaurus.svg"),
         imageAlign: "left",
-        title: "Try it Out",
-      },
+        title: "Try it Out"
+      }
     ]}
   </Block>
 );
@@ -393,8 +393,8 @@ const Description = () => (
         content: "This is another description of how this project is useful",
         image: imgUrl("docusaurus.svg"),
         imageAlign: "right",
-        title: "Description",
-      },
+        title: "Description"
+      }
     ]}
   </Block>
 );
@@ -427,11 +427,11 @@ const Showcase = props => {
 const NavMessage = () => (
   <p className="block block__1col block__message">
     <a
-      href="https://form.jotform.co/82917565387876"
+      href="https://preview.vasern.com"
       target="_blank"
       rel="noopener noreferrer"
     >
-      Subscribe to receive updates
+      Sync data make it simple - Preview Vasern Connected
     </a>
   </p>
 );

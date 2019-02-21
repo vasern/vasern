@@ -436,7 +436,6 @@ export default class Document {
         // prop not exists
         isValid = false;
       } else {
-        // invalid error found => I think it's the opposite?
         correctProps += 1;
       }
     });
