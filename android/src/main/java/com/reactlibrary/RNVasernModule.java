@@ -1,21 +1,19 @@
-
 package com.reactlibrary;
 
+
+import com.facebook.react.bridge.Arguments;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.Arguments;
+import com.reactlibrary.storage.Storage;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.HashMap;
-import java.io.Console;
-
-import com.facebook.react.bridge.Promise;
-import com.reactlibrary.storage.Storage;
+import java.util.List;
 
 public class RNVasernModule extends ReactContextBaseJavaModule {
 
@@ -41,10 +39,10 @@ public class RNVasernModule extends ReactContextBaseJavaModule {
    * @param promise: Promise object returned to JavaScript side
    */
   @ReactMethod
-  public void Request(String docName, Promise pm) {
+  public void Request(String docName, Promise promise) {
     WritableMap result = Arguments.createMap();
     result.putArray("data", VasernUtils.listToWriableArray(this.db.store.get(docName)));
-    pm.resolve(result);
+    promise.resolve(result);
   }
 
   /**
@@ -72,7 +70,6 @@ public class RNVasernModule extends ReactContextBaseJavaModule {
    */
   @ReactMethod
   public void Insert(String docName, ReadableArray data, ReadableArray options, Promise promise) {
-
     ArrayList inputs = data.toArrayList();
     boolean success = this.db.Insert(docName, inputs);
     if (success) {
@@ -84,17 +81,13 @@ public class RNVasernModule extends ReactContextBaseJavaModule {
     }
   }
 
-  // private WritableArray listToWriableArray(List<String> inputs) {
-
-  //   WritableArray data = Arguments.createArray(); 
-
-  //   if (inputs != null) {
-
-  //     for (String line: inputs) {
-  //       data.pushString(line);
-  //     }
-  //   }
-
-  //   return data;
-  // }
+//   private WritableArray listToWriableArray(List<String> inputs) {
+//     WritableArray data = Arguments.createArray();
+//     if (inputs != null) {
+//       for (String line: inputs) {
+//         data.pushString(line);
+//       }
+//     }
+//     return data;
+//   }
 }
