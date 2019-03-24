@@ -216,6 +216,13 @@ export default class Document {
       let tempObj;
       Object.keys(rest).forEach(key => {
         tempObj = rest[key];
+
+        if (this.props[key] === undefined) {
+          throw Error(
+            `Unable to update record for ${this.name}. "${key}" does not exists`
+          );
+        }
+
         if (this.props[key].indexOf("#") === 0) {
           if (typeof tempObj === "object" && tempObj.id) {
             found[`${key}_id`] = tempObj.id;
