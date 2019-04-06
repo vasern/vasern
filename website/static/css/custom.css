@@ -421,6 +421,17 @@ p { font-size: 16px; line-height: 1.6em; }
     }
 }
 
+.doc__warning {
+    color: orange;
+    border: 1px solid orange;
+    border-radius: 5px;
+    padding: 0.8em 1em;
+    background: #ffa5001a;
+    margin-bottom: 1em;
+    font-size: .9em;
+    font-style: italic;
+}
+
 @media only screen and (min-width: 736px ) {
     .docMainContainer {
         margin: 2em 0 !important;

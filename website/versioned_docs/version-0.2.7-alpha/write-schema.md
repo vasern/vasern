@@ -12,11 +12,17 @@ and create `Vasern` instance.
 
 ---
 
+<div class="doc__warning">
+    Note: Vasern has its own <b>id</b> implementation and will be automatically ignore custom <b>id</b> in schema. Custom <b>id</b> will be supported in later version
+</div>
+
 There are a quick method and a detailed method to write a schema. Use the detailed method if you need extra functions for your `Document`.
 
 #### Quick method
 
 ```javascript
+
+// Note: no "id" in "props", it will be automatically ignored otherwise
 var TodoSchema = {
     name: "Todos",
     props: {
@@ -34,6 +40,8 @@ var TodoSchema = {
 ```javascript
 class UserModel {
     name = "Users"
+
+    // Note: no "id" in "props", it will be automatically ignored otherwise
     props = {
         fname: "string",
         lname: "string",
