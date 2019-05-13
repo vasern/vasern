@@ -234,7 +234,9 @@ const Parser = {
     keys.forEach(k => {
       result += ",\u00A0";
 
-      value = obj[k];
+      //changed next line here
+      value = obj[k+ "_id"] ? obj[k+ "_id"] : obj[k];
+
       if (value === 0 || (value && value !== "undefined")) {
         value = Parser.valueTypeToStr(props[k], value);
       } else {

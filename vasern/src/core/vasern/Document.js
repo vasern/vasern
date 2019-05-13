@@ -209,24 +209,36 @@ export default class Document {
   }
 
   update(lookupQuery, newValues, save = true) {
-    let found = this.get(lookupQuery); // eslint-disable-line
+    let found = this.get(lookupQuery);
     if (found) {
       const { id, ...rest } = newValues;
 
       let tempObj;
       Object.keys(rest).forEach(key => {
         tempObj = rest[key];
+        
+        if (this.props[key].indexOf("#") !== -1) {
 
-        if (this.props[key] === undefined) {
-          throw Error(
-            `Unable to update record for ${this.name}. "${key}" does not exists`
-          );
-        }
-
-        if (this.props[key].indexOf("#") === 0) {
-          if (typeof tempObj === "object" && tempObj.id) {
+          // Format referece data type (aka "#")
+          if(tempObj === undefined){
+            return;
+          }else if(tempObj === null){
+            found[`${key}_id`] = tempObj;
+          }else if (typeof tempObj === "object" && tempObj.id) {
             found[`${key}_id`] = tempObj.id;
-          } else if (typeof tempObj === "string") {
+          } else if(Array.isArray(tempObj)){
+            if(tempObj.length === 0){
+              found[`${key}_id`] = null;
+            }else{
+              for(i=0; i < tempObj.length; i++){
+                if(i == 0){
+                  found[`${key}_id`] = [tempObj[i].id];
+                }else{
+                  found[`${key}_id`].push(tempObj[i].id);
+                }
+              }
+            }
+          }else if (typeof tempObj === "string") {
             found[`${key}_id`] = tempObj;
           }
         } else {
