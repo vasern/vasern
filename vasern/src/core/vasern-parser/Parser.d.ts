@@ -19,7 +19,7 @@ type Parser = {
 
     parse(lines: string[], schema: any): { data: string };
 
-    strToObj(schema: any, rawObject: RawObject): RawObject;
+    strToObject(schema: any, rawObject: RawObject): RawObject;
 
     schemify(line: string): Schema;
 

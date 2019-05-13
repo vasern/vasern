@@ -122,29 +122,28 @@ const Parser = {
   // Convert a raw string data to an object
   // @props<Array[string]>: array of object (props need to have the same order of raw data)
   // @raw<string>: raw data as a string
-  objToStr: (props, obj) => {
-    // remove id if exsits
-    // delete obj.id;
+  strToObject: (schema, rawObject) => {
+    if (schema && rawObject && rawObject.raw) {
+      const obj = { id: rawObject.id };
+      const props = Object.keys(schema);
+      let prop;
 
-    const keys = Object.keys(props);
-    let value;
-    let result = obj.id;
+      rawObject.raw.split(RBreak).forEach((data, i) => {
+        prop = props[i];
 
-    keys.forEach(k => {
-      result += ",\u00A0";
+        if (schema[prop].indexOf("#") > -1) {
+          // Parsing reference object
+          obj[`${prop}_id`] = Parser.parseValue(schema[prop], data);
+        } else {
+          // Parseing numbers,string,list,boolean
+          obj[prop] = Parser.parseValue(schema[prop], data);
+        }
+      });
 
-      //changed next line here
-      value = obj[k+ "_id"] ? obj[k+ "_id"] : obj[k];
+      return obj;
+    }
 
-      if (value === 0 || (value && value !== "undefined")) {
-        value = Parser.valueTypeToStr(props[k], value);
-      } else {
-        value = "";
-      }
-
-      result += value;
-    });
-    return result; // .replace(',\u00A0','')
+    return null;
   },
 
   // Convert a string of schema into a schema object
@@ -235,7 +234,9 @@ const Parser = {
     keys.forEach(k => {
       result += ",\u00A0";
 
-      value = obj[k];
+      //changed next line here
+      value = obj[k+ "_id"] ? obj[k+ "_id"] : obj[k];
+
       if (value === 0 || (value && value !== "undefined")) {
         value = Parser.valueTypeToStr(props[k], value);
       } else {
