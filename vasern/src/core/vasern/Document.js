@@ -209,36 +209,35 @@ export default class Document {
   }
 
   update(lookupQuery, newValues, save = true) {
-    let found = this.get(lookupQuery);
+    const found = this.get(lookupQuery);
     if (found) {
       const { id, ...rest } = newValues;
 
       let tempObj;
       Object.keys(rest).forEach(key => {
         tempObj = rest[key];
-        
-        if (this.props[key].indexOf("#") !== -1) {
 
+        if (this.props[key].indexOf("#") !== -1) {
           // Format referece data type (aka "#")
-          if(tempObj === undefined){
-            return;
-          }else if(tempObj === null){
+          if (tempObj === undefined) {
+            // return false;
+          } else if (tempObj === null) {
             found[`${key}_id`] = tempObj;
-          }else if (typeof tempObj === "object" && tempObj.id) {
+          } else if (typeof tempObj === "object" && tempObj.id) {
             found[`${key}_id`] = tempObj.id;
-          } else if(Array.isArray(tempObj)){
-            if(tempObj.length === 0){
+          } else if (Array.isArray(tempObj)) {
+            if (tempObj.length === 0) {
               found[`${key}_id`] = null;
-            }else{
-              for(i=0; i < tempObj.length; i++){
-                if(i == 0){
+            } else {
+              for (let i = 0; i < tempObj.length; i++) { // eslint-disable-line
+                if (i === 0) {
                   found[`${key}_id`] = [tempObj[i].id];
-                }else{
+                } else {
                   found[`${key}_id`].push(tempObj[i].id);
                 }
               }
             }
-          }else if (typeof tempObj === "string") {
+          } else if (typeof tempObj === "string") {
             found[`${key}_id`] = tempObj;
           }
         } else {
