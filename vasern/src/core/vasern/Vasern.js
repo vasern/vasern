@@ -6,7 +6,8 @@
 //============================================================== */
 
 // import { NativeModules } from 'react-native';
-import { Queryable, EventSubscriber } from "..";
+import Queryable from "../vasern-queryable";
+import EventSubscriber from "../vasern-subscriber";
 import Document from "./Document";
 // import { AuthModel } from "../../plugins/auth";
 

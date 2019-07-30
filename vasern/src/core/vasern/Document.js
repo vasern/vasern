@@ -6,11 +6,12 @@
 //= ===============================================================
 
 import { NativeModules } from "react-native";
-import { Parser, EventSubscriber, Queryable } from "..";
+import Parser from "../vasern-parser";
+import Queryable from "../vasern-queryable";
+import EventSubscriber from "../vasern-subscriber";
 import _ from "lodash";
 import { Reporter } from "../vasern-utils";
 import DefaultConfigs from "../../config";
-
 import ObjectID, { OBJECTID_LEN } from "../../plugins/vasern-objectid";
 
 const { VasernManager } = NativeModules;
@@ -87,7 +88,8 @@ export default class Document {
   // When data complete formating (mean data is loaded),
   // call all the callback has been subscribed (see function 'loaded')
   // @rawData: raw data string
-  populate({ data }) {
+  populate(opts) {
+    const data = opts ? opts.data : undefined;
     // Convert raw data
     if (data && data.length > 0) {
       const records = new Array(data.length);
