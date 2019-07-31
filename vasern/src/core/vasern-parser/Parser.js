@@ -51,7 +51,10 @@ const Parser = {
         });
         return results;
       default:
-        return val;
+
+        // Returned value is not structly typed
+        // For example, an empty string value ("") will received undefined
+        return val || undefined;
     }
   },
 
