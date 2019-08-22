@@ -49,7 +49,16 @@ export default class App extends Component<Props> {
   }
 
   componentDidMount() {
+      /**
+       * onLoaded is used to rehydrate the data from the Stored Instance.
+       * Without this method already stored data would not be able to access.
+       * Having this in the Mount method is going to be better so that other methods in the components doesn't have to use onLoaded.
+       */
     Todos.onLoaded(() => this._setItems());
+
+      /**
+       * onChange is used to perform actions whenever DB is changed or updated.
+       */
     Todos.onChange(() => this._setItems());
   }
 
