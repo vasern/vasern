@@ -68,7 +68,7 @@ var todoItem = Todos.get({ name: "Setup database for React Native" });
 
 ## Update method
 
-Update existing record with new valuse
+Update existing record with new values
 
 ```javascript
 Todos.update(lookupQuery, newValues, save = true);
