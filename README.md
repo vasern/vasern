@@ -48,9 +48,11 @@ __Table of Contents:__
 
 For more details, visit [Vasern Documentation](https://vasern.com/docs/overview)
 
+Updated 08/10/2019: Due to personal schedule and a small number of active users, vasern-server and news features won't be release anytime soon. Though I'll be happy to help with current issues. Any changes in the future will be updated in the slack channel
+
 ## What is Vasern?
 
-Vasern is a data storage for React Native that underneath is linked-consistent key-value stores. Its data engine is built natively to achieve native performance. Our goal is to develop an open source, developer friendly end-to-end database solution. Sync server - [vasern-server](https://github.com/vasern/vasern-server) is under development.
+Vasern is a data storage for React Native that underneath is linked-consistent key-value stores. Its data engine is built natively to achieve native performance. Our goal is to develop an open source, developer friendly end-to-end database solution. <s>Sync server - [vasern-server](https://github.com/vasern/vasern-server) is under development.</s>
 
 #### A snipped code shows how Vasern works
 
@@ -88,9 +90,7 @@ VasernDB.Todos.onChange(() => {
 
 ## Development Status
 
-Vasern beta is **available on iOS and Android**. It is being heavily tested to ensure its functionality, data quality and consistency. View [Development Roadmap](roadmap.md)
-
-Most of APIs won’t be changed in the near future. A stable release of Vasern will be announced within a month from now unless there are major issues. After the stable release, Vasern will continue to be maintained and improved.
+Vasern beta is **available on iOS and Android**. It is being tested to ensure its functionality, data quality and consistency. View [Development Roadmap](roadmap.md)
 
 [Join us on Slack](https://join.slack.com/t/vasern/shared_invite/enQtNDU4NTk2MDI5OTcyLTRiYzRjZDI5YTAyMjlhYzg1YTdhNjFjZGNkODI1OTQwYzExZjA3NWRkYTY1MGE2ZjU0YzU3NzE2NzUwZmEwMjM) for any quick update and discusion.
 
@@ -123,6 +123,7 @@ Vasern is lucky to have support from our contributors, thanks to:
 - [Alex](https://github.com/curtisy1) (adding support for typescript)
 - [Noal](https://github.com/apppro123)
 - [Tuan Anh Nguyen](https://github.com/anhtuank7c)
+- [Kai](https://github.com/kailashvele)
 
 ## Contribute to Vasern
 
