@@ -11,22 +11,26 @@ React Native project.
 
 Make sure you have [created React Native app](https://facebook.github.io/react-native/docs/getting-started.html). Navigate to React Native directory, and be ready to run commands on Terminal (MacOS) or Command Promp (Window).
 
-#### 1. Install using NPM:
+### 1. Install using NPM:
 
 ```ssh
 $ npm install --save vasern
 ```
 
-#### 2. Link Vasern library to your project:
+### 2. Link Vasern library to your project:
 
-- **Automatic linking for React Native > 0.60**
+#### **Automatic linking for React Native >= 0.60**
+    
+   To link `vasern` to React Native version >= 0.60, you will need to (1) add a config file, then (2) install pod (for iOS)
 
-    Create `react-native.config.js` from your project root directory if not exists.
+   **2.1 Add configuration**
+    
+   Create `react-native.config.js` from your project root directory if not exists.
     Added the below `configuration`.
 
-    _In case you already have the `dependency` configuration, just append the vasern configuration_
+   _In case you already have the `dependency` configuration, just append the vasern configuration_
 
-    ```js
+   ```js
     module.exports = {
         dependency: {
             "vasern": {
@@ -45,6 +49,15 @@ $ npm install --save vasern
         }
     };
     ```
+    
+    
+    **2.2 Install pod (iOS Only)**
+    
+    From the root directory, navigate to `ios` and run `pod install`
+    
+    Then `vasern` should be ready
+  
+#### React Native < 0.60
 
 - **Automatic linking - for iOS and Android, run command**:
 
