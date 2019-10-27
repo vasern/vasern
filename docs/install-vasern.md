@@ -19,6 +19,8 @@ $ npm install --save vasern
 
 #### 2. Link Vasern library to your project:
 
+- React Native > 0.60
+
 - **Automatic linking - for iOS and Android, run command**:
 
     ```ssh
