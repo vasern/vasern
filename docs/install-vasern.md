@@ -19,6 +19,33 @@ $ npm install --save vasern
 
 #### 2. Link Vasern library to your project:
 
+- **Automatic linking for React Native > 0.60**
+
+    Create `react-native.config.js` from your project root directory if not exists.
+    Added the below `configuration`.
+
+    _In case you already have the `dependency` configuration, just append the vasern configuration_
+
+    ```js
+    module.exports = {
+        dependency: {
+            "vasern": {
+                platforms: {
+                    ios: {
+                        project: './node_modules/vasern/ios/Vasern.xcodeproj',
+                        podspecPath: './node_modules/vasern/vasern.podspec'
+                    },
+                    android: {
+                        sourceDir: './node_modules/vasern/android',
+                        manifestPath: 'src/main/AndroidManifest.xml',
+                        packageImportPath: 'com.reactlibrary.vasern'
+                    }
+                }
+            }
+        }
+    };
+    ```
+
 - **Automatic linking - for iOS and Android, run command**:
 
     ```ssh

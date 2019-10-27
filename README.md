@@ -46,7 +46,7 @@ __Table of Contents:__
 - [Contribute to Vasern](#contribute-to-vasern)
 
 
-For more details, visit [Vasern Documentation](https://vasern.com/docs/overview)
+For more details, visit [Vasern Documentation](docs/overview)
 
 Updated 08/10/2019: Due to personal schedule and a small number of active users, vasern-server and news features won't be release anytime soon. Though I'll be happy to help with current issues. Any changes in the future will be updated in the slack channel
 
@@ -97,16 +97,16 @@ Vasern beta is **available on iOS and Android**. It is being tested to ensure it
 
 ## Getting Started
 
-- [Install Vasern](https://vasern.com/docs/install-vasern)
-- [Supported Data Types](https://vasern.com/docs/supported-data-types)
-- [Write Schema, Setup Vasern](https://vasern.com/docs/write-schema-setup-vasern)
-- [Basic CRUD operations](https://vasern.com/docs/basic-crud-operation)
-- [Queries](https://vasern.com/docs/queries)
+- [Install Vasern](docs/install-vasern.md)
+- [Supported Data Types](docs/supported-data-types.md)
+- [Write Schema, Setup Vasern](docs/write-schema-setup-vasern.md)
+- [Basic CRUD operations](docs/basic-crud-operation.md)
+- [Queries](docs/queries.md)
 
 
 ## Examples
 
-- [Vasern Todo](https://vasern.com/docs/todo-example) - Simple todo app
+- [Vasern Todo](docs/todo-example.md) - Simple todo app
 
 ## Help and Feedback
 

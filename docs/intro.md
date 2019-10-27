@@ -33,6 +33,8 @@ A more details documentation available at https://vasern.com/docs
 
 2. Link Vasern library to your project:
 
+    - [Auto linking for React Native version > 0.6.0](./install-vasern.md)
+
     - **Using rnpm - for iOS, run command**:
         ```ssh
         $ rnpm link vasern
