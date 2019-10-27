@@ -97,16 +97,16 @@ Vasern beta is **available on iOS and Android**. It is being tested to ensure it
 
 ## Getting Started
 
-- [Install Vasern](docs/install-vasern)
-- [Supported Data Types](docs/supported-data-types)
-- [Write Schema, Setup Vasern](docs/write-schema-setup-vasern)
-- [Basic CRUD operations](docs/basic-crud-operation)
-- [Queries](docs/queries)
+- [Install Vasern](docs/install-vasern.md)
+- [Supported Data Types](docs/supported-data-types.md)
+- [Write Schema, Setup Vasern](docs/write-schema-setup-vasern.md)
+- [Basic CRUD operations](docs/basic-crud-operation.md)
+- [Queries](docs/queries.md)
 
 
 ## Examples
 
-- [Vasern Todo](docs/todo-example) - Simple todo app
+- [Vasern Todo](docs/todo-example.md) - Simple todo app
 
 ## Help and Feedback
 
