@@ -9,8 +9,8 @@ React Native project.
 Table of Contents:
 
 1. [Install Vasern](#1-install-using-npm-or-yarn)
-2. [Linking for React Native >= 0.60](#2-link-Vasern-to-your-project-react-native->=-0.60)
-3. [Linking for React Native < v0.60](#3-link-Vasern-to-your-project-react-native-<-0.60)
+2. [Linking for React Native >= 0.60](#2-link-Vasern-to-your-project-react-native--0.60)
+3. [Linking for React Native < v0.60](#3-link-Vasern-to-your-project-react-native--0.60)
 
 # Install Vasern
 
