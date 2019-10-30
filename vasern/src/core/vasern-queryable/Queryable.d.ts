@@ -3,7 +3,7 @@ import { NewObject } from './../../plugins/vasern-objectid/ObjectID.d';
 export default class Queryable {
     constructor(data: NewObject);
 
-    data(): NewObject;
+    data(): NewObject[];
 
     get(query: Object | string): NewObject | undefined;
 
