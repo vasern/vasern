@@ -11,7 +11,7 @@ Queries are used to get and filter records through a `Queryable` object. Which u
 `Queryable` contains a set of immutable records and separated from the Document records. The following code demonstrates how to create a `Queryable` object.
 
 ```javascript
-import { Queryable } from 'vasern';
+import {Queryable} from 'vasern/vasern/src/core';
 
 const queryObj = new Queryable(data);
 ```
