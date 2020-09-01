@@ -92,7 +92,7 @@ VasernDB.Todos.onChange(() => {
 
 Vasern beta is **available on iOS and Android**. It is being tested to ensure its functionality, data quality and consistency. View [Development Roadmap](roadmap.md)
 
-[Join us on Slack](https://join.slack.com/t/vasern/shared_invite/enQtNDU4NTk2MDI5OTcyLTRiYzRjZDI5YTAyMjlhYzg1YTdhNjFjZGNkODI1OTQwYzExZjA3NWRkYTY1MGE2ZjU0YzU3NzE2NzUwZmEwMjM) for any quick update and discusion.
+[Join us on Slack](https://join.slack.com/t/vasern/shared_invite/zt-5uoc8hec-Y~b9PjQfN0n2PbCTJH7exA) for any quick update and discusion.
 
 
 ## Getting Started
@@ -110,7 +110,7 @@ Vasern beta is **available on iOS and Android**. It is being tested to ensure it
 
 ## Help and Feedback
 
-- For quick questions, chat and discussion, [join us on Slack](https://join.slack.com/t/vasern/shared_invite/enQtNDU4NTk2MDI5OTcyLTRiYzRjZDI5YTAyMjlhYzg1YTdhNjFjZGNkODI1OTQwYzExZjA3NWRkYTY1MGE2ZjU0YzU3NzE2NzUwZmEwMjM).
+- For quick questions, chat and discussion, [join us on Slack](https://join.slack.com/t/vasern/shared_invite/zt-5uoc8hec-Y~b9PjQfN0n2PbCTJH7exA).
 - For bugs, suggest improvements, or feature requests, feel free to [file an issue](https://github.com/vasern/vasern/issues).
 
 The more concise and informative, the better it helps us to understand your concern.
