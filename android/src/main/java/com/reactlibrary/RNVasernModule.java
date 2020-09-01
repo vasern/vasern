@@ -81,6 +81,17 @@ public class RNVasernModule extends ReactContextBaseJavaModule {
     }
   }
 
+    /**
+   * Remove all records (permanantly delete data file)
+   * and merge record list with its document's in-memory records
+   * @param docName: Document name
+   * @param promise: Promise object that will be passed to JavaScript side
+   */  @ReactMethod
+  public void ClearDocument(String docName, Promise promise) {
+    this.db.RemoveAllDocs(docName);
+    promise.resolve(true);
+  }
+
 //   private WritableArray listToWriableArray(List<String> inputs) {
 //     WritableArray data = Arguments.createArray();
 //     if (inputs != null) {

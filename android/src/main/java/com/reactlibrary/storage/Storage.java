@@ -97,6 +97,13 @@ public class Storage {
         return this.loadContents(this.docPath + "/" + docName + Config.DOC_EXT);
     }
 
+    public void RemoveAllDocs(String docName) {
+        File file = new File(this.docPath + "/" + docName + Config.DOC_EXT);
+        if (file.exists()) {
+            file.delete();
+        }
+        this.store.clear();
+    }
 
     // Primate
     private String getDocPath(String docName)  {
