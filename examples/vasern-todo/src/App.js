@@ -24,8 +24,7 @@ import { Todos } from './database';
 
 const KeyboardMargin = Platform.OS == "android" ? 25 : 0;
 
-type Props = {};
-export default class App extends Component<Props> {
+export default class App extends Component {
 
   state = { 
     todos: [],
@@ -34,7 +33,7 @@ export default class App extends Component<Props> {
     enableAction: false
   };
 
-  name: string;
+  name;
 
   constructor(props) {
     super(props);
