@@ -58,7 +58,11 @@ export default class Document {
     // initate _data
     this._data = [];
 
-    this.bindEvents.bind(this)(); // Question: Is there a reason for the double ()?
+    this.bindEvents.bind(this)();
+
+    if (!VasernManager) {
+      console.warn(`Library is not linked`)
+    }
   }
 
   bindEvents() {
@@ -194,8 +198,11 @@ export default class Document {
       const content = this.oid.new();
 
       propKeys.forEach(k => {
-        // content[k] = Parser.parseValue(this.props[k], input[k]);
-        content[k] = input[k];
+        if (this.props[k].indexOf(`#`) === 0) {
+          content[`${k}_id`] = typeof input[k] === "object" ? input[k].id : input;
+        } else {
+          content[k] = Parser.parseValue(this.props[k], input[k]);
+        }
       });
 
       this._commitChange("insert", content, save);
@@ -526,6 +533,7 @@ export default class Document {
         });
         break;
       case "insert":
+        
         this._data = this._data.concat(records);
         break;
 
