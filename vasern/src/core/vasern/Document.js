@@ -186,8 +186,7 @@ export default class Document {
 
       if (!this.validateProps(propKeys)) {
         Reporter.warn(
-          `Invalid input for ${
-            this.name
+          `Invalid input for ${this.name
           }. Record will not be added into database`
         );
 
@@ -198,10 +197,11 @@ export default class Document {
       const content = this.oid.new();
 
       propKeys.forEach(k => {
-        if (this.props[k].indexOf(`#`) === 0) {
-          content[`${k}_id`] = typeof input[k] === "object" ? input[k].id : input;
+        if (this.props[k].indexOf(`#`) !== -1) {
+          content[`${k}_id`] = typeof input[k] === "object" ? input[k].id : input[k];
         } else {
-          content[k] = Parser.parseValue(this.props[k], input[k]);
+          // content[k] = Parser.parseValue(this.props[k], input[k]);
+          content[k] = input[k];
         }
       });
 
@@ -533,7 +533,7 @@ export default class Document {
         });
         break;
       case "insert":
-        
+
         this._data = this._data.concat(records);
         break;
 
@@ -565,8 +565,7 @@ export default class Document {
       });
     } else {
       throw Error(
-        `Unable to import "${plugin.name}". "${
-          plugin.name
+        `Unable to import "${plugin.name}". "${plugin.name
         }.methods" does not exist`
       );
     }

@@ -1,6 +1,6 @@
 {
   "name": "vasern",
-  "version": "0.3.63",
+  "version": "0.3.64",
   "description": "Vasern is an open source data storage for React Native, aims to be developer friendly, high performance",
   "main": "./vasern/index.js",
   "scripts": {
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ambistudio/vasern.git"
+    "url": "git+https://github.com/vasern/vasern.git"
   },
   "keywords": [
     "react-native",
@@ -27,9 +27,9 @@
   "author": "Ambi Studio",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
-    "url": "https://github.com/ambistudio/vasern/issues"
+    "url": "https://github.com/vasern/vasern/issues"
   },
-  "homepage": "https://github.com/ambistudio/vasern#readme",
+  "homepage": "https://github.com/vasern/vasern#readme",
   "dependencies": {
     "eslint-config-airbnb-base": "^13.1.0"
   },
