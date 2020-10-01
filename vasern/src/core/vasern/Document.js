@@ -198,10 +198,10 @@ export default class Document {
 
       propKeys.forEach(k => {
         if (this.props[k].indexOf(`#`) !== -1) {
-          content[`${k}_id`] = typeof input[k] === "object" ? input[k].id : input[k];
+          content[`${k}_id`] = typeof input[k] === "object" ? input[k].id : input[k].toString();
         } else {
           // content[k] = Parser.parseValue(this.props[k], input[k]);
-          content[k] = input[k];
+          content[k] = input[k].toString();
         }
       });
 
