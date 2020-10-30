@@ -197,11 +197,15 @@ export default class Document {
       const content = this.oid.new();
 
       propKeys.forEach(k => {
+        let kValue = input[k]
+        if (kValue === null || kValue === undefined) {
+          kValue = ""
+        }
         if (this.props[k].indexOf(`#`) !== -1) {
-          content[`${k}_id`] = typeof input[k] === "object" ? input[k].id : input[k].toString();
+          content[`${k}_id`] = typeof kValue === "object" ? kValue.id : kValue.toString();
         } else {
           // content[k] = Parser.parseValue(this.props[k], input[k]);
-          content[k] = input[k].toString();
+          content[k] = kValue.toString();
         }
       });
 
