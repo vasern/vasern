@@ -159,10 +159,10 @@ export default class Document {
   // Remove a record that match given query
   // @query: id or key value (i.e { name: 'Jonas' }) that match the object that will be remove
   // @save: save/persist data, defaut is true
-  remove(query, save = true) {
+  async remove(query, save = true) {
     const found = this.get(query);
     if (found) {
-      this._commitChange("remove", found, save);
+      await this._commitChange("remove", found, save);
       return true;
     }
 
@@ -173,7 +173,7 @@ export default class Document {
   // Create a new content record which return an object with generated UUID
   // Input will be validated using given schema of when initiate Doc
   // @input: a valid record
-  insert(records, save = true) {
+  async insert(records, save = true) {
     if (!records) {
       throw Error(`Unable to insert, record must not be empty`);
     }
@@ -209,7 +209,7 @@ export default class Document {
         }
       });
 
-      this._commitChange("insert", content, save);
+      await this._commitChange("insert", content, save);
 
       // Avoid id being washed using save
       // content.id = uuid;
@@ -221,7 +221,7 @@ export default class Document {
     return validObjects;
   }
 
-  update(lookupQuery, newValues, save = true) {
+  async update(lookupQuery, newValues, save = true) {
     const found = this.get(lookupQuery);
     if (found) {
       const { id, ...rest } = newValues;
@@ -258,7 +258,7 @@ export default class Document {
         }
       });
 
-      this._commitChange("update", found, save);
+      await this._commitChange("update", found, save);
 
       return found;
     }
@@ -496,13 +496,13 @@ export default class Document {
   // (not available to write right away)
   _isCommitOnQueue = false;
 
-  _commitChange = (type, item, save = false) => {
+  _commitChange = async (type, item, save = false) => {
     // Check if commit status is available
     if (this._commitedItems[type]) {
       this._commitedItems[type].push(item);
 
       if (save) {
-        this.save();
+        await this.save();
       }
     } else {
       // TODO: handle invalid commit type
@@ -599,3 +599,4 @@ export default class Document {
 
 // Default imports
 Document.import(Queryable);
+
