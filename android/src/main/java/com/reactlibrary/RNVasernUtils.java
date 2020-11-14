@@ -7,7 +7,7 @@ import java.util.List;
 
 class VasernUtils {
 
-    public static WritableArray listToWriableArray(List<String> inputs) {
+    public static WritableArray listToWritableArray(List<String> inputs) {
 
         WritableArray data = Arguments.createArray(); 
     
