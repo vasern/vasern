@@ -181,7 +181,7 @@ export default class Document {
     const inputs = Array.isArray(records) ? records : [records];
 
     let propKeys;
-    const validObjects = inputs.map(input => {
+    const validObjects = inputs.map(async input => {
       propKeys = Object.keys(input);
 
       if (!this.validateProps(propKeys)) {
