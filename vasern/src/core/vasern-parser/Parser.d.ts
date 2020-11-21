@@ -3,9 +3,9 @@ export type RawObject = {
     raw: string;
 }
 
-export type Schema = {
+export type Schema<T = any> = {
     name: string;
-    props: any;
+    props: T;
 }
 
 export type ActionValues = {
