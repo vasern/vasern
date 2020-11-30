@@ -1,6 +1,6 @@
 {
   "name": "vasern",
-  "version": "0.3.66",
+  "version": "0.3.67",
   "description": "Vasern is an open source data storage for React Native, aims to be developer friendly, high performance",
   "main": "./vasern/index.js",
   "scripts": {

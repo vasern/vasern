@@ -204,8 +204,8 @@ export default class Document {
         if (this.props[k].indexOf(`#`) !== -1) {
           content[`${k}_id`] = typeof kValue === "object" ? kValue.id : kValue.toString();
         } else {
-          // content[k] = Parser.parseValue(this.props[k], input[k]);
-          content[k] = kValue.toString();
+          // content[k] = kValue.toString();
+          content[k] = Parser.valueTypeToStr(this.props[k], kValue);
         }
       });
 
