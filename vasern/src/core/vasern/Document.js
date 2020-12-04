@@ -201,11 +201,23 @@ export default class Document {
         if (kValue === null || kValue === undefined) {
           kValue = ""
         }
-        if (this.props[k].indexOf(`#`) !== -1) {
-          content[`${k}_id`] = typeof kValue === "object" ? kValue.id : kValue.toString();
-        } else {
-          // content[k] = Parser.parseValue(this.props[k], input[k]);
-          content[k] = kValue.toString();
+       if (this.props[k].indexOf(`#`) !== -1) {
+          if(this.props[k].indexOf("[]") !== -1){
+            //ids of an array of objects
+            let ids = [];
+            kValue.forEach(value => {
+              ids.push(value.id);
+            })
+            //maybe add _ids in these cases ?
+            content[`${k}_id`] = ids;
+          }else {
+            content[`${k}_id`] = typeof kValue === "object" ? kValue.id : kValue.toString();
+          }
+        } /* else if(this.props[k].indexOf("[]") !== -1) {
+           does it need that case?
+        }  */else {
+          //content[k] = Parser.parseValue(this.props[k], input[k]);
+          content[k] = kValue.toString()
         }
       });
 
