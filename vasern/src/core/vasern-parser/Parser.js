@@ -17,13 +17,11 @@ const Parser = {
   parseValue: (inputType, val) => {
     let dataType;
     let type = inputType;
-    let results;
-    let splitted;
 
-    if (type.indexOf("[]") !== -1) {
+    if (type.indexOf("[]") === 0) {
       dataType = "list";
       type = type.replace("[]", "");
-    } else if (type.indexOf("#") !== -1) {
+    } else if (type.indexOf("#") === 0) {
       dataType = "ref";
       type = type.replace("#", "");
     } else {
@@ -32,7 +30,7 @@ const Parser = {
 
     switch (dataType) {
       case "string":
-        return val && val.replace ? val.replace(/\u00A0n/g, "\n") : "";
+        return val && val.replace ? val.replace(/\u00A0n/g, "\n") : undefined;
       case "int":
         return parseInt(val, 10);
       case "double":
@@ -42,19 +40,14 @@ const Parser = {
       case "datetime":
         return new Date(parseInt(val, 10));
       case "ref":
+        if (typeof val === "object" && "id" in val) {
+          return val.id;
+        }
         return val;
       case "list":
-        splitted = val.split(LBreak);
-        results = new Array(splitted.length);
-        splitted.forEach((value, i) => {
-          results[i] = Parser.parseValue(type, value);
-        });
-        return results;
+        return val.split(LBreak).map(value => Parser.parseValue(type, value));
       default:
-
-        // Returned value is not structly typed
-        // For example, an empty string value ("") will received undefined
-        return val || undefined;
+        return val;
     }
   },
 
@@ -238,7 +231,7 @@ const Parser = {
       result += ",\u00A0";
 
       //changed next line here
-      value = obj[k+ "_id"] ? obj[k+ "_id"] : obj[k];
+      value = obj[k + "_id"] ? obj[k + "_id"] : obj[k];
 
       if (value === 0 || (value && value !== "undefined")) {
         value = Parser.valueTypeToStr(props[k], value);
@@ -253,16 +246,16 @@ const Parser = {
 
   valueTypeToStr: (dataType, value) => {
     let type = dataType;
-    if (dataType.indexOf("#") !== -1) {
+
+    if (dataType.indexOf("#") === 0) {
       type = "ref";
     }
 
-    if (dataType.indexOf("[]") !== -1) {
+    if (dataType.indexOf("[]") === 0) {
       type = "list";
     }
 
-    let listType;
-    let result;
+
     switch (type) {
       case "string":
         return String(value).replace(/\n/g, "\u00A0n");
@@ -273,16 +266,11 @@ const Parser = {
       case "ref":
         return typeof value === "object" ? value.id : value;
       case "list":
-        if (Array.isArray(value) && value.length) {
-          listType = dataType.replace("[]", "");
-          result = "";
-          value.forEach((v, i) => {
-            result += Parser.valueTypeToStr(listType, v);
-            if (i !== value.length - 1) {
-              result += LBreak;
-            }
-          });
-          return result;
+        if (Array.isArray(value)) {
+          const listType = dataType.replace("[]", "");
+          return value
+            .map(v => Parser.valueTypeToStr(listType, v))
+            .join(LBreak);
         }
         return value;
       default:

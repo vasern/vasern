@@ -201,12 +201,7 @@ export default class Document {
         if (kValue === null || kValue === undefined) {
           kValue = ""
         }
-        if (this.props[k].indexOf(`#`) !== -1) {
-          content[`${k}_id`] = typeof kValue === "object" ? kValue.id : kValue.toString();
-        } else {
-          // content[k] = kValue.toString();
-          content[k] = Parser.valueTypeToStr(this.props[k], kValue);
-        }
+        content[k] = Parser.valueTypeToStr(this.props[k], kValue);
       });
 
       this._commitChange("insert", content, save);
