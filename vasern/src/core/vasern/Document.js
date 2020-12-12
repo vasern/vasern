@@ -222,6 +222,7 @@ export default class Document {
       const { id, ...rest } = newValues;
 
       let tempObj;
+      //run through properties but id
       Object.keys(rest).forEach(key => {
         tempObj = rest[key];
 
@@ -260,6 +261,109 @@ export default class Document {
 
     return false;
   }
+  /*
+  async methods of 
+  remove, insert, update
+  */
+  async asyncRemove(query, save = true) {
+    const found = this.get(query);
+    if (found) {
+      await this._commitChange("remove", found, save);
+      return true;
+    }
+
+    // Not found record to be deleted
+    return false;
+  }
+
+  async asyncInsert(records, save = true) {
+    if (!records) {
+      throw Error(`Unable to insert, record must not be empty`);
+    }
+
+    const inputs = Array.isArray(records) ? records : [records];
+
+    let propKeys;
+    const validObjects = inputs.map(async input => {
+      propKeys = Object.keys(input);
+
+      if (!this.validateProps(propKeys)) {
+        Reporter.warn(
+          `Invalid input for ${this.name
+          }. Record will not be added into database`
+        );
+
+        Reporter.warn(propKeys, Object.keys(this.props));
+        return null;
+      }
+
+      const content = this.oid.new();
+
+      propKeys.forEach(k => {
+        let kValue = input[k]
+        if (kValue === null || kValue === undefined) {
+          kValue = ""
+        }
+        content[k] = Parser.valueTypeToStr(this.props[k], kValue);
+      });
+
+      await this._commitChange("insert", content, save);
+
+      // Avoid id being washed using save
+      // content.id = uuid;
+
+      return content;
+    });
+
+    // Invalid data type or content not match with schema
+    return validObjects;
+  }
+
+  async asyncUpdate(lookupQuery, newValues, save = true) {
+    const found = this.get(lookupQuery);
+    if (found) {
+      const { id, ...rest } = newValues;
+
+      let tempObj;
+      Object.keys(rest).forEach(key => {
+        tempObj = rest[key];
+
+        if (this.props[key].indexOf("#") !== -1) {
+          // Format referece data type (aka "#")
+          if (tempObj === undefined) {
+            // return false;
+          } else if (tempObj === null) {
+            found[`${key}_id`] = tempObj;
+          } else if (typeof tempObj === "object" && tempObj.id) {
+            found[`${key}_id`] = tempObj.id;
+          } else if (Array.isArray(tempObj)) {
+            if (tempObj.length === 0) {
+              found[`${key}_id`] = null;
+            } else {
+              for (let i = 0; i < tempObj.length; i++) { // eslint-disable-line
+                if (i === 0) {
+                  found[`${key}_id`] = [tempObj[i].id];
+                } else {
+                  found[`${key}_id`].push(tempObj[i].id);
+                }
+              }
+            }
+          } else if (typeof tempObj === "string") {
+            found[`${key}_id`] = tempObj;
+          }
+        } else {
+          found[key] = tempObj;
+        }
+      });
+
+      await this._commitChange("update", found, save);
+
+      return found;
+    }
+
+    return false;
+  }
+
 
   // Update, write or remove item all together
   perform(callback) {
