@@ -41,7 +41,7 @@ public class RNVasernModule extends ReactContextBaseJavaModule {
   @ReactMethod
   public void Request(String docName, Promise promise) {
     WritableMap result = Arguments.createMap();
-    result.putArray("data", VasernUtils.listToWriableArray(this.db.store.get(docName)));
+    result.putArray("data", VasernUtils.listToWritableArray(this.db.store.get(docName)));
     promise.resolve(result);
   }
 
@@ -54,7 +54,7 @@ public class RNVasernModule extends ReactContextBaseJavaModule {
   public void Load(String docName, Promise promise) {
 
     List<String> listStrOutputs = this.db.Load(docName);
-    WritableArray data = VasernUtils.listToWriableArray(listStrOutputs);
+    WritableArray data = VasernUtils.listToWritableArray(listStrOutputs);
     WritableMap result = Arguments.createMap();
     result.putArray("data", data);
     promise.resolve(result);
@@ -92,7 +92,7 @@ public class RNVasernModule extends ReactContextBaseJavaModule {
     promise.resolve(true);
   }
 
-//   private WritableArray listToWriableArray(List<String> inputs) {
+//   private WritableArray listToWritableArray(List<String> inputs) {
 //     WritableArray data = Arguments.createArray();
 //     if (inputs != null) {
 //       for (String line: inputs) {
