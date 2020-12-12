@@ -23,11 +23,11 @@ const Parser = {
       isOptional = true;
       type = type.substr(1);
     }
-
-    if (isOptional && value === `undefined`) {
+    
+    if (isOptional && typeof val === `undefined`) {
       return undefined;
     }
-
+	
     if (type.indexOf("[]") === 0) {
       dataType = "list";
       type = type.replace("[]", "");
@@ -37,7 +37,7 @@ const Parser = {
     } else {
       dataType = type;
     }
-
+    
     switch (dataType) {
       case "string":
         return String(val).replace(/\u00A0n/g, "\n");
@@ -255,13 +255,26 @@ const Parser = {
   },
 
   valueTypeToStr: (dataType, value) => {
-    let type = dataType;
+    let isOptional = false;
 
-    if (dataType.indexOf("#") === 0) {
-      type = "ref";
+    if (dataType.indexOf(`?`) === 0) {
+
+      if (typeof value === `undefined`) {
+        return `undefined`;
+      }
+      isOptional = true;
+      dataType = dataType.substr(1);
+    }
+    // handle non-optional value
+    else if (value === undefined) {
+      throw Error(`Missing value`);
     }
 
-    if (dataType.indexOf("[]") === 0) {
+    let type = dataType;
+
+    if (dataType.indexOf(`#`) === 0) {
+      type = "ref";
+    } else if (dataType.indexOf(`[]`) === 0) {
       type = "list";
     }
 
