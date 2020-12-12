@@ -16,7 +16,17 @@ const Parser = {
   // @val: raw value
   parseValue: (inputType, val) => {
     let dataType;
+    let isOptional = false;
     let type = inputType;
+
+    if (type[0] === '?') {
+      isOptional = true;
+      type = type.substr(1);
+    }
+
+    if (isOptional && value === `undefined`) {
+      return undefined;
+    }
 
     if (type.indexOf("[]") === 0) {
       dataType = "list";
@@ -30,7 +40,7 @@ const Parser = {
 
     switch (dataType) {
       case "string":
-        return val && val.replace ? val.replace(/\u00A0n/g, "\n") : undefined;
+        return String(val).replace(/\u00A0n/g, "\n");
       case "int":
         return parseInt(val, 10);
       case "double":
