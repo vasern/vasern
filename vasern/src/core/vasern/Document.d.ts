@@ -65,8 +65,10 @@ export default class Document extends Queryable {
     remove(query: string | Object, save?: boolean): boolean;
 
     insert(query: Object | Object[], save?: boolean): false | NewObject[];
+    asyncInsert(query: Object | Object[], save?: boolean): Promise<false | NewObject[]>;
 
     update(lookupQuery: string| Object, newValues: Object, save?: boolean): false | NewObject;
+    asyncUpdate(lookupQuery: Object | Object[], newValues?: boolean, save?: boolean): Promise<false | NewObject[]>;
 
     perform(callback: (updateFuncs: UpdateFunc) => void): void;
 
