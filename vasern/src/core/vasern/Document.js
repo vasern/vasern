@@ -307,13 +307,17 @@ export default class Document {
         content[k] = Parser.valueTypeToStr(this.props[k], kValue);
       });
 
-      await this._commitChange("insert", content, save);
+      this._commitChange("insert", content);
 
       // Avoid id being washed using save
       // content.id = uuid;
 
       return content;
     });
+
+    if (save) {
+      await this.save();
+    }
 
     // Invalid data type or content not match with schema
     return validObjects;
@@ -356,9 +360,13 @@ export default class Document {
         }
       });
 
-      await this._commitChange("update", found, save);
+      await this._commitChange("update", found);
 
       return found;
+    }
+
+    if (save) {
+      await this.save();
     }
 
     return false;
