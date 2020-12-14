@@ -284,7 +284,7 @@ export default class Document {
     const inputs = Array.isArray(records) ? records : [records];
 
     let propKeys;
-    const validObjects = inputs.map(async input => {
+    const validObjects = inputs.map(input => {
       propKeys = Object.keys(input);
 
       if (!this.validateProps(propKeys)) {
@@ -360,15 +360,11 @@ export default class Document {
         }
       });
 
-      await this._commitChange("update", found);
+      await this._commitChange("update", found, save);
 
       return found;
     }
-
-    if (save) {
-      await this.save();
-    }
-
+    
     return false;
   }
 
