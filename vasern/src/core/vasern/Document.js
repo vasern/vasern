@@ -181,7 +181,7 @@ export default class Document {
     const inputs = Array.isArray(records) ? records : [records];
 
     let propKeys;
-    const validObjects = inputs.map(async input => {
+    const validObjects = inputs.map(input => {
       propKeys = Object.keys(input);
 
       if (!this.validateProps(propKeys)) {
@@ -201,12 +201,7 @@ export default class Document {
         if (kValue === null || kValue === undefined) {
           kValue = ""
         }
-        if (this.props[k].indexOf(`#`) !== -1) {
-          content[`${k}_id`] = typeof kValue === "object" ? kValue.id : kValue.toString();
-        } else {
-          // content[k] = Parser.parseValue(this.props[k], input[k]);
-          content[k] = kValue.toString();
-        }
+        content[k] = Parser.valueTypeToStr(this.props[k], kValue);
       });
 
       this._commitChange("insert", content, save);
@@ -227,6 +222,7 @@ export default class Document {
       const { id, ...rest } = newValues;
 
       let tempObj;
+      //run through properties but id
       Object.keys(rest).forEach(key => {
         tempObj = rest[key];
 
@@ -308,21 +304,20 @@ export default class Document {
         if (kValue === null || kValue === undefined) {
           kValue = ""
         }
-        if (this.props[k].indexOf(`#`) !== -1) {
-          content[`${k}_id`] = typeof kValue === "object" ? kValue.id : kValue.toString();
-        } else {
-          // content[k] = Parser.parseValue(this.props[k], input[k]);
-          content[k] = kValue.toString();
-        }
+        content[k] = Parser.valueTypeToStr(this.props[k], kValue);
       });
 
-      await this._commitChange("insert", content, save);
+      this._commitChange("insert", content);
 
       // Avoid id being washed using save
       // content.id = uuid;
 
       return content;
     });
+
+    if (save) {
+      await this.save();
+    }
 
     // Invalid data type or content not match with schema
     return validObjects;
@@ -369,7 +364,7 @@ export default class Document {
 
       return found;
     }
-
+    
     return false;
   }
 
@@ -604,13 +599,13 @@ export default class Document {
   // (not available to write right away)
   _isCommitOnQueue = false;
 
-  _commitChange = async (type, item, save = false) => {
+  _commitChange = (type, item, save = false) => {
     // Check if commit status is available
     if (this._commitedItems[type]) {
       this._commitedItems[type].push(item);
 
       if (save) {
-        await this.save();
+        this.save();
       }
     } else {
       // TODO: handle invalid commit type
