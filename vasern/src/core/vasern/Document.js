@@ -156,119 +156,24 @@ export default class Document {
     this.eventManager.fire("loaded");
   }
 
-  // Remove a record that match given query
-  // @query: id or key value (i.e { name: 'Jonas' }) that match the object that will be remove
-  // @save: save/persist data, defaut is true
-  remove(query, save = true) {
-    const found = this.get(query);
-    if (found) {
-      this._commitChange("remove", found, save);
-      return true;
-    }
-
-    // Not found record to be deleted
-    return false;
-  }
-
   // Create a new content record which return an object with generated UUID
   // Input will be validated using given schema of when initiate Doc
   // @input: a valid record
-  insert(records, save = true) {
-    if (!records) {
-      throw Error(`Unable to insert, record must not be empty`);
-    }
 
-    const inputs = Array.isArray(records) ? records : [records];
-
-    let propKeys;
-    const validObjects = inputs.map(input => {
-      propKeys = Object.keys(input);
-
-      if (!this.validateProps(propKeys)) {
-        Reporter.warn(
-          `Invalid input for ${this.name
-          }. Record will not be added into database`
-        );
-
-        Reporter.warn(propKeys, Object.keys(this.props));
-        return null;
-      }
-
-      const content = this.oid.new();
-
-      propKeys.forEach(k => {
-        let kValue = input[k]
-        if (kValue === null || kValue === undefined) {
-          kValue = ""
-        }
-        content[k] = Parser.valueTypeToStr(this.props[k], kValue);
-      });
-
-      this._commitChange("insert", content, save);
-
-      // Avoid id being washed using save
-      // content.id = uuid;
-
-      return content;
-    });
-
-    // Invalid data type or content not match with schema
-    return validObjects;
-  }
-
-  update(lookupQuery, newValues, save = true) {
-    const found = this.get(lookupQuery);
-    if (found) {
-      const { id, ...rest } = newValues;
-
-      let tempObj;
-      //run through properties but id
-      Object.keys(rest).forEach(key => {
-        tempObj = rest[key];
-
-        if (this.props[key].indexOf("#") !== -1) {
-          // Format referece data type (aka "#")
-          if (tempObj === undefined) {
-            // return false;
-          } else if (tempObj === null) {
-            found[`${key}_id`] = tempObj;
-          } else if (typeof tempObj === "object" && tempObj.id) {
-            found[`${key}_id`] = tempObj.id;
-          } else if (Array.isArray(tempObj)) {
-            if (tempObj.length === 0) {
-              found[`${key}_id`] = null;
-            } else {
-              for (let i = 0; i < tempObj.length; i++) { // eslint-disable-line
-                if (i === 0) {
-                  found[`${key}_id`] = [tempObj[i].id];
-                } else {
-                  found[`${key}_id`].push(tempObj[i].id);
-                }
-              }
-            }
-          } else if (typeof tempObj === "string") {
-            found[`${key}_id`] = tempObj;
-          }
-        } else {
-          found[key] = tempObj;
-        }
-      });
-
-      this._commitChange("update", found, save);
-
-      return found;
-    }
-
-    return false;
-  }
   /*
   async methods of 
   remove, insert, update
   */
-  async asyncRemove(query, save = true) {
+ // Remove a record that match given query
+  // @query: id or key value (i.e { name: 'Jonas' }) that match the object that will be remove
+  // @save: save/persist data, defaut is true
+  async remove(query, save = true) {
     const found = this.get(query);
     if (found) {
-      await this._commitChange("remove", found, save);
+      this._commitChange("remove", found);
+      if(save){
+        await this.save();
+      }
       return true;
     }
 
@@ -276,7 +181,10 @@ export default class Document {
     return false;
   }
 
-  async asyncInsert(records, save = true) {
+    // Create a new content record which return an object with generated UUID
+  // Input will be validated using given schema of when initiate Doc
+  // @input: a valid record
+  async insert(records, save = true) {
     if (!records) {
       throw Error(`Unable to insert, record must not be empty`);
     }
@@ -304,7 +212,11 @@ export default class Document {
         if (kValue === null || kValue === undefined) {
           kValue = ""
         }
-        content[k] = Parser.valueTypeToStr(this.props[k], kValue);
+        if (this.props[k].indexOf("#") !== -1) {
+          content[`${k}_id`] = Parser.valueTypeToStr(this.props[k], kValue);
+        } else {
+          content[k] = Parser.valueTypeToStr(this.props[k], kValue);
+        }
       });
 
       this._commitChange("insert", content);
@@ -323,7 +235,7 @@ export default class Document {
     return validObjects;
   }
 
-  async asyncUpdate(lookupQuery, newValues, save = true) {
+  async update(lookupQuery, newValues, save = true) {
     const found = this.get(lookupQuery);
     if (found) {
       const { id, ...rest } = newValues;
@@ -360,7 +272,11 @@ export default class Document {
         }
       });
 
-      await this._commitChange("update", found, save);
+      this._commitChange("update", found);
+
+      if (save) {
+        await this.save();
+      }
 
       return found;
     }
@@ -599,14 +515,10 @@ export default class Document {
   // (not available to write right away)
   _isCommitOnQueue = false;
 
-  _commitChange = (type, item, save = false) => {
+  _commitChange = (type, item) => {
     // Check if commit status is available
     if (this._commitedItems[type]) {
       this._commitedItems[type].push(item);
-
-      if (save) {
-        this.save();
-      }
     } else {
       // TODO: handle invalid commit type
       throw Error("Unable to commit change of type: ", type, "\n", item);

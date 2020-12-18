@@ -141,7 +141,7 @@ const Parser = {
           // Parsing reference object
           obj[`${prop}_id`] = Parser.parseValue(schema[prop], data);
         } else {
-          // Parseing numbers,string,list,boolean
+          // Parsing numbers,string,list,boolean
           obj[prop] = Parser.parseValue(schema[prop], data);
         }
       });
@@ -282,6 +282,10 @@ const Parser = {
     switch (type) {
       case "string":
         return String(value).replace(/\n/g, "\u00A0n");
+      case "int":
+        return parseInt(val, 10);
+      case "double":
+        return parseFloat(val); 
       case "datetime":
         return value.getTime ? value.getTime() : value;
       case "boolean":
