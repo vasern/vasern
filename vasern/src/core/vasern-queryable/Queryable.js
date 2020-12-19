@@ -38,7 +38,7 @@ export default class Queryable {
 
   // Return all data
   data() {
-    return this._data;
+    return _.cloneDeep(this._data);
   }
 
   // Remove a record from _data
