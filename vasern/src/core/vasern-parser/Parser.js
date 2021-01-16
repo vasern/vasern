@@ -13,8 +13,8 @@ const LBreak = ";";
 const Parser = {
   // Parse unformated data value to js value, with its original type (string/int)
   // @schema: Vase schema object
-  // @val: raw value
-  parseValue: (inputType, val) => {
+  // @value: raw value
+  parseValue: (inputType, value) => {
     let dataType;
     let isOptional = false;
     let type = inputType;
@@ -24,7 +24,7 @@ const Parser = {
       type = type.substr(1);
     }
     
-    if (isOptional && typeof val === `undefined`) {
+    if (isOptional && typeof value === `undefined`) {
       return undefined;
     }
 	
@@ -40,24 +40,24 @@ const Parser = {
     
     switch (dataType) {
       case "string":
-        return String(val).replace(/\u00A0n/g, "\n");
+        return String(value).replace(/\u00A0n/g, "\n");
       case "int":
-        return parseInt(val, 10);
+        return parseInt(value, 10);
       case "double":
-        return parseFloat(val);
+        return parseFloat(value);
       case "boolean":
-        return val === "1";
+        return value === "1";
       case "datetime":
-        return new Date(parseInt(val, 10));
+        return new Date(parseInt(value, 10));
       case "ref":
-        if (typeof val === "object" && "id" in val) {
-          return val.id;
+        if (typeof value === "object" && "id" in value) {
+          return value.id;
         }
-        return val;
+        return value;
       case "list":
-        return val.split(LBreak).map(value => Parser.parseValue(type, value));
+        return value.split(LBreak).map(value => Parser.parseValue(type, value));
       default:
-        return val;
+        return value;
     }
   },
 
@@ -283,9 +283,9 @@ const Parser = {
       case "string":
         return String(value).replace(/\n/g, "\u00A0n");
       case "int":
-        return parseInt(val, 10);
+        return parseInt(value, 10);
       case "double":
-        return parseFloat(val); 
+        return parseFloat(value); 
       case "datetime":
         return value.getTime ? value.getTime() : value;
       case "boolean":
