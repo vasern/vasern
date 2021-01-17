@@ -15,7 +15,7 @@ export type ActionValues = {
 }
 
 type Parser = {
-    parseValue(inputType: string, val: string): any;
+    parseValue(inputType: string, value: string): any;
 
     parse(lines: string[], schema: any): { data: string };
 
