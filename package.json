@@ -1,0 +1,22 @@
+{
+  "name": "rn-vasern-async",
+  "version": "1.0.0",
+  "description": "Vasern with async",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vasern",
+    "react",
+    "native",
+    "database"
+  ],
+  "author": "Vasern",
+  "license": "ISC",
+  "peerDependencies": {
+    "react": "^17.0.1",
+    "react-native": "^0.63.4",
+    "vasern": "^0.3.68"
+  }
+}
